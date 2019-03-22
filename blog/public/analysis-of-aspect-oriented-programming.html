@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="Spring Framework,">
+        <meta name="description" content="面向切面编程(Aspect Oriented Programming)浅析">
+        <meta name="author" content="Feily Zhang">
+        <title>面向切面编程(Aspect Oriented Programming)浅析</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">面向切面编程(Aspect Oriented Programming)浅析</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    
+                    <span class="date" data-time="1544705390"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>面向接口编程通过结合IoC和DI，使得耦合性相当低，可拓展性极强，实现了低耦合高内聚，但是这种编程方式是对功能性主业务需求的分而治之，对于一些非功能性的需求则显得力不从心，比如日志、安全、事务、性能统计等次要但很必要的功能就显得不够省力。</p>
+
+<p>我们在软件系统设计的时候，一项很重要的工作就是把一个大系统按业务功能分解成一个个低耦合、高内聚的模块，分而治之，但是分解之后就会发现，有些非功能性需求的东西是通用的或者说是跨越多个模块的，即多个模块都需要，比如</p>
+
+<ol>
+<li>日志：对特定的操作输出日志来记录；</li>
+<li>安全：在执行操作之前进行权限的检查；</li>
+<li>事务：在方法开始之前要开始事务，在方法结束之后要提交或者回滚事务；</li>
+<li>性能统计：统计每个方法的执行时间</li>
+<li>&hellip;&hellip;</li>
+</ol>
+
+<p>这些多个模块都需要的非功能性需求用面向接口编程的方式实现是很不优雅的，但是用面向切面的编程方式来实现则方便很多。</p>
+
+<p>主业务功能性需求我们可以看作是一个个面，每层叠加在一起构成了一个面包，这个面包就是整个需求，由于每个面都需要一些非功能性需求(诸如日志、安全等等)，那么这些需求就像一个切面一样贯穿到了主业务需求的每层面包当中，即非功能性代码与业务代码的关注点不同，业务代码的关注点是必要性功能的实现(面向接口更简单，强调的是可拓展性)，非功能性代码的关注点是通用性非必要功能的实现，采用面向切面的方式更简单，即非功能性代码与业务代码之间应该是正交的(垂直的)。</p>
+
+<p>把通用性非功能性代码的实现方式就叫做面向切面编程，切面是贯穿于业务代码的。这就是AOP</p>
+
+<p>先说明几个简单的概念</p>
+
+<ol>
+<li>切入点或连接点：如果切面要切入业务代码的某个方法，那么这个方法就是切面的切入点；</li>
+<li>通知：由于切面是对业务代码通用性非必要功能的抽象，那么以日志为例，比如日志切面要切入业务需求User类的print()方法，那么就要在该方法执行之前和之后记录日志，这就要用到通知，通知就是对切入方法的前置、后置和环绕等操作；</li>
+<li>目标：即切面切入的方法所在的类就是目标，例如User类就是目标。</li>
+</ol>
+
+<p>通过一个简单的例子来说明之</p>
+
+<p>User类如下，该类通过Setter方式接受参数创建bean</p>
+
+<pre><code>package springTest;
+
+public class User {
+    
+    String userName;
+    
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    
+    public String getUserName() {
+        return userName;
+    }
+    
+    public void print() {
+        System.out.println(&quot;I am &quot; + userName);
+    }
+    
+}
+</code></pre>
+
+<p>配置文件如下</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:util=&quot;http://www.springframework.org/schema/util&quot; 
+    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;             
+    xsi:schemaLocation=&quot;                                               
+            http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans.xsd    
+            http://www.springframework.org/schema/context     
+            http://www.springframework.org/schema/context/spring-context.xsd    
+            http://www.springframework.org/schema/mvc    
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd  
+            http://www.springframework.org/schema/tx   
+            http://www.springframework.org/schema/tx/spring-tx.xsd  
+            http://www.springframework.org/schema/aop  
+            http://www.springframework.org/schema/aop/spring-aop.xsd&quot;&gt;
+&lt;bean id=&quot;u&quot; class=&quot;springTest.User&quot;&gt;
+    &lt;property name=&quot;userName&quot; value=&quot;Java&quot;/&gt;    &lt;!-- 传递参数创建bean --&gt;
+&lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>主文件如下</p>
+
+<pre><code>package springTest;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class UserMain {
+
+    public static void main(String[] args) {
+        ApplicationContext factory = new ClassPathXmlApplicationContext(&quot;springTest/userBean.xml&quot;);
+        User user = (User) factory.getBean(&quot;u&quot;);
+        user.print();
+    }
+
+}
+</code></pre>
+
+<p>运行结果为</p>
+
+<pre><code>I am Java
+</code></pre>
+
+<p>假如我们现在要给目标User类的print方法记录操作日志，那么就需要一个切面，定义如下</p>
+
+<pre><code>package springTest;
+
+import java.util.Date;
+
+public class Log {
+
+    public void beforeExecute() {
+        System.out.println(&quot;Log : &quot; + new Date() + &quot;User类的print方法即将执行&quot;);
+    }
+    
+    public void afterExecute() {
+        System.out.println(&quot;Log : &quot; + new Date() + &quot;User类的print方法已经执行&quot;);
+    }
+}
+</code></pre>
+
+<p>可以看出，其实就是一个简单的Java类，定义了两个方法，在目标方法执行之前执行beforeExecute()方法记录日志，在目标方法执行之后执行afterExecute()方法记录日志，但是并没有看到切面Log作用在目标User类之上啊？？？稍安勿躁，这些都是配置文件完成的，如下</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:util=&quot;http://www.springframework.org/schema/util&quot; 
+    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;             
+    xsi:schemaLocation=&quot;                                               
+            http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans.xsd    
+            http://www.springframework.org/schema/context     
+            http://www.springframework.org/schema/context/spring-context.xsd    
+            http://www.springframework.org/schema/mvc    
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd  
+            http://www.springframework.org/schema/tx   
+            http://www.springframework.org/schema/tx/spring-tx.xsd  
+            http://www.springframework.org/schema/aop  
+            http://www.springframework.org/schema/aop/spring-aop.xsd&quot;&gt;
+&lt;bean id=&quot;u&quot; class=&quot;springTest.User&quot;&gt;
+    &lt;property name=&quot;userName&quot; value=&quot;Java&quot;/&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;log&quot; class=&quot;springTest.Log&quot;/&gt;
+&lt;aop:config proxy-target-class=&quot;true&quot; &gt;
+&lt;aop:aspect ref=&quot;log&quot;&gt;
+    &lt;aop:pointcut id=&quot;place-order&quot; expression=&quot;execution( * springTest.User.print(..))&quot;/&gt;
+    &lt;aop:before pointcut-ref=&quot;place-order&quot; method=&quot;beforeExecute&quot;/&gt;
+    &lt;aop:after pointcut-ref=&quot;place-order&quot; method=&quot;afterExecute&quot;/&gt;
+&lt;/aop:aspect&gt;
+&lt;/aop:config&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>我们通过<code>&lt;bean id=&quot;log&quot; class=&quot;springTest.Log&quot;/&gt;</code>创建了切面Log的bean实例，然后通过<code>&lt;aop:aspect ref=&quot;log&quot;&gt;</code>将切面Log的实例log作为切面，然后定义切入点pointcut为sprintTest包内User类的print方法(代号为place-order)，即切面作用于该方法，只通知该方法，然后对该切入点place-order绑定前置和后置操作，即beforeExecute方法和afterExecute方法记录User类print方法的日志</p>
+
+<p>其余代码不变，然后运行，结果为</p>
+
+<pre><code>Log : Thu Dec 13 19:57:21 CST 2018User类的print方法即将执行
+I am Java
+Log : Thu Dec 13 19:57:21 CST 2018User类的print方法已经执行
+</code></pre>
+
+<p>很明显，日志记录成功。</p>
+
+<p>如果我们要监控User类中的其他方法那怎么办？</p>
+
+<p>我们不妨再给User类中再增加两个方法，如下</p>
+
+<pre><code>package springTest;
+
+public class User {
+    
+    String userName;
+    
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    
+    public String getUserName() {
+        return userName;
+    }
+    
+    public void print() {
+        System.out.println(&quot;I am &quot; + userName);
+    }
+    
+    public void print1() {
+        System.out.println(&quot;I am &quot; + userName + &quot; 1&quot;);
+    }
+
+    public void print2() {
+        System.out.println(&quot;I am &quot; + userName + &quot; 2&quot;);
+    } 
+}
+</code></pre>
+
+<p>其实我们只需要修改配置文件切面的作用域即可，如下</p>
+
+<pre><code>&lt;aop:pointcut id=&quot;place-order&quot; expression=&quot;execution( * springTest.User.*(..))&quot;/&gt;
+</code></pre>
+
+<p>然后再在主文件中调用一下其余两个方法就可以看到效果了</p>
+
+<pre><code>package springTest;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class UserMain {
+
+    public static void main(String[] args) {
+        ApplicationContext factory = new ClassPathXmlApplicationContext(&quot;springTest/userBean.xml&quot;);
+        User user = (User) factory.getBean(&quot;u&quot;);
+        user.print();
+        user.print1();
+        user.print2();
+    }
+
+}
+</code></pre>
+
+<p>结果为</p>
+
+<pre><code>Log : Thu Dec 13 20:00:46 CST 2018User类的print方法即将执行
+I am Java
+Log : Thu Dec 13 20:00:46 CST 2018User类的print方法已经执行
+Log : Thu Dec 13 20:00:46 CST 2018User类的print方法即将执行
+I am Java 1
+Log : Thu Dec 13 20:00:46 CST 2018User类的print方法已经执行
+Log : Thu Dec 13 20:00:46 CST 2018User类的print方法即将执行
+I am Java 2
+Log : Thu Dec 13 20:00:46 CST 2018User类的print方法已经执行
+</code></pre>
+
+<p>怎么样，简单吧？如果要给其它类也要记录日志怎么办？同样修改作用域，将类名部分用通配符*代替即可。</p>
+
+<p>这是一个较为简单优雅的AOP实例，还有一个更为复杂的，不妨也看一下(这个是真的复杂)</p>
+
+<p>假定我们现在有一个银行账户Account类，里面有add和minus方法，要给这两个方法加日志功能，包括前置、后置和环绕操作，那么首先要先定义一个Account接口</p>
+
+<pre><code>package springTest;
+
+public interface Account {
+    void add(int money);
+    void minus(int money);
+}
+</code></pre>
+
+<p>再实现这个接口</p>
+
+<pre><code>package springTest;
+
+public class AccountImpl implements Account {
+
+    private String name;
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    @Override
+    public void add(int money) {
+        System.out.println(&quot;给&quot; + name + &quot;账户加钱&quot; + money + &quot;元&quot;);
+    }
+
+    @Override
+    public void minus(int money) {
+        System.out.println(&quot;给&quot; + name + &quot;账户扣钱&quot; + money + &quot;元&quot;);
+    }
+
+}
+</code></pre>
+
+<p>那么，我们切面的目标就是这个Account接口的实现类AccountImpl。接下来定义前置、后置和环绕类及方法，如下</p>
+
+<pre><code>package springTest;
+
+import java.lang.reflect.Method;
+import org.springframework.aop.MethodBeforeAdvice;
+
+
+public class BeforeAdvice implements MethodBeforeAdvice {
+
+    public void before(Method m, Object[] args, Object target) throws Throwable {
+        System.out.println(&quot;在方法调用前&quot;);
+        System.out.println(&quot;执行的方法是&quot; + m);
+        System.out.println(&quot;方法的参数是&quot; + args[0]);
+        System.out.println(&quot;目标对象是：&quot; + target);
+    }
+}
+
+package springTest;
+
+import java.lang.reflect.Method;
+
+public class AfterAdvice implements org.springframework.aop.AfterAdvice {
+
+    public void afterReturning(Object returnValue, Method m, Object[] args, Object target) throws Throwable {
+        System.out.println(&quot;在方法调用后&quot;);
+        System.out.println(&quot;执行的方法是&quot; + m);
+        System.out.println(&quot;方法的参数是&quot; + args[0]);
+        System.out.println(&quot;目标对象是：&quot; + target);
+        
+    }
+}
+
+package springTest;
+
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
+
+public class AroundInterceptor implements MethodInterceptor {
+
+    @Override
+    public Object invoke(MethodInvocation arg0) throws Throwable {
+        System.out.println(&quot;调用方法之前：invocation对象：[&quot;+ arg0 + &quot;]&quot;);
+        Object rval = arg0.proceed();
+        System.out.println(&quot;调用结束...&quot;);
+        return rval;
+    }
+
+}
+</code></pre>
+
+<p>主文件为</p>
+
+<pre><code>package springTest;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class AOPMain {
+
+    public static void main(String[] args) {
+        ApplicationContext factory = new ClassPathXmlApplicationContext(&quot;springTest/AOPBean.xml&quot;);
+        Account account = (Account) factory.getBean(&quot;account&quot;);
+        System.out.println(&quot;第一个add方法&quot;);
+        account.add(100);
+        System.out.println(&quot;第二个minus方法&quot;);
+        account.minus(200);
+    }
+
+}
+</code></pre>
+
+<p>同样的，通过配置文件绑定切面和目标，如下</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:util=&quot;http://www.springframework.org/schema/util&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd&quot;&gt;
+
+&lt;!-- 先给目标对象注入参数以创建bean --&gt;
+&lt;bean id=&quot;accountTarget&quot; class=&quot;springTest.AccountImpl&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;Java&quot; /&gt;
+&lt;/bean&gt;
+
+&lt;!-- 再配置前置、环绕bean --&gt;
+&lt;bean id=&quot;myBeforeAdvice&quot; class=&quot;springTest.BeforeAdvice&quot;/&gt;
+&lt;bean id=&quot;myAroundInterceptor&quot; class=&quot;springTest.AroundInterceptor&quot;/&gt;
+
+&lt;!-- 后置bean比较特殊，将20行的后置bean包装在id为addAdvisor的bean当中，并指定patterns使该后置bean只作用在add方法上，对其他方法没有作用 --&gt;
+&lt;bean id=&quot;addAdvisor&quot; class=&quot;org.springframework.aop.support.RegexpMethodPointcutAdvisor&quot;&gt;
+    &lt;property name=&quot;advice&quot;&gt;
+        &lt;bean class=&quot;springTest.AfterAdvice&quot;/&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;patterns&quot;&gt;
+        &lt;list&gt;
+            &lt;value&gt;.*add*.&lt;/value&gt;  &lt;!-- 只对add方法管用 --&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;!-- 以上是配置前后置及环绕bean --&gt;
+&lt;!-- 以下是绑定切面(通知)和目标 --&gt;
+
+&lt;bean id=&quot;account&quot; class=&quot;org.springframework.aop.framework.ProxyFactoryBean&quot;&gt;
+    &lt;property name=&quot;proxyInterfaces&quot; value=&quot;springTest.Account&quot;/&gt;
+    &lt;property name=&quot;target&quot;&gt;    &lt;!-- 切面的目标是id为accountTarget的bean类，即上面定义的 --&gt;
+        &lt;ref bean=&quot;accountTarget&quot;/&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;interceptorNames&quot;&gt;  &lt;!-- 拦截器列表，对目标方法拦截以记录日志 --&gt;
+        &lt;list&gt;
+            &lt;value&gt;myBeforeAdvice&lt;/value&gt;
+            &lt;value&gt;myAroundInterceptor&lt;/value&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>执行结果为</p>
+
+<pre><code>第一个add方法
+在方法调用前
+执行的方法是public abstract void springTest.Account.add(int)
+方法的参数是100
+目标对象是：springTest.AccountImpl@12c8a2c0
+调用方法之前：invocation对象：[ReflectiveMethodInvocation: public abstract void springTest.Account.add(int); target is of class [springTest.AccountImpl]]
+给Java账户加钱100元
+调用结束...
+第二个minus方法
+在方法调用前
+执行的方法是public abstract void springTest.Account.minus(int)
+方法的参数是200
+目标对象是：springTest.AccountImpl@12c8a2c0
+调用方法之前：invocation对象：[ReflectiveMethodInvocation: public abstract void springTest.Account.minus(int); target is of class [springTest.AccountImpl]]
+给Java账户扣钱200元
+调用结束...
+</code></pre>
+
+<p>很明显，这种方法很繁琐，我们完全可以将其改造一下，如下</p>
+
+<p>目标类Account，为了与上文区分(下同)，我们定义为Accounts，如下</p>
+
+<pre><code>package springTest;
+
+public class Accounts {
+
+    private String name;
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void add(int money) {
+        System.out.println(&quot;给&quot; + name + &quot;账户加钱&quot; + money + &quot;元&quot;);
+    }
+
+    public void minus(int money) {
+        System.out.println(&quot;给&quot; + name + &quot;账户扣钱&quot; + money + &quot;元&quot;);
+    }
+
+}
+</code></pre>
+
+<p>切面类，我们定义为AccountsLog，如下</p>
+
+<pre><code>package springTest;
+
+import java.lang.reflect.Method;
+
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.aop.MethodBeforeAdvice;
+
+public class AccountsLog implements 
+    MethodBeforeAdvice, org.springframework.aop.AfterAdvice, MethodInterceptor {
+
+    @Override
+    public Object invoke(MethodInvocation arg0) throws Throwable {
+        System.out.println(&quot;调用方法之前：invocation对象：[&quot;+ arg0 + &quot;]&quot;);
+        Object rval = arg0.proceed();
+        System.out.println(&quot;调用结束...&quot;);
+        return rval;
+    }
+
+    @Override
+    public void before(Method m, Object[] args, Object target) throws Throwable {
+        System.out.println(&quot;在方法调用前&quot;);
+        System.out.println(&quot;执行的方法是&quot; + m);
+        System.out.println(&quot;方法的参数是&quot; + args[0]);
+        System.out.println(&quot;目标对象是：&quot; + target);
+    }
+
+
+    public void afterReturning(Object returnValue, Method m, Object[] args, Object target) throws Throwable {
+        System.out.println(&quot;在方法调用后&quot;);
+        System.out.println(&quot;执行的方法是&quot; + m);
+        System.out.println(&quot;方法的参数是&quot; + args[0]);
+        System.out.println(&quot;目标对象是：&quot; + target);
+        
+    }
+}
+</code></pre>
+
+<p>该类实现了三个接口，分别是前置，后置和环绕接口，因为我们要拿到相应的参数，所以必须实现接口并重写方法，如果不拿参数，自己写即可不需要实现接口</p>
+
+<p>配置文件为</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:util=&quot;http://www.springframework.org/schema/util&quot; 
+    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;             
+    xsi:schemaLocation=&quot;                                               
+            http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans.xsd    
+            http://www.springframework.org/schema/context     
+            http://www.springframework.org/schema/context/spring-context.xsd    
+            http://www.springframework.org/schema/mvc    
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd  
+            http://www.springframework.org/schema/tx   
+            http://www.springframework.org/schema/tx/spring-tx.xsd  
+            http://www.springframework.org/schema/aop  
+            http://www.springframework.org/schema/aop/spring-aop.xsd&quot;&gt;
+&lt;bean id=&quot;acc&quot; class=&quot;springTest.Accounts&quot;&gt;
+    &lt;property name=&quot;userName&quot; value=&quot;Java&quot;/&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;log&quot; class=&quot;springTest.AccountsLog&quot;/&gt;
+&lt;aop:config proxy-target-class=&quot;true&quot; &gt;
+&lt;aop:aspect ref=&quot;log&quot;&gt;
+    &lt;aop:around pointcut=&quot;execution(* springTest.Accounts.*(..))&quot; method=&quot;invokev&quot; /&gt;
+    &lt;aop:before pointcut=&quot;execution(* springTest.Accounts.*(..))&quot; method=&quot;before&quot;/&gt;
+    &lt;aop:after pointcut=&quot;execution(* springTest.Accounts.*(..))&quot; method=&quot;afterReturning&quot;/&gt;
+&lt;/aop:aspect&gt;
+&lt;/aop:config&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>这次我们并没有像第一个例子一样单独定义切入点，而是对不同的通知类型单独定义，其实完全可以提出来，这样做是为了演示这种方式，主文件为</p>
+
+<pre><code>package springTest;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class AccountsMain {
+
+    public static void main(String[] args) {
+        ApplicationContext factory = new ClassPathXmlApplicationContext(&quot;springTest/accountsBean.xml&quot;);
+        Account account = (Account) factory.getBean(&quot;account&quot;);
+        System.out.println(&quot;第一个add方法&quot;);
+        account.add(100);
+        System.out.println(&quot;第二个minus方法&quot;);
+        account.minus(200);
+    }
+
+}
+</code></pre>
+
+<p>运行结果为</p>
+
+<pre><code>第一个add方法
+在方法调用前
+执行的方法是public abstract void springTest.Account.add(int)
+方法的参数是100
+目标对象是：springTest.AccountImpl@12c8a2c0
+调用方法之前：invocation对象：[ReflectiveMethodInvocation: public abstract void springTest.Account.add(int); target is of class [springTest.AccountImpl]]
+给Java账户加钱100元
+调用结束...
+第二个minus方法
+在方法调用前
+执行的方法是public abstract void springTest.Account.minus(int)
+方法的参数是200
+目标对象是：springTest.AccountImpl@12c8a2c0
+调用方法之前：invocation对象：[ReflectiveMethodInvocation: public abstract void springTest.Account.minus(int); target is of class [springTest.AccountImpl]]
+给Java账户扣钱200元
+调用结束...
+</code></pre>
+
+<p>怎么样？完美无缺！！！</p>
+
+<p>需要特别注意的是AOP的使用，不仅仅要用Spring官方给出的jar，还需要两个jar，分别从这里下载</p>
+
+<ul>
+<li><a href="https://www.findjar.com/jar/aopalliance/jars/aopalliance-1.0.jar.html">https://www.findjar.com/jar/aopalliance/jars/aopalliance-1.0.jar.html</a></li>
+<li><a href="http://maven.outofmemory.cn/org.aspectj/aspectjweaver/1.7.4/">http://maven.outofmemory.cn/org.aspectj/aspectjweaver/1.7.4/</a></li>
+</ul>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    
+                    <section class="nav next">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/several-ways-to-create-bean-instances-in-spring.html">Spring中创建Bean实例的几种方式</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

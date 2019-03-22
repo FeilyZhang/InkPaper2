@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="Spring Framework,">
+        <meta name="description" content="Spring依赖注入(DI)与控制反转(IoC)及在面向接口编程上的应用">
+        <meta name="author" content="Feily Zhang">
+        <title>Spring依赖注入(DI)与控制反转(IoC)及在面向接口编程上的应用</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">Spring依赖注入(DI)与控制反转(IoC)及在面向接口编程上的应用</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    
+                    <span class="date" data-time="1544606698"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>所谓Spring依赖注入，指的是类之间对象实例的传递方式。传统的类间对象(或参数)传递是通过实例化一个类，然后将该对象传递给另一个类的方法,而依赖注入则是通过配置文件将一个类的实例直接传递给另一个类的变量或者方法，根本不用显式的new对象然后再作为参数传递。如下</p>
+
+<pre><code>public class SayHello {
+    private HelloWorldSpring helloWorldSpring;
+    public HelloWorldSpring getHelloWorldSpring() {
+        return helloWorldSpring;
+    }
+    public void setHelloWorldSpring(HelloWorldSpring helloWorldSpring) {
+        this.helloWorldSpring = helloWorldSpring;
+    }
+    public void sayHello() {
+        System.out.println(&quot;Say Hello:&quot; + helloWorldSpring.sayHello());
+    }
+}
+public class HelloWorldSpring {
+    private String sayContent;
+    public String sayHello() {
+        System.out.println(&quot;HelloWorld Spring!&quot;);
+        return &quot;HelloWorld Spring&quot;;
+    }
+}
+public class HelloMain {
+
+    public static void main(String[] args) {
+        SayHello sayHello = new SayHello();
+        // new实例然后传递给调用者，耦合度高
+        sayHello.setHelloWorldSpring(new HelloWorldSpring());
+        sayHello.sayHello();
+    }
+
+}
+</code></pre>
+
+<p>以上HelloMain是传统的注入方式，明显耦合度高，但是依赖注入可不这么干，是通过配置文件来实现注入，如下</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:util=&quot;http://www.springframework.org/schema/util&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd&quot;&gt;
+&lt;bean id=&quot;helloWorldSpring&quot; class=&quot;HelloWorldSpring&quot;/&gt;
+&lt;bean id=&quot;sayHello&quot; class=&quot;SayHello&quot;&gt;
+    &lt;property name=&quot;helloWorldSpring&quot; ref=&quot;helloWorldSpring&quot;/&gt;
+&lt;/bean&gt;
+&lt;/beans&gt;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class SpringMain {
+    public static void main(String[] args) {
+        ApplicationContext factory = new ClassPathXmlApplicationContext(&quot;bean.xml&quot;);
+        SayHello sayHello = (SayHello) factory.getBean(&quot;sayHello&quot;);
+        sayHello.sayHello();
+    }
+}
+</code></pre>
+
+<p><code>ApplicationContext factory = new ClassPathXmlApplicationContext(&quot;bean.xml&quot;)</code>读取配置文件，然后通过getBean()方法获取一个目标为sayHello的对象，其实就是通过配置文件实例化了SayHello类，sayHello对应bean.xml文件里的SayHello类的id。</p>
+
+<p>特别注意的是此处代码并没有在包中(一个空包，即文件头没有package声明)，所以bean文件中bean标签的class属性并没有加包名前缀，同理SpringMain读取配置文件也没有加包名路径。</p>
+
+<p>以上就是Spring依赖注入。</p>
+
+<p>至于Spring控制反转，则说的是类的实例化不用通过new显式的实现，而是将创建对象的控制权由自写代码交给Spring容器(或Spring jar包)，即控制反转。上述SpringMain可以明显的看出，sayHello对象的创建是通过<code>factory.getBean()</code>方法实现的，而不是new操作符。</p>
+
+<p>简言之，控制反转说的是类的初始化(创建)不用new而交给Spring容器，依赖注入说的是通过配置文件实现类间的对象传递。其目的就是解耦.</p>
+
+<p>再通过面向接口编程深入理解IoC与DI</p>
+
+<p>面向接口编程的本质是缩小修改的影响范围,先看一个实际的例子，有一个提供随机数生成的类，有一个专门使用随机数的类，如果用常规思维来实现的话，无非就是如下的代码</p>
+
+<pre><code>package springTest;
+
+public class Random {
+    private int randomNum = (int) (50 * Math.random());
+    public void printRandom() {
+        System.out.println(randomNum);
+    }
+}
+package springTest;
+
+public class TestMain {
+    public static void main(String[] args) {
+        new Random().printRandom();
+    }
+}
+</code></pre>
+
+<p>而面向接口编程则是如下的代码</p>
+
+<p>先是接口，向外部调用者提供用于返回Random对象的createRandom方法</p>
+
+<pre><code>package springTest;
+
+public interface HelloInterface {
+    public abstract Random createRandom();
+}
+</code></pre>
+
+<p>再是接口的实现，外部调用者通过createRandom得到Random对象时，是直接和接口打交道，根本不知道有该实现类的存在</p>
+
+<pre><code>package springTest;
+
+public abstract class HelloAbstract implements HelloInterface {
+    @SuppressWarnings(&quot;unused&quot;)
+    private Random random;
+    public void setRandom(Random random) {
+        this.random = random;
+    }
+    public abstract Random createRandom();
+}
+</code></pre>
+
+<p>实际上，该实现类就是在配置文件中直接将Random类注入到其中，由于实现类实现了接口，而实现类被注入了Random类，那么实现类就可以当作接口与Random类之间的桥梁，这个桥梁是通过配置文件依赖注入建造的。</p>
+
+<p>Random类如下</p>
+
+<pre><code>package springTest;
+
+public class Random {
+    private int randomNum = (int) (50 * Math.random());
+    public void printRandom() {
+        System.out.println(randomNum);
+    }
+}
+</code></pre>
+
+<p>SpringMain如下</p>
+
+<pre><code>package springTest;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class SpringMain {
+    @SuppressWarnings(&quot;resource&quot;)
+    public static void main(String[] args) {
+        ApplicationContext factory = new ClassPathXmlApplicationContext(&quot;springTest/bean.xml&quot;);
+        HelloInterface hi = (HelloInterface) factory.getBean(&quot;hello&quot;);
+        Random random = hi.createRandom();
+        random.printRandom();
+    }
+
+}
+</code></pre>
+
+<p>配置文件为</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:util=&quot;http://www.springframework.org/schema/util&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd&quot;&gt;
+&lt;bean id=&quot;ran&quot; class=&quot;springTest.Random&quot;/&gt;
+&lt;bean id=&quot;hello&quot; class=&quot;springTest.HelloAbstract&quot;&gt;
+    &lt;lookup-method name=&quot;createRandom&quot; bean=&quot;ran&quot;/&gt;
+&lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>可见，是通过lookup-method标签将id为ran的bean注入到id为hello的bean的createRandom方法中，即createRandom方法的返回值就是这个id为ran的bean(对象)。</p>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/spring-reads-configuration-files-in-three-ways-single-and-multiple-beans.html">Spring中读取配置文件的三种方式及单例多例Bean</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/the-rise-and-fall-of-stars-once-born-it%27s-designed-to-be-eternal.html">恒星兴衰史:一诞生就注定永恒</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

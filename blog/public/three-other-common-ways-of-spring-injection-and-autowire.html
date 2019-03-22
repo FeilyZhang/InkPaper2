@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="Spring Framework,">
+        <meta name="description" content="Spring注入的另外三种常用方式与AutoWire">
+        <meta name="author" content="Feily Zhang">
+        <title>Spring注入的另外三种常用方式与AutoWire</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">Spring注入的另外三种常用方式与AutoWire</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    
+                    <span class="date" data-time="1544616608"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>先说明，以下是公用代码，只是配置文件不同</p>
+
+<pre><code>public class HelloWorldSpring {
+    private String sayContent;
+    public String sayHello() {
+        System.out.println(&quot;HelloWorld Spring!&quot;);
+        return &quot;HelloWorld Spring&quot;;
+    }
+}
+
+public class SayHello {
+    private HelloWorldSpring helloWorldSpring;
+    public HelloWorldSpring getHelloWorldSpring() {
+        return helloWorldSpring;
+    }
+    public void setHelloWorldSpring(HelloWorldSpring helloWorldSpring) {
+        this.helloWorldSpring = helloWorldSpring;
+    }
+    public void sayHello() {
+        System.out.println(&quot;Say Hello:&quot; + helloWorldSpring.sayHello());
+    }
+}
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class SpringMain {
+
+    public static void main(String[] args) {
+        ApplicationContext factory = new ClassPathXmlApplicationContext(&quot;bean.xml&quot;);
+        SayHello sayHello = (SayHello) factory.getBean(&quot;sayHello&quot;);
+        sayHello.sayHello();
+    }
+
+}
+</code></pre>
+
+<p>Spring的注入方式有六种，比较常用的有三种自动装配</p>
+
+<p>第一种自动装配，当被注入类配置文件bean标签中属性autowire的取值为no时，表明不使用自动装配，即必须显式的使用<ref>标签明确的指定注入的bean</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:util=&quot;http://www.springframework.org/schema/util&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd&quot;&gt;
+&lt;bean id=&quot;helloWorldSpring&quot; class=&quot;HelloWorldSpring&quot;/&gt;
+&lt;bean id=&quot;sayHello&quot; class=&quot;SayHello&quot; autowire=&quot;no&quot;&gt;    &lt;!-- 请注意这里的autowire属性及其值 --&gt;
+    &lt;property name=&quot;helloWorldSpring&quot; ref=&quot;helloWorldSpring&quot;/&gt;    &lt;!-- 还有这里的property标签 --&gt;
+&lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>可见，这种方式无异于脱了裤子放屁，直接去掉autowire属性即可，就和前几篇文章用的注入方式一致</p>
+
+<p>第二种自动装配，当被注入类配置文件bean标签中属性autowire的取值为byName时，表明根据属性名自动装配，那么将会检查Spring容器，根据名字查找属性完全一致的Bean然后进行注入。简言之就是与被注入类中字段名称相同的配置文件中的bean标签的id值代表的class类对象将会被装配(注入)，如下</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:util=&quot;http://www.springframework.org/schema/util&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd&quot;&gt;
+&lt;bean id=&quot;helloWorldSpring&quot; class=&quot;HelloWorldSpring&quot;/&gt;
+&lt;bean id=&quot;sayHello&quot; class=&quot;SayHello&quot; autowire=&quot;byName&quot;&gt;    &lt;!-- 请注意这里的autowire属性及其值 --&gt;
+&lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>第三种自动装配，当被注入类配置文件bean标签中属性autowire的取值为byType时，表明按类型自动装配，即被注入类字段的数据类型(为类)与配置文件中bean标签的注入类class属性的类型名一致时，才会装配，如下</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:util=&quot;http://www.springframework.org/schema/util&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd&quot;&gt;
+&lt;bean id=&quot;helloWorldSpring&quot; class=&quot;HelloWorldSpring&quot;/&gt;
+&lt;bean id=&quot;sayHello&quot; class=&quot;SayHello&quot; autowire=&quot;byType&quot;&gt;    &lt;!-- 请注意这里的autowire属性及其值 --&gt;
+&lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>需要特别注意的是，被注入类中的相关字段一定要有对应的set方法(和get方法)，不然byName和byType会报错NPE,no和以前的那种装配方式则会报错如下</p>
+
+<pre><code>Caused by: org.springframework.beans.NotWritablePropertyException: Invalid property 'helloWorldSpring' of bean class [SayHello]: Bean property 'helloWorldSpring' is not writable or has an invalid setter method. Does the parameter type of the setter match the return type of the getter?
+</code></pre>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/spring-assembly-via-autowire-annotation.html">通过@Autowired注解进行Spring装配</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/spring-reads-configuration-files-in-three-ways-single-and-multiple-beans.html">Spring中读取配置文件的三种方式及单例多例Bean</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

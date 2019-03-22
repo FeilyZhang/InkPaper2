@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="Spring Framework,">
+        <meta name="description" content="Spring中创建Bean实例的几种方式">
+        <meta name="author" content="Feily Zhang">
+        <title>Spring中创建Bean实例的几种方式</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">Spring中创建Bean实例的几种方式</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    
+                    <span class="date" data-time="1544667239"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>第一种方式，(无参创建)通过无参构造器创建一个bean实例</p>
+
+<pre><code>package springTest;
+
+public class Product {
+    /*
+    public Product() {
+        
+    }*/
+    public void printProduct1() {
+        System.out.println(&quot;Hello, I am product1!&quot;);
+    }
+
+    public void printProduct2() {
+        System.out.println(&quot;Hello, I am product2!&quot;);
+    }
+}
+</code></pre>
+
+<p>其中默认构造器可以省略，即使没有那么Java类在编译期间也会自动填充一个默认构造器</p>
+
+<p>然后是配置文件</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:util=&quot;http://www.springframework.org/schema/util&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd&quot;&gt;
+&lt;bean name=&quot;pro&quot; class=&quot;springTest.Product&quot;/&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>再是主方法类</p>
+
+<pre><code>ackage springTest;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class ProductMain {
+
+    public static void main(String[] args) {
+        ApplicationContext factory = new ClassPathXmlApplicationContext(&quot;springTest/productBean.xml&quot;);
+        Product product = (Product) factory.getBean(&quot;pro&quot;, Product.class);
+        product.printProduct1();
+        product.printProduct2();
+    }
+}
+</code></pre>
+
+<p>运行结果为</p>
+
+<pre><code>Hello, I am product1!
+Hello, I am product2!
+</code></pre>
+
+<p>这里并不会牵扯到依赖注入，因为只是一个类，并没有类之间的依赖关系，所以和正常的Java类一样，不需要编写依赖注入时被注入类的set/get方法。</p>
+
+<p>但是如果类有构造器而且不是默认构造器，该怎么办？用第一种方法是会报错的，如下</p>
+
+<pre><code>Exception in thread &quot;main&quot; org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'pro' defined in class path resource [springTest/productBean.xml]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Could not instantiate bean class [springTest.Product]: No default constructor found; nested exception is java.lang.NoSuchMethodException: springTest.Product.()
+    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1076)
+    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1021)
+    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:504)
+    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:475)
+    at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:302)
+    at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:228)
+    at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:298)
+    at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:193)
+    at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:703)
+    at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:760)
+    at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:482)
+    at org.springframework.context.support.ClassPathXmlApplicationContext.(ClassPathXmlApplicationContext.java:139)
+    at org.springframework.context.support.ClassPathXmlApplicationContext.(ClassPathXmlApplicationContext.java:83)
+    at springTest.ProductMain.main(ProductMain.java:9)
+Caused by: org.springframework.beans.BeanInstantiationException: Could not instantiate bean class [springTest.Product]: No default constructor found; nested exception is java.lang.NoSuchMethodException: springTest.Product.()
+    at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:85)
+    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1069)
+    ... 13 more
+Caused by: java.lang.NoSuchMethodException: springTest.Product.()
+    at java.lang.Class.getConstructor0(Unknown Source)
+    at java.lang.Class.getDeclaredConstructor(Unknown Source)
+    at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:80)
+    ... 14 more
+</code></pre>
+
+<p>这种情况下第二种方法就显得很有必要了</p>
+
+<p>第二种方法，(有参通过构造器创建)通过配置文件向构造器传递参数实例化bean</p>
+
+<p>我们先将Product类改为有构造器参与的形式</p>
+
+<pre><code>package springTest;
+
+public class Product {
+    
+    String product1;
+    String product2;
+    
+    public Product(String product1, String product2) {
+        this.product1 = product1;
+        this.product2 = product2;
+    }
+    
+    public void printProduct1() {
+        System.out.println(&quot;Hello, I am &quot; + product1);
+    }
+
+    public void printProduct2() {
+        System.out.println(&quot;Hello, I am &quot; + product2);
+    } 
+}
+</code></pre>
+
+<p>再通过配置文件传递参数实例化bean(其实就是实例化类)</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:util=&quot;http://www.springframework.org/schema/util&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd&quot;&gt;
+&lt;bean name=&quot;pro&quot; class=&quot;springTest.Product&quot;&gt;
+    &lt;constructor-arg index=&quot;0&quot; value=&quot;product1&quot;/&gt;
+    &lt;constructor-arg index=&quot;1&quot; value=&quot;product2&quot;/&gt;
+&lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>以上配置文件的bean标签的constructor-arg标签的index属性等同于name属性，如下</p>
+
+<pre><code>&lt;bean name=&quot;pro&quot; class=&quot;springTest.Product&quot;&gt;
+    &lt;constructor-arg name=&quot;product1&quot; value=&quot;product1&quot;/&gt;
+    &lt;constructor-arg name=&quot;product2&quot; value=&quot;product2&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p>是同样的功能</p>
+
+<p>再运行之</p>
+
+<pre><code>package springTest;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class ProductMain {
+
+    public static void main(String[] args) {
+        ApplicationContext factory = new ClassPathXmlApplicationContext(&quot;springTest/productBean.xml&quot;);
+        Product product = (Product) factory.getBean(&quot;pro&quot;, Product.class);
+        product.printProduct1();
+        product.printProduct2();
+    }
+}
+</code></pre>
+
+<p>结果为</p>
+
+<pre><code>Hello, I am product1
+Hello, I am product2
+</code></pre>
+
+<p>当然这只是向一个bean传递参数的一种方式，还有一种方式是通过Setter方式</p>
+
+<p>第三种，(有参通过Setter方式创建)通过Setter方式传递参数给bean创建其实例</p>
+
+<p>这种方法自然要对相应的字段编写对应的get/set方法，如下</p>
+
+<pre><code>package springTest;
+
+public class Product {
+    
+    String product1;
+    String product2;
+    /*
+    public Product(String product1, String product2) {
+        this.product1 = product1;
+        this.product2 = product2;
+    }
+    */
+    public String getProduct1() {
+        return product1;
+    }
+    
+    public String getProduct2() {
+        return product2;
+    }
+    
+    public void setProduct1(String product1) {
+        this.product1 = product1;
+    }
+    
+    public void setProduct2(String product2) {
+        this.product2 = product2;
+    }
+    
+    public void printProduct1() {
+        System.out.println(&quot;Hello, I am &quot; + product1);
+    }
+
+    public void printProduct2() {
+        System.out.println(&quot;Hello, I am &quot; + product2);
+    } 
+}
+</code></pre>
+
+<p>配置文件只需要把constructor-arg标签改为property即可，如下</p>
+
+<pre><code>&lt;bean name=&quot;pro&quot; class=&quot;springTest.Product&quot;&gt;
+    &lt;property name=&quot;product1&quot; value=&quot;product1&quot;/&gt;
+    &lt;property name=&quot;product2&quot; value=&quot;product2&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p>主文件不做改动，仍然是同样的运行结果</p>
+
+<p>这种情况下你可以注释掉构造器，前提是你没有使用constructor-arg标签传递参数。当然，你也可以二者都使用，如下</p>
+
+<pre><code>package springTest;
+
+public class Product {
+    
+    String product1;
+    String product2;
+    
+    public Product(String product1) {
+        this.product1 = product1;
+    }
+    
+    public String getProduct2() {
+        return product2;
+    }
+    public void setProduct2(String product2) {
+        this.product2 = product2;
+    }
+    
+    public void printProduct1() {
+        System.out.println(&quot;Hello, I am &quot; + product1);
+    }
+
+    public void printProduct2() {
+        System.out.println(&quot;Hello, I am &quot; + product2);
+    } 
+}
+&lt;bean name=&quot;pro&quot; class=&quot;springTest.Product&quot;&gt;
+    &lt;constructor-arg name=&quot;product1&quot; value=&quot;product1&quot;/&gt;
+    &lt;property name=&quot;product2&quot; value=&quot;product2&quot;/&gt;
+&lt;/bean&gt;
+package springTest;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class ProductMain {
+
+    public static void main(String[] args) {
+        ApplicationContext factory = new ClassPathXmlApplicationContext(&quot;springTest/productBean.xml&quot;);
+        Product product = (Product) factory.getBean(&quot;pro&quot;, Product.class);
+        product.printProduct1();
+        product.printProduct2();
+    }
+}
+</code></pre>
+
+<p>此外，这里配置文件的属性用的是name而不是id，这两者都可以用而且主文件中<code>factory.getBean(&quot;pro&quot;, Product.class)</code>与<code>factory.getBean(&quot;pro&quot;)</code>是同样的功能，可以自由组合。</p>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/analysis-of-aspect-oriented-programming.html">面向切面编程(Aspect Oriented Programming)浅析</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/spring-assembly-via-autowire-annotation.html">通过@Autowired注解进行Spring装配</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-03-22T21:39:35+08:00</updated>
+  <updated>2019-03-23T16:35:46+08:00</updated>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>分而治之——决策树学习算法</title>
+    <updated>2019-03-23T15:55:25+08:00</updated>
+    <id>tag:doc.feily.tech,2019-03-23:/decision-tree-learning.html</id>
+    <content type="html">&lt;p&gt;决策树学习算法以树形结构建立模型，类似于流程图，该模型本身包含一系列逻辑决策。&lt;/p&gt;&#xA;</content>
+    <link href="https://doc.feily.tech/decision-tree-learning.html"></link>
+    <author>
+      <name>Feily Zhang</name>
+    </author>
+  </entry>
   <entry>
     <title>面向切面编程(Aspect Oriented Programming)浅析</title>
     <updated>2018-12-13T20:49:50+08:00</updated>
@@ -92,16 +102,6 @@
     <id>tag:doc.feily.tech,2018-10-18:/born-in-1984-reading-notes.html</id>
     <content type="html">&lt;p&gt;有时候我宁愿相信，人生的诸多不顺，只是因为最适合你的那条路尚未出现。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/born-in-1984-reading-notes.html"></link>
-    <author>
-      <name>Feily Zhang</name>
-    </author>
-  </entry>
-  <entry>
-    <title>关于《万历十五年》的一点思考</title>
-    <updated>2017-12-05T11:18:54+08:00</updated>
-    <id>tag:doc.feily.tech,2017-12-05:/thoughts-on-the-fifteen-years-of-wanli.html</id>
-    <content type="html">&lt;p&gt;一部《万历十五年》,就是一部简明扼要的明朝兴衰史。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/thoughts-on-the-fifteen-years-of-wanli.html"></link>
     <author>
       <name>Feily Zhang</name>
     </author>

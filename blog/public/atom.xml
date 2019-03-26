@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-03-23T21:24:51+08:00</updated>
+  <updated>2019-03-26T17:16:46+08:00</updated>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>人工神经网络</title>
+    <updated>2019-03-26T15:55:25+08:00</updated>
+    <id>tag:doc.feily.tech,2019-03-26:/artificial-neural-network.html</id>
+    <content type="html">&lt;p&gt;决策树学习算法以树形结构建立模型，类似于流程图，该模型本身包含一系列逻辑决策。&lt;/p&gt;&#xA;</content>
+    <link href="https://doc.feily.tech/artificial-neural-network.html"></link>
+    <author>
+      <name>Feily Zhang</name>
+    </author>
+  </entry>
   <entry>
     <title>分而治之——决策树学习算法</title>
     <updated>2019-03-23T15:55:25+08:00</updated>
@@ -92,16 +102,6 @@
     <id>tag:doc.feily.tech,2018-12-02:/strings-particles-matter-and-the-universe-in-string-theory.html</id>
     <content type="html">&lt;p&gt;超弦理论中，弦的大小不到质子的10^19倍(因而尚且观测不到)且是振动的，每种振动模式代表一种独特的共振或粒子(即粒子不是一个点，而是以某种模式振动的弦)。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/strings-particles-matter-and-the-universe-in-string-theory.html"></link>
-    <author>
-      <name>Feily Zhang</name>
-    </author>
-  </entry>
-  <entry>
-    <title>《生于一九八四》·阅读小记</title>
-    <updated>2018-10-18T21:53:25+08:00</updated>
-    <id>tag:doc.feily.tech,2018-10-18:/born-in-1984-reading-notes.html</id>
-    <content type="html">&lt;p&gt;有时候我宁愿相信，人生的诸多不顺，只是因为最适合你的那条路尚未出现。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/born-in-1984-reading-notes.html"></link>
     <author>
       <name>Feily Zhang</name>
     </author>

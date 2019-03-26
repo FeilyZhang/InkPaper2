@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -68,10 +90,27 @@
                     
                         <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
                         <h1 class="tag">Machine Learning</h1>
-                        <h2 class="tag-sub">1 篇文章</h2>
+                        <h2 class="tag-sub">2 篇文章</h2>
                     
                 </header>
                 <ul class="article-list">
+                    
+                    <li class="article">
+                        <a class="title" href="/artificial-neural-network.html">人工神经网络</a>
+                        <div class="cover" style="background-image:url(/images/article/shenjingyuan.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>决策树学习算法以树形结构建立模型，类似于流程图，该模型本身包含一系列逻辑决策。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            
+                            <span class="date" data-time="1553586925"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Machine%20Learning/index.html">Machine Learning</a>
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/decision-tree-learning.html">分而治之——决策树学习算法</a>

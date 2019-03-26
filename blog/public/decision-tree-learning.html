@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="Machine Learning,">
         <meta name="description" content="分而治之——决策树学习算法">
@@ -472,8 +494,13 @@ credit_test$default |        no | Row Total |
                 </section>
                 <section class="recommend" style="font-family:KaiTi">
                     
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/artificial-neural-network.html">人工神经网络</a>
+                    </section>
                     
-                    <section class="nav next">
+                    
+                    <section class="nav next more">
                         <div class="head">下篇文章</div>
                         <a class="link" href="/analysis-of-aspect-oriented-programming.html">面向切面编程(Aspect Oriented Programming)浅析</a>
                     </section>

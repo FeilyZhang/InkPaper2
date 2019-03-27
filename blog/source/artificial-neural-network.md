@@ -1,11 +1,11 @@
-title: "人工神经网络"
+title: "黑箱方法———人工神经网络"
 date: 2019-03-26 15:55:25 +0800
 update: 2019-03-26 15:55:25 +0800
 author: me
 cover: "-/images/article/shenjingyuan.jpg"
 tags:
     - Machine Learning
-preview: 决策树学习算法以树形结构建立模型，类似于流程图，该模型本身包含一系列逻辑决策。
+preview: 人工神经网络有监督学习算法，适用于数值预测以及分类任务。适合解决输入数据和输出数据都很好理解或简单，但是涉及输入与输出的过程却极其复杂。因此，适合黑箱操作。
 
 ---
 
@@ -223,7 +223,10 @@ logistic激活函数对于线性可分的情况，回归收敛速度较慢但表
 
 ![o2激活函数输出](/images/article/example5.png)
 
-然后计算它们的总误差，公式为
+前向传播中我们得到的目标输入为[0.75136079 , 0.772928465]，但是训练集目标值为[0.01 , 0.99]，可见误差还很大。接下来，我们通过后向传播来训练神经网络，修正神经元权重，降低误差
+
+
+接下来就是**后向传播**并通过梯度下降法修正权重，其中成本函数的梯度就是总误差对某神经元链式求导。首先计算它们的总误差，公式为
 
 ![o2激活函数输出](/images/article/latex.png)
 
@@ -234,8 +237,6 @@ logistic激活函数对于线性可分的情况，回归收敛速度较慢但表
 ![o2相对于训练集目标值误差](/images/article/latex (2).png)
 
 ![总误差](/images/article/latex (3).png)
-
-前向传播完毕，接下来就是**后向传播**并通过梯度下降法修正权重，其中成本函数的梯度就是总误差对某神经元链式求导。
 
 先求成本函数的梯度，即总误差关于神经元h1上权重w5的导数，这是一个链式求导的过程，如下图所示
 
@@ -260,3 +261,223 @@ logistic激活函数对于线性可分的情况，回归收敛速度较慢但表
 类似的方式我们可以更新其余权重，如下
 
 ![更新其余权重](/images/article/example10.png)
+
+以上是与总误差最关联的输出层的权重更新，对于隐含层而言，更新权重示意图及公式如下
+
+![更新隐藏层神经元权重示意图](/images/article/nn-calculation.png)
+
+可见链式传导路径为`out(h1) ——> net(h1) ——> w1`, 在前向传播中out(h1)会影响out(o1)和out(o2), 那么对应的在后向传播中计算E(total)关于out(h1)的导数必然要考虑out(h1)它对两个输出神经元的影响，那么E(total)关于out(h1)的导数如下计算
+
+![E(total)关于out(h1)的导数计算方式](/images/article/latex (5).png)
+
+下面开始梯度下降更新w1的权重
+
+![](/images/article/latex (6).png)
+
+![](/images/article/latex (7).png)
+
+![](/images/article/latex (8).png)
+
+![](/images/article/latex (9).png)
+
+![](/images/article/latex (10).png)
+
+以上计算出了E(o1)关于out(h1)的导数，下面用同样的方式计算E(o2)关于out(h1)的导数，过程略
+
+![](/images/article/latex (11).png)
+
+根据公式，二者相加，得到E(total)关于out(h1)的导数
+
+![](/images/article/latex (12).png)
+
+下面就简单了，计算out(h1)关于net(h1)的导数
+
+![](/images/article/latex (13).png)
+
+![](/images/article/latex (14).png)
+
+然后再计算net(h1)关于w1的导数，如下
+
+![](/images/article/latex (15).png)
+
+![](/images/article/latex (16).png)
+
+最终三者相乘链式求导得到E(total)关于w1的导数
+
+![](/images/article/latex (17).png)
+
+![](/images/article/latex (18).png)
+
+然后就可以根据梯度下降公式更新w1的权重
+
+![](/images/article/latex (19).png)
+
+同样的方式更新w2、w3、w4的权重，如下，过程略
+
+![](/images/article/latex (20).png)
+
+![](/images/article/latex (21).png)
+
+![](/images/article/latex (22).png)
+
+这样，我们就梯度不断下降，最终已经找到了多变量成本函数**J(w, b)**的最小值，那么也就意味着神经网络输出节点与训练集目标值之间的误差已经最小了。
+
+我们再次通过训练后的神经网络重新计算，输出节点得到的值为[0.015912196,0.984065734]，而训练集目标值为[0.01 , 0.99], 可见，误差已经相当低了。
+
+## 五、R语言中神经网络实现与应用
+### 5.1 R语言中神经网络函数用法
+我们使用neuralnet添加包中的`neuralnet()`函数来实现神经网络，函数原型为
+
+首先建立模型
+```
+m <- neuralnet(target ~ predictors, data = mydata, hidden = 1)
+```
+参数解释如下
+
++ target：数据框mydata中需要建模的输出变量；
++ predictors：是数据框mydata中用于预测的特征集(是一个公式)；
++ data：训练集数据框；
++ hidden：神经网络隐藏层神经元数目，默认为1。
+
+该函数返回一个神经网络模型对象
+
+然后进行预测
+```
+p <- compute(m, test)
+```
+
+参数解释如下
+
++ m：`neuralnet()`函数创建的模型对象；
++ test：测试集数据框。
+
+该函数返回一个二元素列表，名称分别是`$neurons`和`$net.result`，前者用于保存神经网络中每一层的神经元，后者用于保存模型的预测值。
+
+### 5.2 R语言中neuralnet()函数应用示例
+以《Machine Learning With R》一书中的根据混合物水分特征预测混凝土强度的数据集为例
+先读取数据，然后进行数据标准化操作，因为神经网络运行时最好的情况就是将输入数据缩放到0附近的狭窄范围内，我们使用离差标准化，将数据映射到[0, 1]区间，由于数据集已经是随机排列，那么直接提取训练集与测试集
+```
+> getwd()
+[1] "C:/Users/Administrator/Documents"
+> setwd("C:\\Users\\Administrator\\Desktop\\docs\\Machine-Learning-with-R-datasets-master")
+> concrete <- read.csv("concrete.csv")
+> str(concrete)
+'data.frame':	1030 obs. of  9 variables:
+ $ cement      : num  540 540 332 332 199 ...
+ $ slag        : num  0 0 142 142 132 ...
+ $ ash         : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ water       : num  162 162 228 228 192 228 228 228 228 228 ...
+ $ superplastic: num  2.5 2.5 0 0 0 0 0 0 0 0 ...
+ $ coarseagg   : num  1040 1055 932 932 978 ...
+ $ fineagg     : num  676 676 594 594 826 ...
+ $ age         : int  28 28 270 365 360 90 365 28 28 28 ...
+ $ strength    : num  80 61.9 40.3 41 44.3 ...
+> normalize <- function(x) {
++     return ((x - min(x)) / (max(x) - min(x)))
++ }
+> concrete_norm <- as.data.frame(lapply((concrete, normalize))
+Error: unexpected ',' in "concrete_norm <- as.data.frame(lapply((concrete,"
+> concrete_norm <- as.data.frame(lapply(concrete, normalize)) 
+> concrete_train <- concrete_norm[1 : 700, ]
+> concrete_test <- concrete_norm[701 : 1030, ]
+```
+
+可以通过`summary()`函数查看标准前后的描述性统计量，可以发现已经成功标准化了
+```
+> summary(concrete)
+     cement           slag            ash             water        superplastic   
+ Min.   :102.0   Min.   :  0.0   Min.   :  0.00   Min.   :121.8   Min.   : 0.000  
+ 1st Qu.:192.4   1st Qu.:  0.0   1st Qu.:  0.00   1st Qu.:164.9   1st Qu.: 0.000  
+ Median :272.9   Median : 22.0   Median :  0.00   Median :185.0   Median : 6.400  
+ Mean   :281.2   Mean   : 73.9   Mean   : 54.19   Mean   :181.6   Mean   : 6.205  
+ 3rd Qu.:350.0   3rd Qu.:142.9   3rd Qu.:118.30   3rd Qu.:192.0   3rd Qu.:10.200  
+ Max.   :540.0   Max.   :359.4   Max.   :200.10   Max.   :247.0   Max.   :32.200  
+   coarseagg         fineagg           age            strength    
+ Min.   : 801.0   Min.   :594.0   Min.   :  1.00   Min.   : 2.33  
+ 1st Qu.: 932.0   1st Qu.:731.0   1st Qu.:  7.00   1st Qu.:23.71  
+ Median : 968.0   Median :779.5   Median : 28.00   Median :34.45  
+ Mean   : 972.9   Mean   :773.6   Mean   : 45.66   Mean   :35.82  
+ 3rd Qu.:1029.4   3rd Qu.:824.0   3rd Qu.: 56.00   3rd Qu.:46.13  
+ Max.   :1145.0   Max.   :992.6   Max.   :365.00   Max.   :82.60  
+> summary(concrete_norm)
+     cement            slag              ash             water       
+ Min.   :0.0000   Min.   :0.00000   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.2063   1st Qu.:0.00000   1st Qu.:0.0000   1st Qu.:0.3442  
+ Median :0.3902   Median :0.06121   Median :0.0000   Median :0.5048  
+ Mean   :0.4091   Mean   :0.20561   Mean   :0.2708   Mean   :0.4774  
+ 3rd Qu.:0.5662   3rd Qu.:0.39775   3rd Qu.:0.5912   3rd Qu.:0.5607  
+ Max.   :1.0000   Max.   :1.00000   Max.   :1.0000   Max.   :1.0000  
+  superplastic      coarseagg         fineagg            age         
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.00000  
+ 1st Qu.:0.0000   1st Qu.:0.3808   1st Qu.:0.3436   1st Qu.:0.01648  
+ Median :0.1988   Median :0.4855   Median :0.4654   Median :0.07418  
+ Mean   :0.1927   Mean   :0.4998   Mean   :0.4505   Mean   :0.12270  
+ 3rd Qu.:0.3168   3rd Qu.:0.6640   3rd Qu.:0.5770   3rd Qu.:0.15110  
+ Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.00000  
+    strength     
+ Min.   :0.0000  
+ 1st Qu.:0.2664  
+ Median :0.4001  
+ Mean   :0.4172  
+ 3rd Qu.:0.5457  
+ Max.   :1.0000 
+```
+
+然后建立神经网络模型，如下
+```
+> library(neuralnet)
+> concrete_model <- neuralnet(strength ~ ., data = concrete_train)
+```
+可以通过`plot()`函数查看神经网络拓扑结构，如下
+```
+> plot(concrete_model)
+```
+结构为
+
+![神经网络拓扑结构](/images/article/neuralnet-img.png)
+
+图中给出了训练的步数Steps为1230步，还给出了误差平方和Error为5.23158，这两个参数对于度量模型性能很重要。图中仍然给出了每个神经元连接处的权重还有偏差项。
+
+接下来进行预测
+```
+> model_result <- compute(concrete_model, concrete_test[1 : 8])
+> predicted_strength <- model_result$net.result
+> cor(predicted_strength, concrete_test$strength)
+          [,1]
+[1,] 0.7811192
+```
+
+通过`cor()`函数获取神经网络预测值与测试集实际值的相关性，结果为0.78，可见具有很强的相关性，这意味着我们神经网络模型还是不错的。我们继续提升神经网络性能。
+
+### 5.3提升模型性能
+`neuralnet()`函数中还有一个参数没有使用，即`hidden`参数，该参数控制神经网络中隐藏层的神经元数目，刚开始默认为1，我们可以试着调整该参数。
+```
+> concrete_model <- neuralnet(strength ~ ., data = concrete_train, hidden = 5)
+> plot(concrete_model)
+```
+我们设置隐藏层神经元数目为5，那么最终的网络拓扑如下
+
+![隐藏层多神经元神经网络拓扑结构](/images/article/neuralnet-img-hidden.png)
+
+明显复杂了很多。但是可以看出，我们的步数Steps变成了13950，而误差平方和Error变成了1.394552，也就是说神经网络复杂了，步数自然会上升，而误差则会下降，再预测一次，如下
+```
+> model_result <- compute(concrete_model, concrete_test[1 : 8])
+> predicted_strength <- model_result$net.result
+> cor(predicted_strength, concrete_test$strength)
+          [,1]
+[1,] 0.7889097
+```
+从相关性来看，我们之前隐藏层为1个神经元的模型还是相当不错的，而隐藏层神经元调整为5之后降低了模型偏差，但是对预测结果的提升并没有改变多少。
+
+需要注意的是，过多的隐藏层是会提升模型的精度，但是也会有过度拟合的风险。
+
+全文完！
+
+###### 推荐阅读
+1. http://galaxy.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html
+
+###### 参考文献
+1. 《Artificial Intelligence: A Modern Approach》
+2. 《Machine Learning With R》
+3. https://towardsdatascience.com/gradient-descent-in-a-nutshell-eaf8c18212f0
+4. https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/

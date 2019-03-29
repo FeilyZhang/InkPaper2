@@ -221,3 +221,193 @@ preview: 支持向量机基于间隔最大化原理，以严格的数学理论�
 
 ![](/images/article/svm33.png)
 
+## 二、软间隔支持向量
+
+硬间隔支持向量机要求训练样本是线性可分的，但是实际应用中并不是很常见。软间隔支持向量机的基本思路是：允许在间隔的计算中出现少许的误差，误差定义为
+
+![](/images/article/svm34.png)
+
+而在误差出现的情况下的**软间隔支持向量机**定义为：
+
+![](/images/article/svm35.png)
+
+上式中，C > 0是用来控制间隔误差的调谐参数。间隔误差在优化中也称为松弛变量。C越大，间隔误差越接近于0，即
+
+![](/images/article/svm36.png)
+
+那么软间隔支持向量机越接近于硬间隔支持向量机，即
+
+![](/images/article/svm37.png)
+
+## 三、使用核技巧处理非线性问题
+
+硬间隔支持向量要所有的样本都是线性可分的，软间隔支持向量允许间隔计算中出现少许的误差，但二者的基础都是由n维特征空间定义的数据点都是线性可分的，只是程度不同。
+
+但是并非n维特征向量定义的数据点一定线性可分，比如
+
+![](/images/article/svm38.png)
+
+明显无法线性分离，支持向量机通过使用一种被称为“核计巧”的处理方式就可以将问题映射到一个更高维度的空间中，比如上图我们根据之前的特征定义第三个维度(特征)为`z = x ^ 2 + y ^ 2`，那么就会如下图所示
+
+![](/images/article/svm39.png)
+
+这样就又线性可分了。
+
+具有非线性核的支持向量机通过对数据添加额外的维度，就可以实现线性可分。**本质上讲，核技巧就是添加能够表述度量特征之间数学关系的新特征的过程**。常用的核函数如下:
+
++ 线性核函数(linear kernel)：该核函数不需要转换数据，因此可以表示为特征的点积：
+
+![](/images/article/svm40.png)
+
++ 次数为d的多项式核函数(polynomial kernel)：该核函数添加了一个简单的非线性数据变换：
+
+![](/images/article/svm41.png)
+
++ S形核函数(sigmoid kernel)：该核函数产生的支持向量机模型，类似于神经网络使用S形激活函数，使用希腊字母kappa和delta作为核参数：
+
+![](/images/article/svm42.png)
+
++ 高斯RBF核函数(Gaussian RBF kernel)：该核函数类似于RBF神经网络，且对于许多类型的数据都运行的很好，而且被认为是用于许多学习任务的一个合理的开始：
+
+![](/images/article/svm43.png)
+
+需要注意的是，对于特定的任务，没有可以依赖的规则用于匹配核函数。在很大程度上拟合取决于要学习的概念以及训练数据的量与特征之间的关系。在许多情况下，一个良好的支持向量机模型可能需要在评估多个核函数的情况下产生。
+
+## 四、R语言中支持向量机函数及应用
+
+### 4.1 R语言中支持向量机函数
+
+使用kernlab添加包的`ksvm()`函数来使用支持向量机，函数原型为
+
+先创建模型
+
+```
+m <- ksvm(target ~ predictors, data = mydata, kernel = "rbfdot", c = 1)
+```
+
+参数解释如下
+
++ target：数据框mydata需要建模的输出变量；
++ predictors：要预测的输出变量关于mydata数据框中的特征集；
++ data：训练集数据框；
++ kernel：核函数，包括rbfdot(径向基函数)、polydot(多项式函数)、tanhdot(双曲正切函数)、vanilladot(线性函数)等；
++ c：用于给出违反约束条件时的惩罚，即对于**软边界**的惩罚的大小。较大的c值将导致较窄的边界。
+
+该函数返回一个可用于预测的支持向量机对象。
+
+再进行预测
+
+```
+p <- predict(m, test, type = "response")
+```
+
+参数解释如下
+
++ m：由`ksvm()`函数得到的SVM对象；
++ test：测试集数据框；
++ type：当值为response时表明输出为预测类别，当值为probabilities时，表明输出为对应的预测概率。
+
+该函数根据type参数返回预测类或者预测类概率。
+
+### 4.2 R语言中支持向量机函数应用
+
+以光学字符识别案例为例，说明该函数的使用。
+
+```
+> getwd()
+[1] "C:/Users/Administrator/Documents"
+> setwd("C:\\Users\\Administrator\\Desktop\\docs\\Machine-Learning-with-R-datasets-master")
+> letters <- read.csv("letterdata.csv")
+> str(letters)
+'data.frame':	20000 obs. of  17 variables:
+ $ letter: Factor w/ 26 levels "A","B","C","D",..: 20 9 4 14 7 19 2 1 10 13 ...
+ $ xbox  : int  2 5 4 7 2 4 4 1 2 11 ...
+ $ ybox  : int  8 12 11 11 1 11 2 1 2 15 ...
+ $ width : int  3 3 6 6 3 5 5 3 4 13 ...
+ $ height: int  5 7 8 6 1 8 4 2 4 9 ...
+ $ onpix : int  1 2 6 3 1 3 4 1 2 7 ...
+ $ xbar  : int  8 10 10 5 8 8 8 8 10 13 ...
+ $ ybar  : int  13 5 6 9 6 8 7 2 6 2 ...
+ $ x2bar : int  0 5 2 4 6 6 6 2 2 6 ...
+ $ y2bar : int  6 4 6 6 6 9 6 2 6 2 ...
+ $ xybar : int  6 13 10 4 6 5 7 8 12 12 ...
+ $ x2ybar: int  10 3 3 4 5 6 6 2 4 1 ...
+ $ xy2bar: int  8 9 7 10 9 6 6 8 8 9 ...
+ $ xedge : int  0 2 3 6 1 0 2 1 1 8 ...
+ $ xedgey: int  8 8 7 10 7 8 8 6 6 1 ...
+ $ yedge : int  0 4 3 2 5 9 7 2 1 1 ...
+ $ yedgex: int  8 10 9 8 10 7 10 7 7 8 ...
+> letters_train <- letters[1 : 16000, ]
+> letters_test <- letters[16001 : 20000, ]
+> library(kernlab)
+> letters_model <- ksvm(letter ~ ., data = letters_train, kernel = "vanilladot")
+ Setting default kernel parameters  
+```
+
+可以通过键入SVM模型名称查看关于训练参数和模型拟合度的一些基本信息，如下
+
+```
+> letters_model
+Support Vector Machine object of class "ksvm" 
+
+SV type: C-svc  (classification) 
+ parameter : cost C = 1 
+
+Linear (vanilla) kernel function. 
+
+Number of Support Vectors : 7037 
+
+Objective Function Value : -14.1746 -20.0072 -23.5628 -6.2009 -7.5524 -32.7694 -49.9786 -18.1824 -62.1111 -32.7284 -16.2209 ...
+Training error : 0.130062 
+```
+
+可以看出支持向量的类型为分类任务，且惩罚因子C为1，共有7037个支持向量。
+
+然后进行预测并评估模型性能
+
+```
+> letters_pre <- predict(letters_model, letters_test)
+> prop.table(table(letters_pre == letters_test$letter))
+
+  FALSE    TRUE 
+0.16075 0.83925 
+```
+
+正确率大概为84%，还是不错的。再试着提升一下模型性能。
+
+### 4.3 提升模型性能
+
+提升模型性能主要是通过更换核函数来实现，我们分别试一下常见的核函数，如下
+
+```
+> letters_model <- ksvm(letter ~ ., data = letters_train, kernel = "rbfdot")
+> letters_pre <- predict(letters_model, letters_test)
+> prop.table(table(letters_pre == letters_test$letter))
+
+ FALSE   TRUE 
+0.0695 0.9305 
+> letters_model <- ksvm(letter ~ ., data = letters_train, kernel = "polydot")
+ Setting default kernel parameters  
+> letters_pre <- predict(letters_model, letters_test)
+> prop.table(table(letters_pre == letters_test$letter))
+
+  FALSE    TRUE 
+0.16075 0.83925 
+> letters_model <- ksvm(letter ~ ., data = letters_train, kernel = "tanhdot")
+ Setting default kernel parameters  
+> letters_pre <- predict(letters_model, letters_test)
+> prop.table(table(letters_pre == letters_test$letter))
+
+ FALSE   TRUE 
+0.9155 0.0845 
+```
+
+可见，当核函数为径向基函数时性能最好，相反，当核函数为双曲正切函数时性能最差。
+
+全文完！
+
+###### 参考文献
+
+1. Introduction to statistical machine learning.
+2. Machine Learning With R.
+3. https://www.analyticsvidhya.com/blog/2017/09/understaing-support-vector-machine-example-code/

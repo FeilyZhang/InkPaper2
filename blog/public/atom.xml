@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-03-29T18:57:49+08:00</updated>
+  <updated>2019-03-29T19:00:26+08:00</updated>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
   <entry>
     <title>转导推理——支持向量机</title>
-    <updated>2019-03-28T19:38:14+08:00</updated>
-    <id>tag:doc.feily.tech,2019-03-28:/support-vector-machine.html</id>
+    <updated>2019-03-29T19:00:00+08:00</updated>
+    <id>tag:doc.feily.tech,2019-03-29:/support-vector-machine.html</id>
     <content type="html">&lt;p&gt;支持向量机基于间隔最大化原理，以严格的数学理论为基础，以寻找特征空间最优超平面为目标，以内积的回旋巧妙地构造核函数，适用于数值预测以及分类任务。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/support-vector-machine.html"></link>
     <author>

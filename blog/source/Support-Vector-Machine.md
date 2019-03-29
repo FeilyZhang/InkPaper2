@@ -1,6 +1,6 @@
 title: "转导推理——支持向量机"
 date: 2019-03-28 19:38:14 +0800
-update: 2019-03-28 19:38:14 +0800
+update: 2019-03-29 19:00:00 +0800
 author: me
 cover: "-/images/svm.jpg"
 tags:

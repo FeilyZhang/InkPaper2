@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-03-29T20:17:30+08:00</updated>
+  <updated>2019-03-31T17:42:53+08:00</updated>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>物以类聚——K-Means Clustering学习算法</title>
+    <updated>2019-03-31T13:43:14+08:00</updated>
+    <id>tag:doc.feily.tech,2019-03-31:/k-means-clustering.html</id>
+    <content type="html">&lt;p&gt;聚类学习被认为是典型的无监督学习算法，训练集数据没有目标特征。聚类的目标就是探索数据集中蕴藏的内在结构，并将相似或同质的群组数据聚集在一起。&lt;/p&gt;&#xA;</content>
+    <link href="https://doc.feily.tech/k-means-clustering.html"></link>
+    <author>
+      <name>Feily Zhang</name>
+    </author>
+  </entry>
   <entry>
     <title>转导推理——支持向量机</title>
     <updated>2019-03-29T19:00:00+08:00</updated>
@@ -92,16 +102,6 @@
     <id>tag:doc.feily.tech,2018-12-12:/spring-dependency-injection-and-control-inversion-and-its-application-in-interface-oriented-programming.html</id>
     <content type="html">&lt;p&gt;Spring依赖注入，指的是类之间对象实例的传递方式；将创建对象的控制权由自写代码交给Spring容器(或Spring jar包)，即控制反转。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/spring-dependency-injection-and-control-inversion-and-its-application-in-interface-oriented-programming.html"></link>
-    <author>
-      <name>Feily Zhang</name>
-    </author>
-  </entry>
-  <entry>
-    <title>恒星兴衰史:一诞生就注定永恒</title>
-    <updated>2018-12-05T17:10:40+08:00</updated>
-    <id>tag:doc.feily.tech,2018-12-05:/the-rise-and-fall-of-stars-once-born-it&#39;s-designed-to-be-eternal.html</id>
-    <content type="html">&lt;p&gt;我们的太阳处于核力和引力的微妙平衡状态，核力倾向于以亿万个氢弹的力量将星球炸开，而引力则倾向于将星球压缩至淹没，在这两种力的作用下，一颗恒星就变得成熟起来。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/the-rise-and-fall-of-stars-once-born-it&#39;s-designed-to-be-eternal.html"></link>
     <author>
       <name>Feily Zhang</name>
     </author>

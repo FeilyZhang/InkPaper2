@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="Java Core,">
+        <meta name="description" content="再看Java文件操作之字节流">
+        <meta name="author" content="Feily Zhang">
+        <title>再看Java文件操作之字节流</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">再看Java文件操作之字节流</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    
+                    <span class="date" data-time="1545102990"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>这里Java以二进制字节的方式处理文件，以二进制方式读写的主要流如下</p>
+
+<ul>
+<li>InputStream/OutputStream：这是基类，都是抽象类；</li>
+<li>FileInputStream/FileOutputStream：输出源和输出目标是文件的流；</li>
+<li>ByteArrayInputStream/ByteArrayOutputStream：输入源和输出目标是字节数组的流</li>
+<li>DataInputStream/DataOutputStream：装饰类，按基本类型和字符串而非只是字节读写流；</li>
+<li>BufferedInputStream/BufferedOutputStream：装饰类，对输入输出提供缓冲功能。</li>
+</ul>
+
+<h2>InputStream/OutputStream</h2>
+
+<p>InputStream的三个基本方法分别是</p>
+
+<pre><code>public abstract int read() throws IOException; //从流中读取下一个字节，返回类型为int，但取值为0-255，当读到流末尾时，返回-1，如果流中没有数据则会阻塞直到数据到来、流关闭或者异常出现
+public int read(byte b[]) throws IOException; //批量读取，一次性读取数组b的长度个字节，返回值为实际读取的字节个数，若刚开始读取时已经到达流结尾，那么返回-1，该方法有默认实现
+public int read(byte b[], int off, int len) throws IOException; //批量读取的一个重载方法
+</code></pre>
+
+<p>OutputStream的三个基本方法分别是</p>
+
+<pre><code>public abstract void write(int b) throws IOException; //向流中写一个字节，参数类型必须是int(其实只会用到低八位)
+public void write(byte[] b) throws IOException; //批量写入，一次性写入数组b的长度个字节
+public int read(byte[] b, int off, int len); //批量读取的一个重载方法
+</code></pre>
+
+<h2>FileInputStream/FileOutputStream</h2>
+
+<p>FileInputStream的两个较为常用的构造方法</p>
+
+<pre><code>public FileInputStream(File file, boolean append) throws FileNotFoundException //其中append为true表明追加，为false表明覆盖
+public FileInputStream(String filePath) throws FileNotFoundException
+</code></pre>
+
+<p>用法如下</p>
+
+<pre><code>import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+
+public class StreamTest {
+
+    public static void main(String[] args) {
+        int data = 0;
+        int index = 0;
+        byte[] buffer = new byte[1024];
+        File file = null;
+        InputStream in = null;
+        try {
+            file = new File(&quot;C:\\Users\\Administrator\\Desktop\\Docs\\test.txt&quot;);
+            in = new FileInputStream(file);
+            while ((data = in.read()) != -1) {
+                buffer[index++] = (byte)data;
+            }
+            System.out.println(new String(buffer, 0, index, &quot;utf-8&quot;));
+            in.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+    }
+
+}
+</code></pre>
+
+<p>写入文件的代码为</p>
+
+<pre><code>import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
+
+public class StreamTest {
+
+    public static void main(String[] args) {
+        File file = null;
+        OutputStream out = null;
+        try {
+            file = new File(&quot;C:\\Users\\Administrator\\Desktop\\Docs\\test.txt&quot;);
+            out = new FileOutputStream(file, true); //追加
+            byte[] data = &quot;Hello, world&quot;.getBytes(Charset.forName(&quot;utf-8&quot;));
+            out.write(data);
+            out.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+    }
+
+}
+</code></pre>
+
+<h2>DataInputStream/DataOutputStream</h2>
+
+<p>这两个是装饰类，他们接受一个已有的InputStream/OutputStream为构造方法的参数，通过他们写入或读取数据时，可以读取或写入指定类型的数据，类型如下</p>
+
+<pre><code>read/writeInt：读取或写入四个字节，先是高字节再是低字节；
+read/writeBoolean：写入一个字节，若值为true则写入1否则写入0
+read/writeUTF：将字符串按utf-8编码写入。
+...
+</code></pre>
+
+<p>需要注意的是这两个类写入的文件都是对应的二进制字节，也就是说打开文件是乱码的，但是读写均正常</p>
+
+<pre><code>import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class StreamTest {
+
+    public static void main(String[] args) {
+        try {
+            File file = new File(&quot;C:\\Users\\Administrator\\Desktop\\Docs\\test.txt&quot;);
+            DataOutputStream out = new DataOutputStream(new FileOutputStream(file));
+            List&lt;Student&gt; list = Arrays.asList(new Student[] {
+                    new Student(18, &quot;张三&quot;, 80.9d), new Student(17, &quot;李四&quot;, 67.5d)
+            });
+            out.writeInt(list.size());
+            for (Student s : list) {
+                out.writeInt(s.getAge());
+                out.writeUTF(s.getName());
+                out.writeDouble(s.getScore());
+            }
+            out.close();
+            
+            List&lt;Student&gt; students = new ArrayList&lt;Student&gt;();
+            DataInputStream in = new DataInputStream(new FileInputStream(file));
+            int size = in.readInt();
+            for (int i = 0; i &lt; size; i++) {
+                Student s = new Student();
+                s.setAge(in.readInt());
+                s.setName(in.readUTF());
+                s.setScore(in.readDouble());
+                students.add(s);
+            }
+            for(Student s : students) {
+                System.out.println(s.getAge());
+                System.out.println(s.getName());
+                System.out.println(s.getScore());
+            }
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static class Student {
+        int age;
+        String name;
+        double score;
+        public Student() {
+            
+        }
+        public Student(int age, String name, double score) {
+            this.age = age;
+            this.name = name;
+            this.score = score;
+        }
+        public void setAge(int age) {
+            this.age = age;
+        }
+        public void setName(String name) {
+            this.name = name;
+        }
+        public void setScore(double score) {
+            this.score = score;
+        }
+        public int getAge() {
+            return age;
+        }
+        public String getName() {
+            return name;
+        }
+        public double getScore() {
+            return score;
+        }
+    }
+
+}
+</code></pre>
+
+<p>写入的文件内容为</p>
+
+<pre><code>       寮犱笁@T9櫃櫃?    鏉庡洓@P?  
+</code></pre>
+
+<p>读出的文件内容为</p>
+
+<pre><code>18
+张三
+80.9
+17
+李四
+67.5 
+</code></pre>
+
+<h2>BufferedInputStream/BufferedOutputStream</h2>
+
+<p>FileInputStream/FileOutputStream没有缓冲，是按字节读取的，性能低，虽然可以按字节数组读取以提高性能，但是有时必须按字节读写，如果使用缓冲区的话就能很好的解决这个问题。</p>
+
+<p>使用BufferedInputStream/BufferedOutputStream时，只需要将FileInputStream/FileOutputStream对象作为参数传入构造方法即可。如下</p>
+
+<pre><code>import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
+
+public class StreamTest {
+
+    public static void main(String[] args) {
+        try {
+            File file = new File(&quot;C:\\Users\\Administrator\\Desktop\\Docs\\test.txt&quot;);
+            BufferedOutputStream bufferedOut = new BufferedOutputStream(new FileOutputStream(file));
+            bufferedOut.write(&quot;Feily Zhang\nHello , world&quot;.getBytes(Charset.forName(&quot;utf8&quot;)));
+            bufferedOut.close();
+            int size = 0;
+            byte[] buffer = new byte[1024];
+            BufferedInputStream bufferedIn = new BufferedInputStream(new FileInputStream(file));
+            size = bufferedIn.read(buffer);
+            System.out.println(new String(buffer, 0, size, &quot;utf-8&quot;));
+            bufferedIn.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+
+<p>结果为</p>
+
+<pre><code>Feily Zhang
+Hello , world
+</code></pre>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/review-at-the-character-stream-of-java-file-operations.html">再看Java文件操作之字符流</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/review-at-interfaces-abstract-classes-and-internal-classes.html">再看接口、抽象类与内部类</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

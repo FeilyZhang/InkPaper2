@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="Java Core,">
+        <meta name="description" content="再看Java文件操作之字符流">
+        <meta name="author" content="Feily Zhang">
+        <title>再看Java文件操作之字符流</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">再看Java文件操作之字符流</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    
+                    <span class="date" data-time="1545105049"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>字符流以字符为单位操作文件，以下是Java中字符流的主要类</p>
+
+<ul>
+<li>Reader/Writer：字符流的基类，是抽象类；</li>
+<li>FileRead/FileWrite：输入源与输出源均为文件的字符流；</li>
+<li>InputStreamReader/OutputStreamWriter：适配器类，将字节流转换为字符流；</li>
+<li>CharArrayReader/CharArrayWriter：属于源与输出源是char数组的字符流；</li>
+<li>StringReader/StringWriter：输入源与输出源为String的字符流；</li>
+<li>BufferedReader/BufferedWriter：装饰类，对输入/输出提供缓冲，以及按行读写功能；</li>
+<li>PrintWriter：装饰类，可将基本类型与对象类型转换为其字符串形式输出的类。</li>
+</ul>
+
+<h2>Reader类的主要方法如下</h2>
+
+<pre><code>public int read() throws IOException
+public int read(char cbuf[]) throws IOException
+abstract public void close() throws IOException
+</code></pre>
+
+<h2>Writer类的主要方法如下</h2>
+
+<pre><code>public void writer(int c)
+public void writer(char cbuf)
+public void writer(String str) throws IOException
+abstract public void flush() throws IOException
+</code></pre>
+
+<h2>InputStreamReader/OutputStreamWriter</h2>
+
+<p>InputStreamReader/OutputStreamWriter是适配器类，能够将InputStream/OutputStream转换为Reader/Writer，使用方法如下</p>
+
+<pre><code>import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
+
+public class StreamTest {
+
+    public static void main(String[] args) {
+        try {
+            File file = new File(&quot;C:\\Users\\Administrator\\Desktop\\Docs\\test.txt&quot;);
+            Writer writer = new OutputStreamWriter(new FileOutputStream(file));
+            writer.write(&quot;Feily Zhang&quot;);
+            writer.close();
+            Reader reader = new InputStreamReader(new FileInputStream(file));
+            char[] data = new char[1024];
+            int size = reader.read(data);
+            System.out.println(new String(data, 0, size));
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+
+<h2>FileRead/FileWrite</h2>
+
+<p>FileRead/FileWrite的用法类似于FileInputStream/FileOutputStream，直接传入文件名就可以按字符流读取，如下</p>
+
+<pre><code>import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+
+public class StreamTest {
+
+    public static void main(String[] args) {
+        try {
+            File file = new File(&quot;C:\\Users\\Administrator\\Desktop\\Docs\\test.txt&quot;);
+            Writer writer = new FileWriter(file);
+            writer.write(&quot;Hello, world&quot;);
+            writer.close();
+            Reader reader = new FileReader(file);
+            char[] data = new char[1024];
+            int size = reader.read(data);
+            System.out.println(new String(data, 0, size));
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+
+<h2>BufferedReader/BufferedWriter</h2>
+
+<p>BufferedReader/BufferedWriter为Reader/Writer提供缓冲区功能，属于装饰类，能按行读写，示例如下</p>
+
+<pre><code>import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class StreamTest {
+
+    public static void main(String[] args) {
+        try {
+            File file = new File(&quot;C:\\Users\\Administrator\\Desktop\\Docs\\test.txt&quot;);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(&quot;Hello, Feily Zhang\nHello, World&quot;);
+            writer.close();
+            BufferedReader read = new BufferedReader(new FileReader(file));
+            char[] data = new char[1024];
+            int size = read.read(data);
+            System.out.println(new String(data, 0, size));
+            read.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/analysis-of-string-classes.html">剖析String类</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/review-at-the-byte-stream-of-java-file-operations.html">再看Java文件操作之字节流</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

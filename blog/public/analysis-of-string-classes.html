@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="Java Core,">
+        <meta name="description" content="剖析String类">
+        <meta name="author" content="Feily Zhang">
+        <title>剖析String类</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">剖析String类</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    
+                    <span class="date" data-time="1545120968"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>String类的常用方法：</p>
+
+<pre><code>public boolean isEmpty()
+public int length
+public String subString(int beginIndex)
+public String subString(int beginIndex, int endIndex)
+public int indexOf(char c)
+public int indexOf(String str)
+public int lastIndexOf(char c)
+public int lattIndexOf(String str)
+public boolean contains(CharSequence s)
+public boolean startsWith(String str)
+public boolean endsWith(String str)
+public boolean equals(Object obj)
+public boolean equalsIgnoreCase(String str)
+public int compareTo(String anotherString)
+public int compareToIgnoreCase(String str)
+public String toUpperCase()
+public String toLowerCase()
+public String concat(String str)
+public String replace(char oldChar, char newChar)
+public String replace(CharSequence target, CharSequence replacement)
+public String trim()
+</code></pre>
+
+<h2>String类的内部</h2>
+
+<p>String类基于char数组，有两个构造方法可以根据char数组创建String变量</p>
+
+<pre><code>public String(char[] value)
+public String(char[] value, int offset, int count)
+</code></pre>
+
+<p>String对字符串的操作并不是在字符串或者字符数组本身进行操作，而是创建一个新的char数组然后把内容复制进去再操作</p>
+
+<p>Java使用Charset类表示各种编码，它有两个常用静态方法</p>
+
+<pre><code>public static Charset defaultCharset() //获取系统默认编码
+public static Charset forName(String charsetName) //设置编码
+</code></pre>
+
+<h2>String类的不可变性</h2>
+
+<p>与包装类相似，String类也是不可变类，即对象一旦创建，就无法修改。String类也被声明为final，无法继承，内部的char数组也是final的，一旦初始化就不能再变。这也就是说String内部对字符串进行操作的方法是通过拷贝原有字符串再操作实现的。</p>
+
+<h2>String常量字符串</h2>
+
+<p>String常量字符串被存放在JVM常量池当中，也就是说就算创建多份相同的常量，实际上这些常量都是引用的同一份JVM常量池的常量，测试一下</p>
+
+<pre><code>public class StringTest {
+
+    public static void main(String[] args) {
+        String str1 = &quot;hello,world&quot;;
+        String str2 = &quot;hello,world&quot;;
+        System.out.println(str1 == str2); //true
+    }
+
+}
+</code></pre>
+
+<p>以上定义的是两个常量，由于常量存放在常量池，所以二者的引用是一致的，所以打印true，上面的代码类似于</p>
+
+<pre><code>public class StringTest {
+
+    public static void main(String[] args) {
+        String str = new String(new char[] {'h','e','l','l','o',',','w','o','r','l','d'});
+        String str1 = str;
+        String str2 = str;
+        System.out.println(str1 == str2);
+    }
+
+}
+</code></pre>
+
+<p>即实际上只有一个对象，那么当然等于自身</p>
+
+<p>如果用new创建，那么就不会存放在常量池，而是Java堆，如下</p>
+
+<pre><code>public class StringTest {
+
+    public static void main(String[] args) {
+        String str1 = new String(&quot;hello,world&quot;);
+        String str2 = new String(&quot;hello,world&quot;);
+        System.out.println(str1 == str2); //false
+    }
+
+}
+</code></pre>
+
+<p>所以输出为false，因为有两个对象。上面的代码类似于</p>
+
+<pre><code>public class StringTest {
+
+    public static void main(String[] args) {
+        String str = new String(new char[] {'h','e','l','l','o',',','w','o','r','l','d'});
+        String str1 = new String(str);
+        String str2 = new String(str);
+        System.out.println(str1 == str2);
+    }
+
+}
+</code></pre>
+
+<p>而String类中以String为参数的构造方法的代码如下</p>
+
+<pre><code>public String(String str) {
+    this.value = str.value;
+    this.hash = str.hash;
+}
+</code></pre>
+
+<p>str1与str2的value值共同指向常量池的同一个常量，但是hash不同，所以二者不同。</p>
+
+<p>如果用equals方法比较，那么输出为真</p>
+
+<pre><code>public class StringTest {
+
+    public static void main(String[] args) {
+        String str1 = new String(&quot;hello,world&quot;);
+        String str2 = new String(&quot;hello,world&quot;);
+        System.out.println(str1.equals(str2)); //true
+    }
+
+}
+</code></pre>
+
+<p>这是由于equals方法比较对象内容是否相等，而==只是比较常量的引用，后者速度更快。</p>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/analysis-of-stringbuilder-classes.html">剖析StringBuilder类</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/review-at-the-character-stream-of-java-file-operations.html">再看Java文件操作之字符流</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

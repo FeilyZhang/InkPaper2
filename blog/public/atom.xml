@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-04-01T16:54:27+08:00</updated>
+  <updated>2019-04-01T18:23:57+08:00</updated>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
@@ -42,6 +42,16 @@
     <id>tag:doc.feily.tech,2019-03-23:/decision-tree-learning.html</id>
     <content type="html">&lt;p&gt;决策树学习算法以树形结构建立模型，类似于流程图，该模型本身包含一系列逻辑决策。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/decision-tree-learning.html"></link>
+    <author>
+      <name>Feily Zhang</name>
+    </author>
+  </entry>
+  <entry>
+    <title>Arrays类的相关用法</title>
+    <updated>2018-12-18T17:09:05+08:00</updated>
+    <id>tag:doc.feily.tech,2018-12-18:/analysis-of-arrays-classes.html</id>
+    <content type="html">&lt;p&gt;toString方法, sort方法, binarySearch()方法。&lt;/p&gt;&#xA;</content>
+    <link href="https://doc.feily.tech/analysis-of-arrays-classes.html"></link>
     <author>
       <name>Feily Zhang</name>
     </author>
@@ -92,16 +102,6 @@
     <id>tag:doc.feily.tech,2018-12-14:/review-at-interfaces-abstract-classes-and-internal-classes.html</id>
     <content type="html">&lt;p&gt;接口屏蔽了类型的差异性，只关注能力或者动作; 而抽象类与接口的区别在于抽象类抽象实体，而接口只抽象动作。内部类与包含它的外部类有着密切的关系，而与其他类关系不大，定义在类内部，可以实现对外的完全隐藏，代码上更为紧凑和简洁。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/review-at-interfaces-abstract-classes-and-internal-classes.html"></link>
-    <author>
-      <name>Feily Zhang</name>
-    </author>
-  </entry>
-  <entry>
-    <title>再看封装、继承和多态</title>
-    <updated>2018-12-14T15:37:04+08:00</updated>
-    <id>tag:doc.feily.tech,2018-12-14:/review-encapsulation-inheritance-and-polymorphism.html</id>
-    <content type="html">&lt;p&gt;封装是对成员变量的包装和隐藏；继承指的是子类可以继承父类的非私有属性和方法，在此之外，子类可以定义自己的和父类无关的属性和方法；多态是基于继承的。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/review-encapsulation-inheritance-and-polymorphism.html"></link>
     <author>
       <name>Feily Zhang</name>
     </author>

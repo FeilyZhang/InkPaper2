@@ -46,9 +46,9 @@
 
 
         <meta name="keywords" content="Java Core,">
-        <meta name="description" content="剖析StringBuilder类">
+        <meta name="description" content="Arrays类的相关用法">
         <meta name="author" content="Feily Zhang">
-        <title>剖析StringBuilder类</title>
+        <title>Arrays类的相关用法</title>
     </head>
     <body>
         <article class="container">
@@ -65,81 +65,104 @@
 </header>
 
             <article class="main article">
-                <h1 class="title" style="font-family:KaiTi">剖析StringBuilder类</h1>
+                <h1 class="title" style="font-family:KaiTi">Arrays类的相关用法</h1>
                 <section class="info" style="font-family:KaiTi">
                     <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                     <a class="name" href="/about.me.html">Feily Zhang</a>
                     
-                    <span class="date" data-time="1545122706"><span class="from"></span></span>
+                    <span class="date" data-time="1545124145"><span class="from"></span></span>
                     
                     <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
                 </section>
-                <article class="content" style="font-family:KaiTi"><p>String类适合少量字符串的不太频繁的操作，因为String的每次的字符串操作基本上都是重新创建一个字符数组，这样性能太低，很多时候我们需要兼顾性能，能不能直接在字符串上 操作而不是拷贝到另一个字符数组再操作？</p>
+                <article class="content" style="font-family:KaiTi"><p>数组的Arrays类有很多有用的功能，看一下</p>
 
-<p>答案就是用StringBuilder或者StringBuffer，这两个类的方法基本上都是一样的实现的代码也几乎一样，唯一不同的地方在于StringBuffer是线程安全的，而StringBuilder是线程不安全的。线程安全的成本就是性能耗损，所以在不存在线程安全的情况下StringBuilder处理大量字符串无疑是首选</p>
+<h2>toString方法</h2>
 
-<h2>基本用法</h2>
+<p>如果我们想直接输出整个数组，如果我们像下面这样的话得到的只是数组的内存地址，而Arrays.toString()方法得到的就是预期结果</p>
 
-<p>创建StringBuilder对象</p>
+<pre><code>import java.util.Arrays;
 
-<pre><code>StringBuilder ab = new StringBuilder();
-sb.append(String str);
-</code></pre>
+public class ArraysTest {
 
-<p>然后通过toString获取字符串</p>
+    public static void main(String[] args) {
+        int[] array = {2， 3， 1};
+        System.out.println(array);  //[I@15db9742
+        System.out.println(Arrays.toString(array)); //[1, 2, 3]
+    }
 
-<pre><code>System.out.println(sb.toString());
-</code></pre>
-
-<h2>基本实现原理</h2>
-
-<p>StringBuilder内部仍然是基于字符数组，但是该字符数组不是final的，是可以修改的，与String不同的是，字符数组中不一定所有位置都已经被使用，它有一个实例变量，表示数组中已经使用的字符个数,该实例变量如下定义</p>
-
-<pre><code>int count;
-</code></pre>
-
-<p>StringBuilder继承自AbstractStringBuilder，它的默认构造方法是</p>
-
-<pre><code>public StringBuilder() {
-    super(16);
 }
 </code></pre>
 
-<p>即调用父类的构造方法，其父类的构造方法为</p>
+<h2>sort方法</h2>
 
-<pre><code>AbstractStringBuilder(int capacity) {
-    value = new cahr[capacity];
+<p>对于除boolean类型外的数组，Arrays均提供了排序方法</p>
+
+<p>int型数组从小到大排序为</p>
+
+<pre><code>import java.util.Arrays;
+
+public class ArraysTest {
+
+    public static void main(String[] args) {
+        int[] array = {1, 2, 3};
+        Arrays.sort(array);
+        System.out.println(Arrays.toString(array)); //[1, 2, 3]
+    }
+
 }
 </code></pre>
 
-<p>即创建一个容量为16的字符数组。</p>
+<p>String型数组的排序为</p>
 
-<p>append方法的实现为</p>
+<pre><code>import java.util.Arrays;
 
-<pre><code>public AbstractStringBuilder append(String str) {
-    if (str == null) str = &quot;null&quot;;
-    int len = str.length;
-    ensureCapacityInternal(count + len);
-    str.getChars(0, len, value, count);
-    count += len;
-    return this;
+public class ArraysTest {
+
+    public static void main(String[] args) {
+        String[] str = {&quot;Feily&quot;, &quot;Zhang&quot;, &quot;Haoyue&quot;, &quot;Li&quot;, &quot;hello&quot;, &quot;world&quot;};
+        Arrays.sort(str);
+        System.out.println(Arrays.toString(str)); //[Feily, Haoyue, Li, Zhang, hello, world]
+    }
+
 }
 </code></pre>
 
-<p>可见，append会直接复制字符到内部的字符数组中，如果字符数组的长度不够，那么会进行拓展，并增加实际使用的长度。</p>
+<p>是按照首字母的ASCII码int值排序的，由于大些字母的ASCII码小于小写，所以在前面，如果排序像忽略大小写，那么如下</p>
 
-<p>toString方法的实现为</p>
+<pre><code>import java.util.Arrays;
 
-<pre><code>public String toString() {
-    return new String(value, o, count);
+public class ArraysTest {
+
+    public static void main(String[] args) {
+        String[] str = {&quot;Feily&quot;, &quot;Zhang&quot;, &quot;Haoyue&quot;, &quot;Li&quot;, &quot;hello&quot;, &quot;world&quot;};
+        Arrays.sort(str, String.CASE_INSENSITIVE_ORDER);
+        System.out.println(Arrays.toString(str)); //[Feily, Haoyue, hello, Li, world, Zhang]
+    }
+
 }
 </code></pre>
 
-<p>即直接将字符数组转化为字符串。</p>
+<h2>binarySearch()方法</h2>
 
-<h2>String的+和+=运算符</h2>
+<pre><code>import java.util.Arrays;
 
-<p>String的+和+=运算符，是Java编译器提供的支持，但是背后会转化为StringBuilder的append方法，所以在大量且频繁的字符串操作时应该尽量避免使用String的+和+=运算符，性能比较低。</p>
+public class ArraysTest {
+
+    public static void main(String[] args) {
+        int[] arr = {5, 3, 1, 4, 2};
+        String[] str = {&quot;Feily&quot;, &quot;Zhang&quot;, &quot;Haoyue&quot;, &quot;Li&quot;, &quot;hello&quot;, &quot;world&quot;};
+        System.out.println(Arrays.binarySearch(str, &quot;Li&quot;)); //3
+        Arrays.sort(arr);
+        System.out.println(Arrays.binarySearch(str, &quot;hello&quot;)); //4
+        System.out.println(Arrays.binarySearch(arr, 5));    //-6
+        Arrays.sort(arr);
+        System.out.println(Arrays.binarySearch(arr, 5));    //4
+    }
+
+}
+</code></pre>
+
+<p>在二分查找整形数组时一定要保证元素有序，否则不会达到预期效果，字符串数组的话应该都可以。如果找不到指定的元素，那么就会返回负数，负数等于插入点+1，插入点指的是在这个位置插入没找到的元素仍然可以保证数组有序。</p>
 </article>
                 <section class="author" style="font-family:NSimSun">
                     <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
@@ -150,13 +173,13 @@ sb.append(String str);
                     
                     <section class="nav prev more">
                         <div class="head">上篇文章</div>
-                        <a class="link" href="/analysis-of-arrays-classes.html">Arrays类的相关用法</a>
+                        <a class="link" href="/decision-tree-learning.html">分而治之——决策树学习算法</a>
                     </section>
                     
                     
                     <section class="nav next more">
                         <div class="head">下篇文章</div>
-                        <a class="link" href="/analysis-of-string-classes.html">剖析String类</a>
+                        <a class="link" href="/analysis-of-stringbuilder-classes.html">剖析StringBuilder类</a>
                     </section>
                     
                 </section>

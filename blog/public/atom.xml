@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-04-03T19:52:54+08:00</updated>
+  <updated>2019-04-03T19:55:53+08:00</updated>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
   <entry>
     <title>Erlang程序设计(一)</title>
-    <updated>2019-04-02T19:52:05+08:00</updated>
-    <id>tag:doc.feily.tech,2019-04-02:/intro-erlang-1.html</id>
+    <updated>2019-04-03T19:52:05+08:00</updated>
+    <id>tag:doc.feily.tech,2019-04-03:/intro-erlang-1.html</id>
     <content type="html">&lt;p&gt;常量与变量、常用数据类型。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/intro-erlang-1.html"></link>
     <author>

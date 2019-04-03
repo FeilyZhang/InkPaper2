@@ -1,6 +1,6 @@
 title: "Erlang程序设计(一)"
-date: 2019-04-02 18:42:05 +0800
-update: 2019-04-02 19:52:05 +0800
+date: 2019-04-03 18:42:05 +0800
+update: 2019-04-03 19:52:05 +0800
 author: me
 cover: "-/images/E-LearningLogo.png"
 tags:

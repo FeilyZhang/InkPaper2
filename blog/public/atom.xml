@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-04-03T16:53:58+08:00</updated>
+  <updated>2019-04-03T19:52:54+08:00</updated>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>Erlang程序设计(一)</title>
+    <updated>2019-04-02T19:52:05+08:00</updated>
+    <id>tag:doc.feily.tech,2019-04-02:/intro-erlang-1.html</id>
+    <content type="html">&lt;p&gt;常量与变量、常用数据类型。&lt;/p&gt;&#xA;</content>
+    <link href="https://doc.feily.tech/intro-erlang-1.html"></link>
+    <author>
+      <name>Feily Zhang</name>
+    </author>
+  </entry>
   <entry>
     <title>懒惰学习——K最近邻学习算法</title>
     <updated>2019-04-02T16:26:50+08:00</updated>
@@ -92,16 +102,6 @@
     <id>tag:doc.feily.tech,2018-12-18:/review-at-the-character-stream-of-java-file-operations.html</id>
     <content type="html">&lt;p&gt;字符流以字符为单位操作文件。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/review-at-the-character-stream-of-java-file-operations.html"></link>
-    <author>
-      <name>Feily Zhang</name>
-    </author>
-  </entry>
-  <entry>
-    <title>再看Java文件操作之字节流</title>
-    <updated>2018-12-18T11:16:30+08:00</updated>
-    <id>tag:doc.feily.tech,2018-12-18:/review-at-the-byte-stream-of-java-file-operations.html</id>
-    <content type="html">&lt;p&gt;这里Java以二进制字节的方式处理文件。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/review-at-the-byte-stream-of-java-file-operations.html"></link>
     <author>
       <name>Feily Zhang</name>
     </author>

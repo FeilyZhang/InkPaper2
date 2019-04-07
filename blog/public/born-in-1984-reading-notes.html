@@ -44,32 +44,10 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="Literature,">
         <meta name="description" content="《生于一九八四》·阅读小记">
-        <meta name="author" content="Feily Zhang">
+        <meta name="author" content="林奕清">
         <title>《生于一九八四》·阅读小记</title>
     </head>
     <body>
@@ -89,8 +67,8 @@
             <article class="main article">
                 <h1 class="title" style="font-family:KaiTi">《生于一九八四》·阅读小记</h1>
                 <section class="info" style="font-family:KaiTi">
-                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
                     
                     <span class="date" data-time="1539870805"><span class="from"></span></span>
                     
@@ -126,8 +104,8 @@
 <p><strong>生于一九八四，郝景芳/著</strong></p>
 </article>
                 <section class="author" style="font-family:NSimSun">
-                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
-                    <a class="name" href="/about.me.html">Feily Zhang</a>
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
                     <div class="intro">但远山长，云山乱，晓山青</div>
                 </section>
                 <section class="recommend" style="font-family:KaiTi">

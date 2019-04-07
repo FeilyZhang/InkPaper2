@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -106,8 +84,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>常量与变量、常用数据类型。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1554292325"><span class="from"></span></span>
                             
@@ -123,8 +101,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>k最近邻分类器就是把未标记的案例归类为与它们最相似的带有标记的案例所在的类，广泛适用于数据特征与目标类之间的关系众多且复杂，用其它方式难以理解，但是具有相似类的项目又非常类似的分类任务。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1554193610"><span class="from"></span></span>
                             
@@ -140,8 +118,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>聚类学习被认为是典型的无监督学习算法，训练集数据没有目标特征。聚类的目标就是探索数据集中蕴藏的内在结构，并将相似或同质的群组数据聚集在一起。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1554034126"><span class="from"></span></span>
                             
@@ -157,8 +135,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>支持向量机基于间隔最大化原理，以严格的数学理论为基础，以寻找特征空间最优超平面为目标，以内积的回旋巧妙地构造核函数，适用于数值预测以及分类任务。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1553857200"><span class="from"></span></span>
                             
@@ -174,8 +152,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>人工神经网络有监督学习算法，适用于数值预测以及分类任务。适合解决输入数据和输出数据都很好理解或简单，但是涉及输入与输出的过程却极其复杂。因此，适合黑箱操作。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1553586925"><span class="from"></span></span>
                             
@@ -191,8 +169,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>决策树学习算法以树形结构建立模型，类似于流程图，该模型本身包含一系列逻辑决策。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1553327725"><span class="from"></span></span>
                             
@@ -208,8 +186,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>toString方法, sort方法, binarySearch()方法。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545124145"><span class="from"></span></span>
                             
@@ -225,8 +203,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>String类适合少量字符串的不太频繁的操作，因为String的每次的字符串操作基本上都是重新创建一个字符数组，这样性能太低，可以考虑使用StringBuilder或者StringBuffer。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545122706"><span class="from"></span></span>
                             
@@ -242,8 +220,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>String类基于char数组，String对字符串的操作并不是在字符串或者字符数组本身进行操作，而是创建一个新的char数组然后把内容复制进去再操作。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545120968"><span class="from"></span></span>
                             
@@ -259,8 +237,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>字符流以字符为单位操作文件。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545105049"><span class="from"></span></span>
                             

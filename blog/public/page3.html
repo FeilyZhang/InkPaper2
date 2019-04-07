@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -106,8 +84,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>超弦理论中，弦的大小不到质子的10^19倍(因而尚且观测不到)且是振动的，每种振动模式代表一种独特的共振或粒子(即粒子不是一个点，而是以某种模式振动的弦)。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1543735414"><span class="from"></span></span>
                             
@@ -123,8 +101,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>有时候我宁愿相信，人生的诸多不顺，只是因为最适合你的那条路尚未出现。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1539870805"><span class="from"></span></span>
                             
@@ -140,8 +118,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>一部《万历十五年》,就是一部简明扼要的明朝兴衰史。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1512443934"><span class="from"></span></span>
                             
@@ -157,8 +135,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>一幅清明上河图就是一部北宋兴衰史,北宋帝国承平日久,图中一片欣欣向荣之景,但事实上已经危机四伏。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1512358034"><span class="from"></span></span>
                             
@@ -174,8 +152,8 @@
                         <section class="preview content" style="font-family:KaiTi"><p>一生难再此佳年,莫惧,蓑雨任平生。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1553165955055-avatar/c642b3f3-acf0-44b7-a81f-5dd21f1d1432.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">Feily Zhang</a>
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1468852501"><span class="from"></span></span>
                             

@@ -6,7 +6,7 @@ site:
     lang: zh
     url: "https://doc.feily.tech/"
     comment: username
-    logo: "https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png"
+    logo: "images/my.jpg"
     # link: "{category}/{year}/{month}/{day}/{title}.html"
     # root: "/blog"
 
@@ -14,7 +14,7 @@ authors:
     me:
         name: "林奕清"
         intro: "但远山长，云山乱，晓山青"
-        avatar: "https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png"
+        avatar: "images/my.jpg"
 
 build:
     # output: "public"

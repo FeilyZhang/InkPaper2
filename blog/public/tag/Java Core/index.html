@@ -13,19 +13,19 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feily Zhang">
 <meta name="twitter:description" content="">
-<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta name="twitter:image:src" content="https://doc.feily.techimages/my.jpg">
 
 <meta property="og:url" content="https://doc.feily.tech">
 <meta property="og:title" content="Feily Zhang">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Feily Zhang">
-<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:image" content="https://doc.feily.techimages/my.jpg">
 <meta property="og:type" content="website">
 <meta name="robots" content="noodp">
 
 <meta itemprop="name" content="Feily Zhang">
 <meta itemprop="description" content="">
-<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta itemprop="image" content="https://doc.feily.techimages/my.jpg">
 
 <link rel="canonical" href="https://doc.feily.tech">
 
@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -53,7 +75,7 @@
         <article class="container">
             <header class="header-wrap" style="font-family:NSimSun">
   <a class="index" href="/">
-    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    <img class="logo" src="images/my.jpg" />
     Feily Zhang
   </a>
   <ul class="menu">
@@ -66,7 +88,7 @@
             <article class="main page">
                 <header class="header site">
                     
-                        <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+                        <img class="logo" src="images/my.jpg" />
                         <h1 class="tag">Java Core</h1>
                         <h2 class="tag-sub">7 篇文章</h2>
                     
@@ -79,7 +101,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>toString方法, sort方法, binarySearch()方法。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545124145"><span class="from"></span></span>
@@ -96,7 +118,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>String类基于char数组，String对字符串的操作并不是在字符串或者字符数组本身进行操作，而是创建一个新的char数组然后把内容复制进去再操作。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545120968"><span class="from"></span></span>
@@ -113,7 +135,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>String类适合少量字符串的不太频繁的操作，因为String的每次的字符串操作基本上都是重新创建一个字符数组，这样性能太低，可以考虑使用StringBuilder或者StringBuffer。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545122706"><span class="from"></span></span>
@@ -130,7 +152,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>封装是对成员变量的包装和隐藏；继承指的是子类可以继承父类的非私有属性和方法，在此之外，子类可以定义自己的和父类无关的属性和方法；多态是基于继承的。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1544773024"><span class="from"></span></span>
@@ -147,7 +169,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>接口屏蔽了类型的差异性，只关注能力或者动作; 而抽象类与接口的区别在于抽象类抽象实体，而接口只抽象动作。内部类与包含它的外部类有着密切的关系，而与其他类关系不大，定义在类内部，可以实现对外的完全隐藏，代码上更为紧凑和简洁。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1544780070"><span class="from"></span></span>
@@ -164,7 +186,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>这里Java以二进制字节的方式处理文件。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545102990"><span class="from"></span></span>
@@ -181,7 +203,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>字符流以字符为单位操作文件。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545105049"><span class="from"></span></span>

@@ -13,19 +13,19 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feily Zhang">
 <meta name="twitter:description" content="">
-<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta name="twitter:image:src" content="https://doc.feily.techimages/my.jpg">
 
 <meta property="og:url" content="https://doc.feily.tech">
 <meta property="og:title" content="Feily Zhang">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Feily Zhang">
-<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:image" content="https://doc.feily.techimages/my.jpg">
 <meta property="og:type" content="website">
 <meta name="robots" content="noodp">
 
 <meta itemprop="name" content="Feily Zhang">
 <meta itemprop="description" content="">
-<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta itemprop="image" content="https://doc.feily.techimages/my.jpg">
 
 <link rel="canonical" href="https://doc.feily.tech">
 
@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="Java Core,">
         <meta name="description" content="Arrays类的相关用法">
@@ -54,7 +76,7 @@
         <article class="container">
             <header class="header-wrap" style="font-family:NSimSun">
   <a class="index" href="/">
-    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    <img class="logo" src="images/my.jpg" />
     Feily Zhang
   </a>
   <ul class="menu">
@@ -67,7 +89,7 @@
             <article class="main article">
                 <h1 class="title" style="font-family:KaiTi">Arrays类的相关用法</h1>
                 <section class="info" style="font-family:KaiTi">
-                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                     <a class="name" href="/about.me.html">林奕清</a>
                     
                     <span class="date" data-time="1545124145"><span class="from"></span></span>
@@ -165,7 +187,7 @@ public class ArraysTest {
 <p>在二分查找整形数组时一定要保证元素有序，否则不会达到预期效果，字符串数组的话应该都可以。如果找不到指定的元素，那么就会返回负数，负数等于插入点+1，插入点指的是在这个位置插入没找到的元素仍然可以保证数组有序。</p>
 </article>
                 <section class="author" style="font-family:NSimSun">
-                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <div class="avatar" style="background-image: url(images/my.jpg);"></div>
                     <a class="name" href="/about.me.html">林奕清</a>
                     <div class="intro">但远山长，云山乱，晓山青</div>
                 </section>

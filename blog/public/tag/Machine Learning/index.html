@@ -13,19 +13,19 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feily Zhang">
 <meta name="twitter:description" content="">
-<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta name="twitter:image:src" content="https://doc.feily.techimages/my.jpg">
 
 <meta property="og:url" content="https://doc.feily.tech">
 <meta property="og:title" content="Feily Zhang">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Feily Zhang">
-<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:image" content="https://doc.feily.techimages/my.jpg">
 <meta property="og:type" content="website">
 <meta name="robots" content="noodp">
 
 <meta itemprop="name" content="Feily Zhang">
 <meta itemprop="description" content="">
-<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta itemprop="image" content="https://doc.feily.techimages/my.jpg">
 
 <link rel="canonical" href="https://doc.feily.tech">
 
@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -53,7 +75,7 @@
         <article class="container">
             <header class="header-wrap" style="font-family:NSimSun">
   <a class="index" href="/">
-    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    <img class="logo" src="images/my.jpg" />
     Feily Zhang
   </a>
   <ul class="menu">
@@ -66,7 +88,7 @@
             <article class="main page">
                 <header class="header site">
                     
-                        <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+                        <img class="logo" src="images/my.jpg" />
                         <h1 class="tag">Machine Learning</h1>
                         <h2 class="tag-sub">6 篇文章</h2>
                     
@@ -79,7 +101,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>朴素贝叶斯算法是一种依据贝叶斯定理的分类技术，利用概率原则进行分类，该算法易于构建模型，适用于大规模数据集的分类任务。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1554635450"><span class="from"></span></span>
@@ -96,7 +118,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>支持向量机基于间隔最大化原理，以严格的数学理论为基础，以寻找特征空间最优超平面为目标，以内积的回旋巧妙地构造核函数，适用于数值预测以及分类任务。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1553857200"><span class="from"></span></span>
@@ -113,7 +135,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>人工神经网络有监督学习算法，适用于数值预测以及分类任务。适合解决输入数据和输出数据都很好理解或简单，但是涉及输入与输出的过程却极其复杂。因此，适合黑箱操作。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1553586925"><span class="from"></span></span>
@@ -130,7 +152,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>决策树学习算法以树形结构建立模型，类似于流程图，该模型本身包含一系列逻辑决策。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1553327725"><span class="from"></span></span>
@@ -147,7 +169,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>k最近邻分类器就是把未标记的案例归类为与它们最相似的带有标记的案例所在的类，广泛适用于数据特征与目标类之间的关系众多且复杂，用其它方式难以理解，但是具有相似类的项目又非常类似的分类任务。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1554193610"><span class="from"></span></span>
@@ -164,7 +186,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>聚类学习被认为是典型的无监督学习算法，训练集数据没有目标特征。聚类的目标就是探索数据集中蕴藏的内在结构，并将相似或同质的群组数据聚集在一起。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1554034126"><span class="from"></span></span>

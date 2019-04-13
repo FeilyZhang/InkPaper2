@@ -13,19 +13,19 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feily Zhang">
 <meta name="twitter:description" content="">
-<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta name="twitter:image:src" content="https://doc.feily.techimages/my.jpg">
 
 <meta property="og:url" content="https://doc.feily.tech">
 <meta property="og:title" content="Feily Zhang">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Feily Zhang">
-<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:image" content="https://doc.feily.techimages/my.jpg">
 <meta property="og:type" content="website">
 <meta name="robots" content="noodp">
 
 <meta itemprop="name" content="Feily Zhang">
 <meta itemprop="description" content="">
-<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta itemprop="image" content="https://doc.feily.techimages/my.jpg">
 
 <link rel="canonical" href="https://doc.feily.tech">
 
@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -53,7 +75,7 @@
         <article class="container">
             <header class="header-wrap" style="font-family:NSimSun">
   <a class="index" href="/">
-    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    <img class="logo" src="images/my.jpg" />
     Feily Zhang
   </a>
   <ul class="menu">
@@ -66,7 +88,7 @@
             <article class="main page">
                 <header class="header site">
                     
-                        <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+                        <img class="logo" src="images/my.jpg" />
                         <h1 class="tag">Spring Framework</h1>
                         <h2 class="tag-sub">6 篇文章</h2>
                     
@@ -79,7 +101,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>把通用性非功能性代码的实现方式就叫做面向切面编程，切面是贯穿于业务代码的，这就是AOP。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1544705390"><span class="from"></span></span>
@@ -96,7 +118,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>无参默认构造器、有参自定义构造器、有参通过Setter方式创建。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1544667239"><span class="from"></span></span>
@@ -113,7 +135,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>Spring依赖注入，指的是类之间对象实例的传递方式；将创建对象的控制权由自写代码交给Spring容器(或Spring jar包)，即控制反转。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1544606698"><span class="from"></span></span>
@@ -130,7 +152,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>Autowired按byType自动注入，而Resource默认按 byName自动注入。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1544617734"><span class="from"></span></span>
@@ -147,7 +169,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>Spring中读取配置文件的三种方式。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1544614530"><span class="from"></span></span>
@@ -164,7 +186,7 @@
                         <section class="preview content" style="font-family:KaiTi"><p>Spring的注入方式有六种，比较常用的有三种自动装配。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1554563558039-avatar/1ac31bad-110a-4a7c-83cb-b5195a143ee3.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1544616608"><span class="from"></span></span>

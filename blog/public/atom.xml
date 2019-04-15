@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-04-13T17:25:48+08:00</updated>
+  <updated>2019-04-15T23:16:58+08:00</updated>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>MySQL架构</title>
+    <updated>2019-04-15T22:53:50+08:00</updated>
+    <id>tag:doc.feily.tech,2019-04-15:/mysql-architecture.html</id>
+    <content type="html">&lt;p&gt;MySQL服务器由SQL层和存储引擎层构成，SQL层主要功能包括处理客户端请求、权限判断、SQL解析和查询缓存处理等，存储引擎层完成底层数据库的数据存储操作。&lt;/p&gt;&#xA;</content>
+    <link href="https://doc.feily.tech/mysql-architecture.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>概率学习——朴素贝叶斯算法</title>
     <updated>2019-04-07T19:10:50+08:00</updated>
@@ -92,16 +102,6 @@
     <id>tag:doc.feily.tech,2018-12-18:/analysis-of-stringbuilder-classes.html</id>
     <content type="html">&lt;p&gt;String类适合少量字符串的不太频繁的操作，因为String的每次的字符串操作基本上都是重新创建一个字符数组，这样性能太低，可以考虑使用StringBuilder或者StringBuffer。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/analysis-of-stringbuilder-classes.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>剖析String类</title>
-    <updated>2018-12-18T16:16:08+08:00</updated>
-    <id>tag:doc.feily.tech,2018-12-18:/analysis-of-string-classes.html</id>
-    <content type="html">&lt;p&gt;String类基于char数组，String对字符串的操作并不是在字符串或者字符数组本身进行操作，而是创建一个新的char数组然后把内容复制进去再操作。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/analysis-of-string-classes.html"></link>
     <author>
       <name>林奕清</name>
     </author>

@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -99,6 +77,23 @@
                     
                 </header>
                 <ul class="article-list">
+                    
+                    <li class="article">
+                        <a class="title" href="/mysql-architecture.html">MySQL架构</a>
+                        <div class="cover" style="background-image:url(/images/mysql-jiagou.png);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>MySQL服务器由SQL层和存储引擎层构成，SQL层主要功能包括处理客户端请求、权限判断、SQL解析和查询缓存处理等，存储引擎层完成底层数据库的数据存储操作。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1555340030"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/MySQL/index.html">MySQL</a>
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/naive-bayes.html">概率学习——朴素贝叶斯算法</a>
@@ -246,23 +241,6 @@
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545122706"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/analysis-of-string-classes.html">剖析String类</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>String类基于char数组，String对字符串的操作并不是在字符串或者字符数组本身进行操作，而是创建一个新的char数组然后把内容复制进去再操作。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(images/my.jpg);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1545120968"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>

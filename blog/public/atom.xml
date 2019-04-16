@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-04-16T22:50:05+08:00</updated>
+  <updated>2019-04-16T23:13:24+08:00</updated>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
@@ -97,11 +97,11 @@
     </author>
   </entry>
   <entry>
-    <title>Arrays类的相关用法</title>
-    <updated>2018-12-18T17:09:05+08:00</updated>
-    <id>tag:doc.feily.tech,2018-12-18:/analysis-of-arrays-classes.html</id>
-    <content type="html">&lt;p&gt;toString方法, sort方法, binarySearch()方法。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/analysis-of-arrays-classes.html"></link>
+    <title>Prolog 语言入门</title>
+    <updated>2019-02-02T17:09:05+08:00</updated>
+    <id>tag:doc.feily.tech,2019-02-02:/introduction-to-prolog-language.html</id>
+    <content type="html">&lt;p&gt;今天闲来无事，就上网搜了搜有哪些小众冷门但却实用的编程语言，毫无疑问，Prolog脱颖而出。平时总是在写结构化的逻辑代码，似乎只要知道顺序、选择、循环三种结构，再加上常用的算法和数据结构就能解决绝大多数问题，不免觉得无趣。所以对这门以逻辑标榜的编程语言甚是钟情。&lt;/p&gt;&#xA;</content>
+    <link href="https://doc.feily.tech/introduction-to-prolog-language.html"></link>
     <author>
       <name>林奕清</name>
     </author>

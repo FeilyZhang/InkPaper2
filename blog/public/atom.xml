@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-04-15T23:16:58+08:00</updated>
+  <updated>2019-04-16T22:50:05+08:00</updated>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>MySQL权限与安全</title>
+    <updated>2019-04-16T22:49:50+08:00</updated>
+    <id>tag:doc.feily.tech,2019-04-16:/mysql-permissions-and-security.html</id>
+    <content type="html">&lt;p&gt;MySQL服务器通过权限表来控制用户对数据库的访问，权限表存放在mysql数据库中，由mysql_install_db脚本初始化。存储账户权限信息表主要有:user、db、host、tables_priv、columns_priv和procs_priv。&lt;/p&gt;&#xA;</content>
+    <link href="https://doc.feily.tech/mysql-permissions-and-security.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>MySQL架构</title>
     <updated>2019-04-15T22:53:50+08:00</updated>
@@ -92,16 +102,6 @@
     <id>tag:doc.feily.tech,2018-12-18:/analysis-of-arrays-classes.html</id>
     <content type="html">&lt;p&gt;toString方法, sort方法, binarySearch()方法。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/analysis-of-arrays-classes.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>剖析StringBuilder类</title>
-    <updated>2018-12-18T16:45:06+08:00</updated>
-    <id>tag:doc.feily.tech,2018-12-18:/analysis-of-stringbuilder-classes.html</id>
-    <content type="html">&lt;p&gt;String类适合少量字符串的不太频繁的操作，因为String的每次的字符串操作基本上都是重新创建一个字符数组，这样性能太低，可以考虑使用StringBuilder或者StringBuffer。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/analysis-of-stringbuilder-classes.html"></link>
     <author>
       <name>林奕清</name>
     </author>

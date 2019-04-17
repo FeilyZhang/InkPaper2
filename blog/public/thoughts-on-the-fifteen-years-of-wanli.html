@@ -13,19 +13,19 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feily Zhang">
 <meta name="twitter:description" content="">
-<meta name="twitter:image:src" content="https://doc.feily.techimages/my.jpg">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
 
 <meta property="og:url" content="https://doc.feily.tech">
 <meta property="og:title" content="Feily Zhang">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Feily Zhang">
-<meta property="og:image" content="https://doc.feily.techimages/my.jpg">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
 <meta property="og:type" content="website">
 <meta name="robots" content="noodp">
 
 <meta itemprop="name" content="Feily Zhang">
 <meta itemprop="description" content="">
-<meta itemprop="image" content="https://doc.feily.techimages/my.jpg">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
 
 <link rel="canonical" href="https://doc.feily.tech">
 
@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="Literature,">
         <meta name="description" content="关于《万历十五年》的一点思考">
@@ -54,7 +76,7 @@
         <article class="container">
             <header class="header-wrap" style="font-family:NSimSun">
   <a class="index" href="/">
-    <img class="logo" src="images/my.jpg" />
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
     Feily Zhang
   </a>
   <ul class="menu">
@@ -67,7 +89,7 @@
             <article class="main article">
                 <h1 class="title" style="font-family:KaiTi">关于《万历十五年》的一点思考</h1>
                 <section class="info" style="font-family:KaiTi">
-                    <span class="avatar" style="background-image: url(images/my.jpg);"></span>
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                     <a class="name" href="/about.me.html">林奕清</a>
                     
                     <span class="date" data-time="1512443934"><span class="from"></span></span>
@@ -83,7 +105,7 @@
 <p>不得不说,以伦理纲常维护统治秩序这确是一大创举,成效也是卓著的,其在诛心。程朱理学存天理灭人欲以达到维护统治秩序的目的,而由皇室与文官集团表现出来的尊卑有序君为臣纲更是为⺠间提供了一套典范,以此便能使得统治秩序的稳定。但是这也是一种愚⺠政策,在三纲五常的捆绑之下⺠智不开社会思想就难以激流勇进,发展到清朝末期其弊端显而易⻅。</p>
 </article>
                 <section class="author" style="font-family:NSimSun">
-                    <div class="avatar" style="background-image: url(images/my.jpg);"></div>
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
                     <a class="name" href="/about.me.html">林奕清</a>
                     <div class="intro">但远山长，云山乱，晓山青</div>
                 </section>

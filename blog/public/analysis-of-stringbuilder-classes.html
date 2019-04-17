@@ -13,19 +13,19 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feily Zhang">
 <meta name="twitter:description" content="">
-<meta name="twitter:image:src" content="https://doc.feily.techimages/my.jpg">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
 
 <meta property="og:url" content="https://doc.feily.tech">
 <meta property="og:title" content="Feily Zhang">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Feily Zhang">
-<meta property="og:image" content="https://doc.feily.techimages/my.jpg">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
 <meta property="og:type" content="website">
 <meta name="robots" content="noodp">
 
 <meta itemprop="name" content="Feily Zhang">
 <meta itemprop="description" content="">
-<meta itemprop="image" content="https://doc.feily.techimages/my.jpg">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
 
 <link rel="canonical" href="https://doc.feily.tech">
 
@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="Java Core,">
         <meta name="description" content="剖析StringBuilder类">
@@ -54,7 +76,7 @@
         <article class="container">
             <header class="header-wrap" style="font-family:NSimSun">
   <a class="index" href="/">
-    <img class="logo" src="images/my.jpg" />
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
     Feily Zhang
   </a>
   <ul class="menu">
@@ -67,7 +89,7 @@
             <article class="main article">
                 <h1 class="title" style="font-family:KaiTi">剖析StringBuilder类</h1>
                 <section class="info" style="font-family:KaiTi">
-                    <span class="avatar" style="background-image: url(images/my.jpg);"></span>
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                     <a class="name" href="/about.me.html">林奕清</a>
                     
                     <span class="date" data-time="1545122706"><span class="from"></span></span>
@@ -142,7 +164,7 @@ sb.append(String str);
 <p>String的+和+=运算符，是Java编译器提供的支持，但是背后会转化为StringBuilder的append方法，所以在大量且频繁的字符串操作时应该尽量避免使用String的+和+=运算符，性能比较低。</p>
 </article>
                 <section class="author" style="font-family:NSimSun">
-                    <div class="avatar" style="background-image: url(images/my.jpg);"></div>
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
                     <a class="name" href="/about.me.html">林奕清</a>
                     <div class="intro">但远山长，云山乱，晓山青</div>
                 </section>

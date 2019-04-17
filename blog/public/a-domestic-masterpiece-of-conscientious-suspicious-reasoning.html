@@ -13,19 +13,19 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feily Zhang">
 <meta name="twitter:description" content="">
-<meta name="twitter:image:src" content="https://doc.feily.techimages/my.jpg">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
 
 <meta property="og:url" content="https://doc.feily.tech">
 <meta property="og:title" content="Feily Zhang">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Feily Zhang">
-<meta property="og:image" content="https://doc.feily.techimages/my.jpg">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
 <meta property="og:type" content="website">
 <meta name="robots" content="noodp">
 
 <meta itemprop="name" content="Feily Zhang">
 <meta itemprop="description" content="">
-<meta itemprop="image" content="https://doc.feily.techimages/my.jpg">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
 
 <link rel="canonical" href="https://doc.feily.tech">
 
@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="Literature,">
         <meta name="description" content="《清明上河图密码》一部良心的国产悬疑推理大作">
@@ -54,7 +76,7 @@
         <article class="container">
             <header class="header-wrap" style="font-family:NSimSun">
   <a class="index" href="/">
-    <img class="logo" src="images/my.jpg" />
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
     Feily Zhang
   </a>
   <ul class="menu">
@@ -67,7 +89,7 @@
             <article class="main article">
                 <h1 class="title" style="font-family:KaiTi">《清明上河图密码》一部良心的国产悬疑推理大作</h1>
                 <section class="info" style="font-family:KaiTi">
-                    <span class="avatar" style="background-image: url(images/my.jpg);"></span>
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                     <a class="name" href="/about.me.html">林奕清</a>
                     
                     <span class="date" data-time="1512358034"><span class="from"></span></span>
@@ -91,7 +113,7 @@
 <p>总之,就目前出的这四部书看来,作者的布局是相当庞大的,而每一部书的构思又极为精巧,每一个案件的推理与展开更是显得恰到好处而游刃有余,最为精妙的当属作者的填词。从书中看得出作者对北宋社会的⻛貌研究的很透彻,对清明上河图观察的很独到,真心希望本书能够尽快出版第五部与第六部,以飨读者!</p>
 </article>
                 <section class="author" style="font-family:NSimSun">
-                    <div class="avatar" style="background-image: url(images/my.jpg);"></div>
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
                     <a class="name" href="/about.me.html">林奕清</a>
                     <div class="intro">但远山长，云山乱，晓山青</div>
                 </section>

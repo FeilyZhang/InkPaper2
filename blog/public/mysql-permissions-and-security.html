@@ -231,7 +231,7 @@ DELETE FROM mysql.user WHERE host = 'localhost' and user = 'customer1';
 
 <p>全局权限适用于一个给定服务器中的所有数据库，这些权限存储在mysql.user表中。<code>GRANT ALL ON *.*</code>和<code>REVOKE ALL ON *.*</code>只授予和撤销全局权限。</p>
 
-<p>数据库权限适用于一个给定数据库中的所有目标，这些权限存储在mysql.db和mysql.host表中。<code>GRANT ALL ON db_name.</code>和REVOKE<code>ALL ON db_name.*</code>只授予和撤销数据库权限。</p>
+<p>数据库权限适用于一个给定数据库中的所有目标，这些权限存储在mysql.db和mysql.host表中。<code>GRANT ALL ON db_name.</code>和<code>REVOKE ALL ON db_name.*</code>只授予和撤销数据库权限。</p>
 
 <p>表权限适用于一个给定表中的所有列。这些权限存储在mysql.tables_priv表中。<code>GRANT ALL ON db_name.tb_name</code>和<code>REVOKE ALL ON db_name.tb_name</code>只授予和撤销表权限。</p>
 
@@ -285,8 +285,13 @@ DELETE FROM mysql.user WHERE host = 'localhost' and user = 'customer1';
                 </section>
                 <section class="recommend" style="font-family:KaiTi">
                     
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/data-backup-and-restore.html">数据备份与恢复</a>
+                    </section>
                     
-                    <section class="nav next">
+                    
+                    <section class="nav next more">
                         <div class="head">下篇文章</div>
                         <a class="link" href="/mysql-architecture.html">MySQL架构</a>
                     </section>

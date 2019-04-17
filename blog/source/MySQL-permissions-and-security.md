@@ -178,7 +178,7 @@ FLUSH PRIVILEGES;
 
 全局权限适用于一个给定服务器中的所有数据库，这些权限存储在mysql.user表中。`GRANT ALL ON *.*`和`REVOKE ALL ON *.*`只授予和撤销全局权限。
 
-数据库权限适用于一个给定数据库中的所有目标，这些权限存储在mysql.db和mysql.host表中。`GRANT ALL ON db_name.`和REVOKE`ALL ON db_name.*`只授予和撤销数据库权限。
+数据库权限适用于一个给定数据库中的所有目标，这些权限存储在mysql.db和mysql.host表中。`GRANT ALL ON db_name.`和`REVOKE ALL ON db_name.*`只授予和撤销数据库权限。
 
 表权限适用于一个给定表中的所有列。这些权限存储在mysql.tables_priv表中。`GRANT ALL ON db_name.tb_name`和`REVOKE ALL ON db_name.tb_name`只授予和撤销表权限。
 

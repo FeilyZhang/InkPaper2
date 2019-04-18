@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
+
+        <meta name="keywords" content="Prolog,">
+        <meta name="description" content="深入理解Prolog的运行机制">
+        <meta name="author" content="林奕清">
+        <title>深入理解Prolog的运行机制</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">深入理解Prolog的运行机制</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1549107366"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Prolog/index.html">Prolog</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>前面的文章只是对Prolog一些直观上的简单应用，有必要深入了解一下这门语言的运行机制。</p>
+
+<p>我们从以前的例子说起,对其进行简单改造</p>
+
+<pre><code>love(zhangsan, lisi).
+love(zhangsan,wangwu).
+male(zhangsan).
+male(wangwu).
+female(lisi).
+stillLove(B, A) :- love(A,B), male(A), female(B).
+</code></pre>
+
+<p>将其保存为love1.pl,执行这段代码，我们可以得到下面的结论</p>
+
+<pre><code>?- stillLove(Who1, Who2).
+Who1 = lisi,
+Who2 = zhangsan ;
+false.
+</code></pre>
+
+<p>那么Prolog到底是怎么运行的呢？</p>
+
+<p>我们前面说过，结论stillLove(B, A)也可以看做事实，特殊之处在于该事实是由原先的事实推论出来的，也就是说应该从:-符号的右边开始读，然后得到左边的事实结论。</p>
+
+<p>stillLove(Who1, Who2)相当于提问谁和谁满足这样的事实。那么既然结论事实是由符号:-右边的推论得出的，该stillLove(Who1, Who2)表达式就会<code>传递</code>到love(A,B), male(A), female(B)上面进行提问。具体操作过程如下</p>
+
+<ul>
+<li>love(A, B)就回去匹配原先的事实，看<code>谁和谁符合love关系</code>，那么就会得到如下结论：
+
+<ul>
+<li>A = zhangsan;</li>
+<li>B = {lisi, wangwu};</li>
+</ul></li>
+<li>male(A)也会去匹配原先的事实，看<code>谁的属性是male</code>，那么会得到如下结论：
+
+<ul>
+<li>A = {zhangsan, wangwu}；</li>
+</ul></li>
+<li>female(B)也会去匹配原先的事实，看<code>谁的属性是female</code>，那么会得到如下结论：
+
+<ul>
+<li>B = lisi</li>
+</ul></li>
+</ul>
+
+<p>好了，到此为止符号:-右边的变量A,B所代表的常量已经找到了，那么接下来只需要综合一下就好了，即关系和相对应的属性取交集，如下</p>
+
+<ul>
+<li>关系love中的A的值与属性male中的A的值的交集是zhangsan，那么现在就找到了A是zhangsan;</li>
+<li>关系love中的B的值与属性female中的B的值的交集是lisi，那么现在也找到了B是lisi。</li>
+</ul>
+
+<p>现在综合上述结论，即A = zhangsan, B = lisi，这就是符号:-右边的规则约束原有事实得出的结论，由于stillLove(Who1, Who2)是将查询传递到符号:-右边的规则约束上的，那么自然该结论也就是stillLove(Who1, Who2)的结论。</p>
+
+<p>需要注意的是，这里还会有一个参数对应关系，即源程序中stillLove表达式中B对应的是shell中的Who1，A对应的是Who2，那么现在得出的最终结论就是</p>
+
+<ul>
+<li>Who1 = lisi,</li>
+<li>Who2 = zhangsan;</li>
+</ul>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/introducing-prolog-recursion-from-ancestor-relations.html">由祖先关系引入Prolog递归</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/introduction-to-prolog-language.html">Prolog 语言入门</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

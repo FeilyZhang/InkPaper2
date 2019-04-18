@@ -5,7 +5,7 @@ author: me
 cover: "-/images/java.jpg"
 tags:
     - Java Core
-preview: 如果多线程不涉及对共享资源的操作，那么就不存在线程安全问题，可能也不需要通信，但是如果线程间有依赖关系(比如生产者消费者问题)，那么必然需要线程间通信(调度)，通过Thread的相关API调度，一个线程阻塞另一个线程运行并相互通知，那么肯定是(本文)第三种方法更好。
+preview: CPU比RAM的速度快得多，通常差距达上千倍，在极端情况下有上万倍的差距，那么为了协调RAM与CPU之间的速度矛盾提高CPU资源利用率，一般在CPU与RAM之间增设Cache，CPU访Cache的速度远高于访RAM的速度。
 
 ---
 

@@ -4,7 +4,7 @@ update: 2016-07-18 22:35:01 +0800
 author: me
 cover: "-/images/huanxisha.jpg"
 tags:
-    - Poem
+    - 一晌贪欢
 preview: 一生难再此佳年,莫惧,蓑雨任平生。
 
 ---

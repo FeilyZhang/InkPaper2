@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="Prolog,">
         <meta name="description" content="Prolog 语言入门">
@@ -261,7 +283,7 @@ Who2 = zhangsan.
                     
                     <section class="nav next more">
                         <div class="head">下篇文章</div>
-                        <a class="link" href="/analysis-of-arrays-classes.html">Arrays类的相关用法</a>
+                        <a class="link" href="/cache-model-and-java-memory-model-and-volatile-keyword.html">Cache模型与Java内存模型及volatile关键字</a>
                     </section>
                     
                 </section>

@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -68,10 +90,78 @@
                     
                         <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
                         <h1 class="tag">Java Core</h1>
-                        <h2 class="tag-sub">13 篇文章</h2>
+                        <h2 class="tag-sub">23 篇文章</h2>
                     
                 </header>
                 <ul class="article-list">
+                    
+                    <li class="article">
+                        <a class="title" href="/java-exception-and-exception-handling-mechanism.html">Java异常及异常处理机制</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>受检异常和未受检异常的区别在于Java对这两种异常的态度，对于受检异常Java要求程序员处理，否则会有编译错误。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1543581117"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/review-encapsulation-inheritance-and-polymorphism.html">再看封装、继承和多态</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>封装是对成员变量的包装和隐藏；继承指的是子类可以继承父类的非私有属性和方法，在此之外，子类可以定义自己的和父类无关的属性和方法；多态是基于继承的。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1544773024"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/review-at-interfaces-abstract-classes-and-internal-classes.html">再看接口、抽象类与内部类</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>接口屏蔽了类型的差异性，只关注能力或者动作; 而抽象类与接口的区别在于抽象类抽象实体，而接口只抽象动作。内部类与包含它的外部类有着密切的关系，而与其他类关系不大，定义在类内部，可以实现对外的完全隐藏，代码上更为紧凑和简洁。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1544780070"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/review-at-the-byte-stream-of-java-file-operations.html">再看Java文件操作之字节流</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>这里Java以二进制字节的方式处理文件。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1545102990"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/review-at-the-character-stream-of-java-file-operations.html">再看Java文件操作之字符流</a>
@@ -91,15 +181,15 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/usage-of-predicate-function-and-consumer-interfaces-in-java-functional-programming.html">Java函数式编程之Predicate、Function、Consumer接口的用法</a>
+                        <a class="title" href="/review-the-creation-and-life-cycle-of-java-threads.html">复习Java线程的创建与其生命周期</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>Predicate、Function、Consumer接口的用法。</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>Java线程的两种创建方式与线程的生命周期。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1544527185"><span class="from"></span></span>
+                            <span class="date" data-time="1545131333"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -108,15 +198,66 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/usage-of-predicate-interface-in-java-functional-programming.html">Java函数式编程之Predicate接口的用法</a>
+                        <a class="title" href="/sharing-variables-and-synchronized-keyword-among-threads-to-solve-thread-insecurity.html">线程间共享变量与synchronized关键字解决线程不安全问题</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>Java8定义了大量的预定义函数式接口，用于常见的代码传递(其实就是参数化函数)，这些函数定义在包java.util.function下,每个接口只有一个抽象方法.</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>由于线程有自己的程序计数器、局部变量表和操作数栈，那么也就意味着每实例化一个继承了Thread的类或者实现了Runnable接口的类，就意味着创建了一个对象，这些都是线程私有的，也就无法对变量实现共享。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1544326891"><span class="from"></span></span>
+                            <span class="date" data-time="1545205627"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/summary-of-previous-multithreading-foundations.html">对前面多线程基础的总结</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>如果多线程不涉及对共享资源的操作，那么就不存在线程安全问题，可能也不需要通信，但是如果线程间有依赖关系(比如生产者消费者问题)，那么必然需要线程间通信(调度)，通过Thread的相关API调度，一个线程阻塞另一个线程运行并相互通知，那么肯定是(本文)第三种方法更好。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1545387765"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/thread-api-detailed-introduction.html">Thread API详细介绍</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>sleep()、yield()、设置线程的优先级、线程interrupt、join()方法以及线程的关闭。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1545224122"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/thread-safety-and-data-synchronization.html">线程安全与数据同步</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>如果用synchronized关键字修饰一个方法或者代码块，那么就可以防止因多线程作用共享资源而导致的数据不一致或者线程安全问题，该关键字只会保证其作用的方法或者代码块在同一时间只会被一个线程使用，即被修饰对象只对获得锁的线程可见，其余线程只能阻塞等待锁的释放。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1545295998"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -127,8 +268,8 @@
                 </ul>
                 <section class="page-nav">
                     <a class="prev" href="/tag%5cJava%20Core%5cindex.html">上一页</a>
-                    <span class="nav">2 / 2</span>
-                    
+                    <span class="nav">2 / 3</span>
+                    <a class="next" href="/tag%5cJava%20Core%5cpage3.html">下一页</a>
                 </section>
             </article>
         </article>

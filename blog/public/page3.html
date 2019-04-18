@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -79,83 +101,15 @@
                 <ul class="article-list">
                     
                     <li class="article">
-                        <a class="title" href="/spring-assembly-via-autowire-annotation.html">通过@Autowired注解进行Spring装配</a>
-                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>Autowired按byType自动注入，而Resource默认按 byName自动注入。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1544617734"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            <a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a>
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/three-other-common-ways-of-spring-injection-and-autowire.html">Spring注入的另外三种常用方式与AutoWire</a>
-                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>Spring的注入方式有六种，比较常用的有三种自动装配。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1544616608"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            <a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a>
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/spring-reads-configuration-files-in-three-ways-single-and-multiple-beans.html">Spring中读取配置文件的三种方式及单例多例Bean</a>
-                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>Spring中读取配置文件的三种方式。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1544614530"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            <a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a>
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/spring-dependency-injection-and-control-inversion-and-its-application-in-interface-oriented-programming.html">Spring依赖注入(DI)与控制反转(IoC)及在面向接口编程上的应用</a>
-                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>Spring依赖注入，指的是类之间对象实例的传递方式；将创建对象的控制权由自写代码交给Spring容器(或Spring jar包)，即控制反转。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1544606698"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            <a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a>
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/usage-of-predicate-function-and-consumer-interfaces-in-java-functional-programming.html">Java函数式编程之Predicate、Function、Consumer接口的用法</a>
+                        <a class="title" href="/review-the-creation-and-life-cycle-of-java-threads.html">复习Java线程的创建与其生命周期</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>Predicate、Function、Consumer接口的用法。</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>Java线程的两种创建方式与线程的生命周期。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1544527185"><span class="from"></span></span>
+                            <span class="date" data-time="1545131333"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -164,15 +118,15 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/usage-of-predicate-interface-in-java-functional-programming.html">Java函数式编程之Predicate接口的用法</a>
+                        <a class="title" href="/analysis-of-arrays-classes.html">Arrays类的相关用法</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>Java8定义了大量的预定义函数式接口，用于常见的代码传递(其实就是参数化函数)，这些函数定义在包java.util.function下,每个接口只有一个抽象方法.</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>toString方法, sort方法, binarySearch()方法。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1544326891"><span class="from"></span></span>
+                            <span class="date" data-time="1545124145"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -181,15 +135,15 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/generic-method-and-generic-interface.html">泛型方法与泛型接口</a>
+                        <a class="title" href="/analysis-of-stringbuilder-classes.html">剖析StringBuilder类</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>泛型不仅仅是类层面的，也可以单独给方法定义，形式是在方法的声明的返回值类型前加上<code>&lt;T&gt;</code>，这是只有一种泛型的情况，如果是多种泛型，那么用逗号隔开即可，然后就可以在形参列表使用了。</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>String类适合少量字符串的不太频繁的操作，因为String的每次的字符串操作基本上都是重新创建一个字符数组，这样性能太低，可以考虑使用StringBuilder或者StringBuffer。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1544261325"><span class="from"></span></span>
+                            <span class="date" data-time="1545122706"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -198,15 +152,15 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/analysis-of-java-generics.html">Java泛型浅析</a>
+                        <a class="title" href="/analysis-of-string-classes.html">剖析String类</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>泛型，即广泛的类型，也就是不指定数据类型，而是在创建对象的时候在根据实际情况设置数据类型。</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>String类基于char数组，String对字符串的操作并不是在字符串或者字符数组本身进行操作，而是创建一个新的char数组然后把内容复制进去再操作。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1544258434"><span class="from"></span></span>
+                            <span class="date" data-time="1545120968"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -215,35 +169,103 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/the-rise-and-fall-of-stars-once-born-it%27s-designed-to-be-eternal.html">恒星兴衰史:一诞生就注定永恒</a>
-                        <div class="cover" style="background-image:url(/images/FixedStar.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>我们的太阳处于核力和引力的微妙平衡状态，核力倾向于以亿万个氢弹的力量将星球炸开，而引力则倾向于将星球压缩至淹没，在这两种力的作用下，一颗恒星就变得成熟起来。</p>
+                        <a class="title" href="/review-at-the-character-stream-of-java-file-operations.html">再看Java文件操作之字符流</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>字符流以字符为单位操作文件。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1544001040"><span class="from"></span></span>
+                            <span class="date" data-time="1545105049"><span class="from"></span></span>
                             
                             <span class="tags">
-                            <a class="tag" href="/tag/Astrophysics/index.html">Astrophysics</a>
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
                             </span>
                         </section>
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/strings-particles-matter-and-the-universe-in-string-theory.html">弦理论中的弦、粒子、物质以及宇宙</a>
-                        <div class="cover" style="background-image:url(/images/Strings.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>超弦理论中，弦的大小不到质子的10^19倍(因而尚且观测不到)且是振动的，每种振动模式代表一种独特的共振或粒子(即粒子不是一个点，而是以某种模式振动的弦)。</p>
+                        <a class="title" href="/review-at-the-byte-stream-of-java-file-operations.html">再看Java文件操作之字节流</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>这里Java以二进制字节的方式处理文件。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1543735414"><span class="from"></span></span>
+                            <span class="date" data-time="1545102990"><span class="from"></span></span>
                             
                             <span class="tags">
-                            <a class="tag" href="/tag/Astrophysics/index.html">Astrophysics</a>
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/review-at-interfaces-abstract-classes-and-internal-classes.html">再看接口、抽象类与内部类</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>接口屏蔽了类型的差异性，只关注能力或者动作; 而抽象类与接口的区别在于抽象类抽象实体，而接口只抽象动作。内部类与包含它的外部类有着密切的关系，而与其他类关系不大，定义在类内部，可以实现对外的完全隐藏，代码上更为紧凑和简洁。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1544780070"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/review-encapsulation-inheritance-and-polymorphism.html">再看封装、继承和多态</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>封装是对成员变量的包装和隐藏；继承指的是子类可以继承父类的非私有属性和方法，在此之外，子类可以定义自己的和父类无关的属性和方法；多态是基于继承的。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1544773024"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/analysis-of-aspect-oriented-programming.html">面向切面编程(Aspect Oriented Programming)浅析</a>
+                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>把通用性非功能性代码的实现方式就叫做面向切面编程，切面是贯穿于业务代码的，这就是AOP。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1544705390"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/several-ways-to-create-bean-instances-in-spring.html">Spring中创建Bean实例的几种方式</a>
+                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>无参默认构造器、有参自定义构造器、有参通过Setter方式创建。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1544667239"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a>
                             </span>
                         </section>
                     </li>
@@ -251,7 +273,7 @@
                 </ul>
                 <section class="page-nav">
                     <a class="prev" href="/page2.html">上一页</a>
-                    <span class="nav">3 / 4</span>
+                    <span class="nav">3 / 5</span>
                     <a class="next" href="/page4.html">下一页</a>
                 </section>
             </article>

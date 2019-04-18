@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
+
+        <meta name="keywords" content="Java Core,">
+        <meta name="description" content="ThreadGroup详解">
+        <meta name="author" content="林奕清">
+        <title>ThreadGroup详解</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">ThreadGroup详解</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1545378003"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>每个线程都会有ThreadGroup，如果在启动的时候没有在构造方法Thread显式的指明ThreadGroup，那么该线程就会自动的被加入与父线程相同的ThreadGroup当中，启动该线程的线程就是该线程的父线程。</p>
+
+<p>不仅仅Thread存在父子关系，ThreadGroup也存在父子关系，ThreadGroup中可以有子线程，也可以有子ThreadGroup。</p>
+
+<p>创建ThreadGroup的语法如下</p>
+
+<pre><code>public ThreadGroup(String name);    //name指定ThreadGroup的名字，但是该ThreadGroup的父ThreadGroup是创建它的线程所在的ThreadGroup
+public ThreadGroup(ThreadGroup parent, String name) //parent指明了该ThreadGroup的父ThreadGroup，name指明名字
+</code></pre>
+
+<p>示例代码如下</p>
+
+<pre><code>public class ThreadGroupTest {
+
+    public static void main(String[] args) {
+        // 获取当前线程(主线程)所在的ThreadGroup
+        ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
+        // 没有显式的指明该ThreadGroup的父ThreadGroup，所以其父ThreadGroup为创建它的线程(主线程)的ThreadGroup，即currentGroup
+        ThreadGroup group1 = new ThreadGroup(&quot;Group1&quot;);
+        System.out.println(currentGroup == group1.getParent()); //true
+        // 指明该ThreadGroup的父ThreadGroup为group1
+        ThreadGroup group2 = new ThreadGroup(group1, &quot;Group2&quot;);
+        System.out.println(group2.getParent() == group1);   //true
+        System.out.println(group2.getParent().getParent() == group1.getParent());   //true
+        System.out.println(group2.getParent() == group1.getParent());   //false
+    }
+
+}
+</code></pre>
+
+<p>都很容易理解，不解释</p>
+
+<p>那么该示例的ThreadGroup结构如下</p>
+
+<p><img src="data:image/gif;base64,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" data-src="/images/article/1549881446369-1daf81e3-77e2-4dbc-a839-63d2016f55f1.png" alt="" /></p>
+
+<p><a name="59d3d021"></a></p>
+
+<h2>一、Thread数组</h2>
+
+<p>顾名思义，Thread数组中的元素是Thread，我们可以通过ThreadGroup的以下方法将该ThreadGroup中的active状态的线程全部复制到Thread数组中</p>
+
+<pre><code>public int enumerate(Thread[] list)
+public int enumerate(Thread[] list, boolean recurse)
+</code></pre>
+
+<p>如果recurse为true，那么会递归当前ThreadGroup的子ThreadGroup中的active状态的线程到list中。</p>
+
+<p>演示一下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class ThreadGroupEnumerateThreads {
+
+    public static void main(String[] args) throws InterruptedException {
+        ThreadGroup myGroup = new ThreadGroup(&quot;MyGroup&quot;);
+        Thread thread = new Thread(myGroup, new Runnable() {
+
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            
+        }, &quot;MyThread&quot;);
+        thread.start();
+        TimeUnit.MICROSECONDS.sleep(2);
+        ThreadGroup mainGroup = Thread.currentThread().getThreadGroup();
+        Thread[] list = new Thread[mainGroup.activeCount()];
+        int recurseSize = mainGroup.enumerate(list, false);
+        System.out.println(recurseSize);    //1
+        recurseSize = mainGroup.enumerate(list, true);
+        System.out.println(recurseSize);    //2
+    }
+
+}
+</code></pre>
+
+<p>第一个输出为1，这是因为mainGroup有一个main线程，一个myGroup，由于boolean为false，那么没有递归myGroup中的Thread，所以为1。那么第二个为2就不难理解了。</p>
+
+<h2>二、ThreadGroup数组</h2>
+
+<p>顾名思义，ThreadGroup数组存放的元素为ThreadGroup，可以用ThreadGroup的以下方法将当前ThreadGroup的子ThreadGroup复制进去。</p>
+
+<pre><code>public int enumerate(ThreadGroup[] list)
+public int enumerate(ThreadGroup[] list, boolean recurse)
+</code></pre>
+
+<p>仍然是recurse为true递归复制当前ThreadGroup的子ThreadGroup中的ThreadGroup。示例如下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class ThreadGroupEnumerateThreadGroups {
+
+    public static void main(String[] args) throws InterruptedException {
+        ThreadGroup group1 = new ThreadGroup(&quot;Group1&quot;);
+        ThreadGroup group2 = new ThreadGroup(group1, &quot;Group2&quot;);
+        TimeUnit.MILLISECONDS.sleep(2);
+        ThreadGroup mainGroup = Thread.currentThread().getThreadGroup();
+        ThreadGroup[] list = new ThreadGroup[mainGroup.activeGroupCount()];
+        int recurseSize = mainGroup.enumerate(list, false);
+        System.out.println(recurseSize);    //1
+        recurseSize = mainGroup.enumerate(list, true);
+        System.out.println(recurseSize);    //2
+    }
+
+}
+</code></pre>
+
+<p>都很简单，不用解释。</p>
+
+<h2>三、ThreadGroup操作</h2>
+
+<p>ThreadGroup并不能提供对线程的管理，ThreadGroup的主要功能是对线程进行组织，其主要方法如下</p>
+
+<ul>
+<li><code>activeCount()</code>用于获取group中活跃的线程数量，只是一个估计值；</li>
+<li><code>activeGroupCount()</code>用于获取group中活跃的子group的线程数量，也是一个估计值；</li>
+<li><code>getMaxPriority()</code>用于获取group的优先级，不会大于父group的最大优先级；</li>
+<li><code>getName()</code>用于获取该group的名字；</li>
+<li><code>getParent()</code>用于获取该group的父ThreadGroup，如果不存在则返回null；</li>
+<li><code>list()</code>没有返回值，直接将group中活跃的线程信息全部输出到控制台；</li>
+<li><code>parentOf(ThreadGroup g)</code>会判断当前group是不是给定group的父group，如果给定的group是本身，那么也会返回true；</li>
+<li><code>setMaxPriority(int pri)</code>会指定group的最大优先级，最大优先级不能超过父ThreadGroup的最大优先级，执行该方法不仅会改变当前group的最大优先级，还会改变当前group的子group的最大优先级；</li>
+<li><code>interrupt()</code>方法会导致该group中所有的active线程被interrupt，也就是该group中所有的线程的interrupt标识都会被设置为true；</li>
+<li><code>destroy()</code>方法用于销毁ThreadGroup，该方法只是针对一个没有任何active线程的group进行一次destroy标记，调用该方法的直接结果就是在父group中将自己移除；</li>
+<li><code>isDestroy()</code>方法判断当前ThreadGroup线程是否被destroy了；</li>
+<li><code>setDaemon()</code>方法将当前ThreadGroup设置为守护ThreadGroup，那么在group中没有任何active线程的时候该group将自动destroy。</li>
+</ul>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/capturing-thread-runtime-exception-information-and-injecting-hook-threads.html">捕获线程运行时异常信息与注入钩子线程</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/inter-thread-communication.html">线程间通信</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

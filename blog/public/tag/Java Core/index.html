@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -68,7 +90,7 @@
                     
                         <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
                         <h1 class="tag">Java Core</h1>
-                        <h2 class="tag-sub">13 篇文章</h2>
+                        <h2 class="tag-sub">23 篇文章</h2>
                     
                 </header>
                 <ul class="article-list">
@@ -142,6 +164,40 @@
                     </li>
                     
                     <li class="article">
+                        <a class="title" href="/cache-model-and-java-memory-model-and-volatile-keyword.html">Cache模型与Java内存模型及volatile关键字</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>如果多线程不涉及对共享资源的操作，那么就不存在线程安全问题，可能也不需要通信，但是如果线程间有依赖关系(比如生产者消费者问题)，那么必然需要线程间通信(调度)，通过Thread的相关API调度，一个线程阻塞另一个线程运行并相互通知，那么肯定是(本文)第三种方法更好。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1545479646"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/capturing-thread-runtime-exception-information-and-injecting-hook-threads.html">捕获线程运行时异常信息与注入钩子线程</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>线程在运行时是不允许抛出checked异常的，而且线程运行在自己的上下文中，派生它的线程无法直接获得它运行时出现的异常信息。但是，Java提供了UncaughtExceptionHandler接口，当线程在运行过程中出现异常时，会回掉UncaughtExceptionHandler接口，从而就可以知道哪个线程在运行时出错了以及出现了什么样的错误。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1545380198"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
                         <a class="title" href="/data-type-conversion-in-java.html">Java中的数据类型转换</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
                         <section class="preview content" style="font-family:KaiTi"><p>Java中的数据类型分为三大类，分别是数值型、布尔型、字符型，其中数值型分为整型和浮点型。</p>
@@ -151,6 +207,23 @@
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1542212583"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/deep-understanding-of-thread-class-constructors.html">深入理解Thread类构造函数</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>由于线程有自己的程序计数器、局部变量表和操作数栈，那么也就意味着每实例化一个继承了Thread的类或者实现了Runnable接口的类，就意味着创建了一个对象，这些都是线程私有的，也就无法对变量实现共享。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1545208153"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -176,66 +249,15 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/java-exception-and-exception-handling-mechanism.html">Java异常及异常处理机制</a>
+                        <a class="title" href="/inter-thread-communication.html">线程间通信</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>受检异常和未受检异常的区别在于Java对这两种异常的态度，对于受检异常Java要求程序员处理，否则会有编译错误。</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>前文的叫号机示例为保证线程安全引入了synchronized关键字(获得锁保证同一时间只能有一个线程对共享资源操作)，而为了解决synchorized关键字的不可中断不可超时问题，我们引入了显式锁，显式锁通过wait关键字和closed标志为true来实现加锁让欲获得锁的线程进入阻塞状态以等待，通过notify关键字和closed为false来实现释放锁让阻塞状态的线程竞争锁，实际上这就涉及到了进程间的调度，synchronized关键字不仅仅是加锁保证对共享变量访问的互斥性，还可以配合某些策略或者关键实现进程调度。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1543581117"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/review-encapsulation-inheritance-and-polymorphism.html">再看封装、继承和多态</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>封装是对成员变量的包装和隐藏；继承指的是子类可以继承父类的非私有属性和方法，在此之外，子类可以定义自己的和父类无关的属性和方法；多态是基于继承的。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1544773024"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/review-at-interfaces-abstract-classes-and-internal-classes.html">再看接口、抽象类与内部类</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>接口屏蔽了类型的差异性，只关注能力或者动作; 而抽象类与接口的区别在于抽象类抽象实体，而接口只抽象动作。内部类与包含它的外部类有着密切的关系，而与其他类关系不大，定义在类内部，可以实现对外的完全隐藏，代码上更为紧凑和简洁。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1544780070"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/review-at-the-byte-stream-of-java-file-operations.html">再看Java文件操作之字节流</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>这里Java以二进制字节的方式处理文件。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1545102990"><span class="from"></span></span>
+                            <span class="date" data-time="1545365024"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -246,7 +268,7 @@
                 </ul>
                 <section class="page-nav">
                     
-                    <span class="nav">1 / 2</span>
+                    <span class="nav">1 / 3</span>
                     <a class="next" href="/tag%5cJava%20Core%5cpage2.html">下一页</a>
                 </section>
             </article>

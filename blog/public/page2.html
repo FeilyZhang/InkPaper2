@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -96,15 +118,15 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/analysis-of-arrays-classes.html">Arrays类的相关用法</a>
+                        <a class="title" href="/cache-model-and-java-memory-model-and-volatile-keyword.html">Cache模型与Java内存模型及volatile关键字</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>toString方法, sort方法, binarySearch()方法。</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>如果多线程不涉及对共享资源的操作，那么就不存在线程安全问题，可能也不需要通信，但是如果线程间有依赖关系(比如生产者消费者问题)，那么必然需要线程间通信(调度)，通过Thread的相关API调度，一个线程阻塞另一个线程运行并相互通知，那么肯定是(本文)第三种方法更好。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1545124145"><span class="from"></span></span>
+                            <span class="date" data-time="1545479646"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -113,15 +135,15 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/analysis-of-stringbuilder-classes.html">剖析StringBuilder类</a>
+                        <a class="title" href="/summary-of-previous-multithreading-foundations.html">对前面多线程基础的总结</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>String类适合少量字符串的不太频繁的操作，因为String的每次的字符串操作基本上都是重新创建一个字符数组，这样性能太低，可以考虑使用StringBuilder或者StringBuffer。</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>如果多线程不涉及对共享资源的操作，那么就不存在线程安全问题，可能也不需要通信，但是如果线程间有依赖关系(比如生产者消费者问题)，那么必然需要线程间通信(调度)，通过Thread的相关API调度，一个线程阻塞另一个线程运行并相互通知，那么肯定是(本文)第三种方法更好。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1545122706"><span class="from"></span></span>
+                            <span class="date" data-time="1545387765"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -130,15 +152,15 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/analysis-of-string-classes.html">剖析String类</a>
+                        <a class="title" href="/capturing-thread-runtime-exception-information-and-injecting-hook-threads.html">捕获线程运行时异常信息与注入钩子线程</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>String类基于char数组，String对字符串的操作并不是在字符串或者字符数组本身进行操作，而是创建一个新的char数组然后把内容复制进去再操作。</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>线程在运行时是不允许抛出checked异常的，而且线程运行在自己的上下文中，派生它的线程无法直接获得它运行时出现的异常信息。但是，Java提供了UncaughtExceptionHandler接口，当线程在运行过程中出现异常时，会回掉UncaughtExceptionHandler接口，从而就可以知道哪个线程在运行时出错了以及出现了什么样的错误。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1545120968"><span class="from"></span></span>
+                            <span class="date" data-time="1545380198"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -147,15 +169,15 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/review-at-the-character-stream-of-java-file-operations.html">再看Java文件操作之字符流</a>
+                        <a class="title" href="/threadgroup-detailed-explanation.html">ThreadGroup详解</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>字符流以字符为单位操作文件。</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>每个线程都会有ThreadGroup，如果在启动的时候没有在构造方法Thread显式的指明ThreadGroup，那么该线程就会自动的被加入与父线程相同的ThreadGroup当中，启动该线程的线程就是该线程的父线程。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1545105049"><span class="from"></span></span>
+                            <span class="date" data-time="1545378003"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -164,15 +186,15 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/review-at-the-byte-stream-of-java-file-operations.html">再看Java文件操作之字节流</a>
+                        <a class="title" href="/inter-thread-communication.html">线程间通信</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>这里Java以二进制字节的方式处理文件。</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>前文的叫号机示例为保证线程安全引入了synchronized关键字(获得锁保证同一时间只能有一个线程对共享资源操作)，而为了解决synchorized关键字的不可中断不可超时问题，我们引入了显式锁，显式锁通过wait关键字和closed标志为true来实现加锁让欲获得锁的线程进入阻塞状态以等待，通过notify关键字和closed为false来实现释放锁让阻塞状态的线程竞争锁，实际上这就涉及到了进程间的调度，synchronized关键字不仅仅是加锁保证对共享变量访问的互斥性，还可以配合某些策略或者关键实现进程调度。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1545102990"><span class="from"></span></span>
+                            <span class="date" data-time="1545365024"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -181,15 +203,15 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/review-at-interfaces-abstract-classes-and-internal-classes.html">再看接口、抽象类与内部类</a>
+                        <a class="title" href="/thread-safety-and-data-synchronization.html">线程安全与数据同步</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>接口屏蔽了类型的差异性，只关注能力或者动作; 而抽象类与接口的区别在于抽象类抽象实体，而接口只抽象动作。内部类与包含它的外部类有着密切的关系，而与其他类关系不大，定义在类内部，可以实现对外的完全隐藏，代码上更为紧凑和简洁。</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>如果用synchronized关键字修饰一个方法或者代码块，那么就可以防止因多线程作用共享资源而导致的数据不一致或者线程安全问题，该关键字只会保证其作用的方法或者代码块在同一时间只会被一个线程使用，即被修饰对象只对获得锁的线程可见，其余线程只能阻塞等待锁的释放。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1544780070"><span class="from"></span></span>
+                            <span class="date" data-time="1545295998"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -198,15 +220,15 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/review-encapsulation-inheritance-and-polymorphism.html">再看封装、继承和多态</a>
+                        <a class="title" href="/thread-api-detailed-introduction.html">Thread API详细介绍</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>封装是对成员变量的包装和隐藏；继承指的是子类可以继承父类的非私有属性和方法，在此之外，子类可以定义自己的和父类无关的属性和方法；多态是基于继承的。</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>sleep()、yield()、设置线程的优先级、线程interrupt、join()方法以及线程的关闭。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1544773024"><span class="from"></span></span>
+                            <span class="date" data-time="1545224122"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -215,35 +237,35 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/analysis-of-aspect-oriented-programming.html">面向切面编程(Aspect Oriented Programming)浅析</a>
-                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>把通用性非功能性代码的实现方式就叫做面向切面编程，切面是贯穿于业务代码的，这就是AOP。</p>
+                        <a class="title" href="/deep-understanding-of-thread-class-constructors.html">深入理解Thread类构造函数</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>由于线程有自己的程序计数器、局部变量表和操作数栈，那么也就意味着每实例化一个继承了Thread的类或者实现了Runnable接口的类，就意味着创建了一个对象，这些都是线程私有的，也就无法对变量实现共享。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1544705390"><span class="from"></span></span>
+                            <span class="date" data-time="1545208153"><span class="from"></span></span>
                             
                             <span class="tags">
-                            <a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a>
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
                             </span>
                         </section>
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/several-ways-to-create-bean-instances-in-spring.html">Spring中创建Bean实例的几种方式</a>
-                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>无参默认构造器、有参自定义构造器、有参通过Setter方式创建。</p>
+                        <a class="title" href="/sharing-variables-and-synchronized-keyword-among-threads-to-solve-thread-insecurity.html">线程间共享变量与synchronized关键字解决线程不安全问题</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>由于线程有自己的程序计数器、局部变量表和操作数栈，那么也就意味着每实例化一个继承了Thread的类或者实现了Runnable接口的类，就意味着创建了一个对象，这些都是线程私有的，也就无法对变量实现共享。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1544667239"><span class="from"></span></span>
+                            <span class="date" data-time="1545205627"><span class="from"></span></span>
                             
                             <span class="tags">
-                            <a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a>
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
                             </span>
                         </section>
                     </li>
@@ -251,7 +273,7 @@
                 </ul>
                 <section class="page-nav">
                     <a class="prev" href="/index.html">上一页</a>
-                    <span class="nav">2 / 4</span>
+                    <span class="nav">2 / 5</span>
                     <a class="next" href="/page3.html">下一页</a>
                 </section>
             </article>

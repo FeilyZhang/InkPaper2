@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -79,15 +101,83 @@
                 <ul class="article-list">
                     
                     <li class="article">
-                        <a class="title" href="/java-exception-and-exception-handling-mechanism.html">Java异常及异常处理机制</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>受检异常和未受检异常的区别在于Java对这两种异常的态度，对于受检异常Java要求程序员处理，否则会有编译错误。</p>
+                        <a class="title" href="/spring-assembly-via-autowire-annotation.html">通过@Autowired注解进行Spring装配</a>
+                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>Autowired按byType自动注入，而Resource默认按 byName自动注入。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1543581117"><span class="from"></span></span>
+                            <span class="date" data-time="1544617734"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/three-other-common-ways-of-spring-injection-and-autowire.html">Spring注入的另外三种常用方式与AutoWire</a>
+                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>Spring的注入方式有六种，比较常用的有三种自动装配。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1544616608"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/spring-reads-configuration-files-in-three-ways-single-and-multiple-beans.html">Spring中读取配置文件的三种方式及单例多例Bean</a>
+                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>Spring中读取配置文件的三种方式。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1544614530"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/spring-dependency-injection-and-control-inversion-and-its-application-in-interface-oriented-programming.html">Spring依赖注入(DI)与控制反转(IoC)及在面向接口编程上的应用</a>
+                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>Spring依赖注入，指的是类之间对象实例的传递方式；将创建对象的控制权由自写代码交给Spring容器(或Spring jar包)，即控制反转。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1544606698"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Spring%20Framework/index.html">Spring Framework</a>
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/usage-of-predicate-function-and-consumer-interfaces-in-java-functional-programming.html">Java函数式编程之Predicate、Function、Consumer接口的用法</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>Predicate、Function、Consumer接口的用法。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1544527185"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -96,15 +186,15 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/data-type-conversion-in-java.html">Java中的数据类型转换</a>
+                        <a class="title" href="/usage-of-predicate-interface-in-java-functional-programming.html">Java函数式编程之Predicate接口的用法</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>Java中的数据类型分为三大类，分别是数值型、布尔型、字符型，其中数值型分为整型和浮点型。</p>
+                        <section class="preview content" style="font-family:KaiTi"><p>Java8定义了大量的预定义函数式接口，用于常见的代码传递(其实就是参数化函数)，这些函数定义在包java.util.function下,每个接口只有一个抽象方法.</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1542212583"><span class="from"></span></span>
+                            <span class="date" data-time="1544326891"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
@@ -113,103 +203,69 @@
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/born-in-1984-reading-notes.html">《生于一九八四》·阅读小记</a>
-                        <div class="cover" style="background-image:url(/images/born-in-1984.jpeg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>有时候我宁愿相信，人生的诸多不顺，只是因为最适合你的那条路尚未出现。</p>
+                        <a class="title" href="/generic-method-and-generic-interface.html">泛型方法与泛型接口</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>泛型不仅仅是类层面的，也可以单独给方法定义，形式是在方法的声明的返回值类型前加上<code>&lt;T&gt;</code>，这是只有一种泛型的情况，如果是多种泛型，那么用逗号隔开即可，然后就可以在形参列表使用了。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1539870805"><span class="from"></span></span>
+                            <span class="date" data-time="1544261325"><span class="from"></span></span>
                             
                             <span class="tags">
-                            <a class="tag" href="/tag/%e6%96%87%e5%8f%b2%e7%ac%94%e8%ae%b0/index.html">文史笔记</a>
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
                             </span>
                         </section>
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/thoughts-on-the-fifteen-years-of-wanli.html">关于《万历十五年》的一点思考</a>
-                        <div class="cover" style="background-image:url(/images/the-Fifteen-Years-of-Wanli.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>一部《万历十五年》,就是一部简明扼要的明朝兴衰史。</p>
+                        <a class="title" href="/analysis-of-java-generics.html">Java泛型浅析</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>泛型，即广泛的类型，也就是不指定数据类型，而是在创建对象的时候在根据实际情况设置数据类型。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1512443934"><span class="from"></span></span>
+                            <span class="date" data-time="1544258434"><span class="from"></span></span>
                             
                             <span class="tags">
-                            <a class="tag" href="/tag/%e6%96%87%e5%8f%b2%e7%ac%94%e8%ae%b0/index.html">文史笔记</a>
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
                             </span>
                         </section>
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/a-domestic-masterpiece-of-conscientious-suspicious-reasoning.html">《清明上河图密码》一部良心的国产悬疑推理大作</a>
-                        <div class="cover" style="background-image:url(/images/qingmingshanghetu.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>一幅清明上河图就是一部北宋兴衰史,北宋帝国承平日久,图中一片欣欣向荣之景,但事实上已经危机四伏。</p>
+                        <a class="title" href="/the-rise-and-fall-of-stars-once-born-it%27s-designed-to-be-eternal.html">恒星兴衰史:一诞生就注定永恒</a>
+                        <div class="cover" style="background-image:url(/images/FixedStar.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>我们的太阳处于核力和引力的微妙平衡状态，核力倾向于以亿万个氢弹的力量将星球炸开，而引力则倾向于将星球压缩至淹没，在这两种力的作用下，一颗恒星就变得成熟起来。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1512358034"><span class="from"></span></span>
+                            <span class="date" data-time="1544001040"><span class="from"></span></span>
                             
                             <span class="tags">
-                            <a class="tag" href="/tag/%e6%96%87%e5%8f%b2%e7%ac%94%e8%ae%b0/index.html">文史笔记</a>
+                            <a class="tag" href="/tag/Astrophysics/index.html">Astrophysics</a>
                             </span>
                         </section>
                     </li>
                     
                     <li class="article">
-                        <a class="title" href="/drunk-changan.html">醉长安</a>
-                        <div class="cover" style="background-image:url(/images/changan-weihe.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>北风萧萧惊留鸟,柳絮翩翩漫秦城。空闻胡琴弹古调,只道长安醉今宵。</p>
+                        <a class="title" href="/strings-particles-matter-and-the-universe-in-string-theory.html">弦理论中的弦、粒子、物质以及宇宙</a>
+                        <div class="cover" style="background-image:url(/images/Strings.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>超弦理论中，弦的大小不到质子的10^19倍(因而尚且观测不到)且是振动的，每种振动模式代表一种独特的共振或粒子(即粒子不是一个点，而是以某种模式振动的弦)。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
                             <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                             <a class="name" href="/about.me.html">林奕清</a>
                             
-                            <span class="date" data-time="1479825683"><span class="from"></span></span>
+                            <span class="date" data-time="1543735414"><span class="from"></span></span>
                             
                             <span class="tags">
-                            <a class="tag" href="/tag/%e4%b8%80%e6%99%8c%e8%b4%aa%e6%ac%a2/index.html">一晌贪欢</a>
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/love-reminiscences.html">诉衷情</a>
-                        <div class="cover" style="background-image:url(/images/Love-Reminiscences.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>物换星移,匆匆荼靡,只道是,逝者如斯而已矣。白驹过隙,浮生若梦,古人云,朱颜辞镜花辞树。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1475246374"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            <a class="tag" href="/tag/%e4%b8%80%e6%99%8c%e8%b4%aa%e6%ac%a2/index.html">一晌贪欢</a>
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/rain-sprinkled-the-courtyard-las-night.html">浣溪沙 · 昨夜⻛雨洒庭轩</a>
-                        <div class="cover" style="background-image:url(/images/huanxisha.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>一生难再此佳年,莫惧,蓑雨任平生。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1468852501"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            <a class="tag" href="/tag/%e4%b8%80%e6%99%8c%e8%b4%aa%e6%ac%a2/index.html">一晌贪欢</a>
+                            <a class="tag" href="/tag/Astrophysics/index.html">Astrophysics</a>
                             </span>
                         </section>
                     </li>
@@ -217,8 +273,8 @@
                 </ul>
                 <section class="page-nav">
                     <a class="prev" href="/page3.html">上一页</a>
-                    <span class="nav">4 / 4</span>
-                    
+                    <span class="nav">4 / 5</span>
+                    <a class="next" href="/page5.html">下一页</a>
                 </section>
             </article>
         </article>

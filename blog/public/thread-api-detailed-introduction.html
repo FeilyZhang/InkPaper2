@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
+
+        <meta name="keywords" content="Java Core,">
+        <meta name="description" content="Thread API详细介绍">
+        <meta name="author" content="林奕清">
+        <title>Thread API详细介绍</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">Thread API详细介绍</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1545224122"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><h2>一、<code>sleep()</code>方法</h2>
+
+<p>sleep()方法的签名如下</p>
+
+<pre><code>public static void sleep(long millis) throws InterruptedException
+public static void sleep(long millis, int nanos) throws InterruptedException
+</code></pre>
+
+<p>该方法会使当前线程睡眠millis毫秒后重新进入就绪状态参与CPU竞争，但是需要注意的是该方法即时休眠也不会放弃monitor锁(前提是获得该锁)，示例代码如下</p>
+
+<pre><code>public class TestMain {
+    public static int shareVar = 10;
+    public static final Object MUTEX = new Object();
+    public static void main(String[] args) {
+        for (int i = 0; i &lt; 3; i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println(Thread.currentThread().getName() + &quot;: I will sleep&quot;);
+                    synchronized(MUTEX) {
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(Thread.currentThread().getName() + &quot;: &quot; + (shareVar++));
+                    }
+                    System.out.println(Thread.currentThread().getName() + &quot;: Finish&quot;);
+                } 
+            }).start();
+        }
+    }
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>Thread-0: I will sleep
+Thread-2: I will sleep
+Thread-1: I will sleep
+Thread-0: 10
+Thread-0: Finish
+Thread-1: 11
+Thread-1: Finish
+Thread-2: 12
+Thread-2: Finish
+</code></pre>
+
+<p>我们启动了3个线程，每个线程在进入同步代码块后休眠5s，从输出可以看出，线程Thread-0首先获得了调度并首先进入同步代码块，然后休眠。由于获得锁然后休眠的线程是不释放锁的，也就是说一直退出同步代码块之后才会释放锁，那么我们可以确定一定是Thread-0先打印输出10</p>
+
+<p>需要注意的是一定是获得共享变量所在锁之后睡眠的话才不会释放锁，如果在获得锁之前或者释放锁之后睡眠，那么是不会独占锁的(锁存在的意义是保证数据的一致性),那么对共享变量的操作不会因为谁先睡眠而先操作，还是以CPU调度下哪个线程先进入同步代码块获得锁为准。</p>
+
+<p>示例如下，第一个线程在获得锁之前就睡眠，那么待苏醒后首先对共享变量操作的不一定是该线程</p>
+
+<pre><code>public class TestMain {
+    public static int shareVar = 10;
+    public static final Object MUTEX = new Object();
+    public static void main(String[] args) {
+        for (int i = 0; i &lt; 3; i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println(Thread.currentThread().getName() + &quot;: I will sleep&quot;);
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    synchronized(MUTEX) {
+                        System.out.println(Thread.currentThread().getName() + &quot;: &quot; + (shareVar++));
+                    }
+                    System.out.println(Thread.currentThread().getName() + &quot;: Finish&quot;);
+                } 
+            }).start();
+        }
+    }
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>Thread-0: I will sleep
+Thread-2: I will sleep
+Thread-1: I will sleep
+Thread-2: 10
+Thread-2: Finish
+Thread-1: 11
+Thread-1: Finish
+Thread-0: 12
+Thread-0: Finish
+</code></pre>
+
+<p>显而易见！</p>
+
+<p>所以想睡眠独占锁，必须先进入锁再睡眠！</p>
+
+<h2>二、<code>yield()</code>方法</h2>
+
+<p>该方法会自动让出对CPU的使用权，但是CPU不一定受理，即不一定有作用，如果CPU资源不紧张，那么就会忽略这种提醒。</p>
+
+<p>由于是让出CPU使用权，所以该方法的调用会使当前线程从RUNNING状态(运行状态)切换到RUNNABLE状态(就绪状态)。</p>
+
+<h2>三、<code>yield()</code>方法与<code>sleep()</code>方法的比较</h2>
+
+<p>在JDK1.5之前的版本，yield()方法实际上是调用了sleep(0)方法，即让当前线程休眠0毫秒直接进入就绪队列，那么很自然地就是将CPU控制权交给了下一个线程，但是二者其实存在着本质的差别：</p>
+
+<ul>
+<li><code>sleep()</code>方法会导致当前线程暂停指定时间，没有CPU时间片的消耗；</li>
+<li><code>yield()</code>方法只是对CPU调度器的一个提示，如果CPU调度器没有忽略这个提示，那么就会导致线程上下文的切换(即切换到下一个线程，本线程让出CPU控制权)；</li>
+<li><code>sleep()</code>会导致线程短暂的block，会在给定时间内释放CPU资源；</li>
+<li><code>yield()</code>会使线程由运行状态进入就绪状态，前提是CPU没有忽略这个提示；</li>
+<li><code>sleep()</code>方法几乎百分百完成了给定时间的休眠，但是<code>yield()</code>则不一定；</li>
+<li>一个线程<code>sleep()</code>，另一个线程调用<code>interrupt()</code>会捕捉到中断信号，而<code>yield()</code>不会。</li>
+</ul>
+
+<h2>四、设置线程的优先级</h2>
+
+<pre><code>public final void setPrioity(int newPrioity); //设置线程优先级
+public final int getPrioity() //获取线程优先级
+</code></pre>
+
+<p>线程优先级是一个1-10的int型数字，默认为5，数字越大优先级越高，但是因平台的差异性，优先级不可过分依赖，平台可能会忽视优先级。</p>
+
+<pre><code>public class TestMain {
+    public static int shareVar = 10;
+    public static final Object MUTEX = new Object();
+    public static void main(String[] args) {
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int i = 0;
+                while (i &lt; 5) {
+                    System.out.println(Thread.currentThread());
+                    i++;
+                }
+            }
+        }, &quot;t1&quot;);
+        Thread t2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int i = 0;
+                while (i &lt; 5) {
+                    System.out.println(Thread.currentThread());
+                    i++;
+                }
+            }
+        }, &quot;t2&quot;);
+        t1.setPriority(1);
+        t2.setPriority(10);
+        t1.start();
+        t2.start();
+    }
+}
+</code></pre>
+
+<p>以上代码设置t1线程的优先级为1，t2的优先级为10，按理说，t2的输出次数应该高于t1，但是实际情况并不是这样，可能就是平台忽视了优先级，我的平台为win8</p>
+
+<h2>五、线程interrupt</h2>
+
+<p>共有以下三个方法</p>
+
+<pre><code>public void interrupt()
+public static boolean interrupted()
+public boolean isInterrupted()
+</code></pre>
+
+<p>interrupt()方法可以打断以下方法调用引起的线程阻塞</p>
+
+<pre><code>Object的wait方法；
+Object的wait(long)方法；
+Object的wait(long, int)方法；
+Thread的sleep(long)方法；
+Thread的sleep(long, int)方法；
+Thread的join方法；
+Thread的join(long)方法；
+Thread的join(long, int)方法；
+InterruptibleChannel的io操作；
+Selector的wakeup方法
+其它方法。
+</code></pre>
+
+<p>上述方法的执行都会使线程进入阻塞状态，若另外一个线程调用被阻塞线程的interrupt方法时就会打断这种阻塞。一个线程在阻塞情况下被打断都会抛出一个TnterruptedException的异常，这个异常就像一个信号一样通知当前线程被打断了。</p>
+
+<p>示例如下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class TestMain {
+    public static int shareVar = 10;
+    public static final Object MUTEX = new Object();
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                long start = System.currentTimeMillis();
+                System.out.println(&quot;SubThread : I will sleep 1 minutes&quot;);
+                try {
+                    TimeUnit.MINUTES.sleep(1);
+                } catch (InterruptedException e) {
+                    System.out.println(&quot;oh, I am be interrupted&quot;);
+                }
+                if (System.currentTimeMillis() - start &lt;= 60000) {
+                    System.out.println(&quot;SubThread : I wake up, oh, I didn't sleep enough. I was sleepy.&quot;);
+                } else {
+                    System.out.println(&quot;SubThread : I wake up, oh, I've had enough sleep.&quot;);
+                }
+            }
+        }, &quot;t1&quot;);
+        t1.start();
+        TimeUnit.MICROSECONDS.sleep(2);
+        t1.interrupt();
+    }
+}
+</code></pre>
+
+<p>线程t1在运行时打算睡眠1分钟，在t1启动后，先将主线程休眠2毫秒，这是为了让t1线程处于就绪状态，然后主线程调用t1的interrupt方法打断睡眠，强制叫醒了t1线程，输出为</p>
+
+<pre><code>SubThread : I will sleep 1 minutes
+oh, I am be interrupted
+SubThread : I wake up, oh, I didn't sleep enough. I was sleepy.
+</code></pre>
+
+<p><code>isInterrupted</code>用于判断当前线程是否被中断，那我们就可以如下改造上述程序</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class TestMain {
+    public static int shareVar = 10;
+    public static final Object MUTEX = new Object();
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                long start = System.currentTimeMillis();
+                System.out.println(&quot;SubThread : I will sleep 1 minutes&quot;);
+                try {
+                    TimeUnit.MINUTES.sleep(1);
+                } catch (InterruptedException e) {
+                    System.out.println(&quot;oh, I am be interrupted&quot;);
+                }
+                if (System.currentTimeMillis() - start &lt;= 60000) {
+                    System.out.println(&quot;SubThread : I wake up, oh, I didn't sleep enough. I was sleepy.&quot;);
+                } else {
+                    System.out.println(&quot;SubThread : I wake up, oh, I've had enough sleep.&quot;);
+                }
+            }
+        }, &quot;t1&quot;);
+        t1.start();
+        TimeUnit.MICROSECONDS.sleep(2);
+        if (!t1.isInterrupted()) {
+            t1.interrupt();
+        }
+    }
+}
+</code></pre>
+
+<p>有同样的输出，主线程判断t1线程时候被中断，如果被中断则什么也不干，如果没有则中断它，把它从睡眠中叫醒进入进入就绪状态，实际上sleep会捕获到interrupt的中断信号，从而就会擦除interrupt标识，什么意思呢？就是一个线程被interrupt中断一次，那么其isInterrupted为true，如果被sleep捕获的话(即该线程中有sleep方法被interrupt中断)，sleep被苏醒后就会擦除掉isInterrupted标识，即为false，这样就能保证下次能够合理的中断(控制)，演示如下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class TestMain {
+    public static int shareVar = 10;
+    public static final Object MUTEX = new Object();
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                long start = System.currentTimeMillis();
+                System.out.println(&quot;SubThread : I will sleep 1 minutes&quot;);
+                try {
+                    TimeUnit.MINUTES.sleep(1);
+                } catch (InterruptedException e) {
+                    System.out.println(&quot;oh, I am be interrupted&quot;);
+                }
+                if (System.currentTimeMillis() - start &lt;= 60000) {
+                    System.out.println(&quot;SubThread : I wake up, oh, I didn't sleep enough. I was sleepy.&quot;);
+                } else {
+                    System.out.println(&quot;SubThread : I wake up, oh, I've had enough sleep.&quot;);
+                }
+            }
+        }, &quot;t1&quot;);
+        t1.start();
+        System.out.println(t1.isInterrupted());
+        TimeUnit.MICROSECONDS.sleep(2);
+        t1.interrupt();
+        System.out.println(t1.isInterrupted());
+        System.out.println(t1.isInterrupted());
+    }
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>false
+SubThread : I will sleep 1 minutes
+false
+oh, I am be interrupted
+SubThread : I wake up, oh, I didn't sleep enough. I was sleepy.
+false
+</code></pre>
+
+<p>在<code>t1.interrupt()</code>方法执行之前输出为false可以理解，在该方法执行之后还输出false，这是因为在sleep擦除掉了该标识。当然了，如果没有sleep方法在t1线程中，直接中断也就意味着该标识不会被擦除，演示如下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class TestMain {
+    public static int shareVar = 10;
+    public static final Object MUTEX = new Object();
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    //System.out.println(&quot;I am t1 Thread, &quot; + isInterrupted());
+                }
+            }
+        }, &quot;t1&quot;);
+        t1.setDaemon(true);
+        t1.start();
+        TimeUnit.MICROSECONDS.sleep(2);
+        System.out.println(&quot;Thread is interrupted? &quot; + t1.isInterrupted());
+        t1.interrupt();
+        System.out.println(&quot;Thread is interrupted? &quot; + t1.isInterrupted());
+        System.out.println(&quot;Thread is interrupted? &quot; + t1.isInterrupted());
+    }
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>Thread is interrupted? false
+Thread is interrupted? true
+Thread is interrupted? true
+</code></pre>
+
+<p>可以看出，中断标识并没有被擦除。</p>
+
+<p><code>interrupted()</code>方法是一个静态方法，也就意味着可以在run方法中通过Thread调用，与isInterrupted()不同的是，isInterrupted()方法会因是否有sleep方法而被是否擦除标识，interrupted方法在run中调用会直接擦除标识，演示如下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class TestMain {
+    public static int shareVar = 10;
+    public static final Object MUTEX = new Object();
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    System.out.println(Thread.interrupted());
+                }
+            }
+        }, &quot;t1&quot;);
+        t1.setDaemon(true);
+        t1.start();
+        TimeUnit.MICROSECONDS.sleep(2);
+        t1.interrupt();
+    }
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>...
+false
+false
+false
+true
+false
+false
+...
+</code></pre>
+
+<p>即很多次输出中只有一个true，这个true就是被主线程调用t1的interrupt方法之后输出的，但随后被Thread.interrupted()方法直接擦除掉了标识，所以输出为false</p>
+
+<h2>六、join()方法</h2>
+
+<p>join与sleep一样，会被interrupt中断，同样也会擦除interrupt标识。join某个线程之后，当前线程会进入阻塞状态(比如main线程执行t1.join()方法，那么main线程进入阻塞状态，直至t1线程执行完毕或者被其余线程中断或者时间到main线程才会进入就绪状态)，测试如下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class TestMain {
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Thread(new Runnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                while (i &lt; 5) {
+                    System.out.println(Thread.currentThread() + &quot; : &quot; + (i++));
+                }
+            }
+        }, &quot;t1&quot;);
+        Thread t2 = new Thread(new Runnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                try {
+                    t1.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                while (i &lt; 5) {
+                    System.out.println(Thread.currentThread() + &quot; : &quot; + (i++));
+                }
+            }
+        }, &quot;t2&quot;);
+        t1.start();
+        t2.start();
+        //t1.join();
+        //TimeUnit.MICROSECONDS.sleep(2);
+        //t1.interrupt();
+    }
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>Thread[t1,5,main] : 0
+Thread[t1,5,main] : 1
+Thread[t1,5,main] : 2
+Thread[t1,5,main] : 3
+Thread[t1,5,main] : 4
+Thread[t2,5,main] : 0
+Thread[t2,5,main] : 1
+Thread[t2,5,main] : 2
+Thread[t2,5,main] : 3
+Thread[t2,5,main] : 4
+</code></pre>
+
+<p>很明显，t2调用<code>t1.join()</code>阻塞了自己一直等到t1执行完毕(结束完整声明周期)才执行，如果给join方法加上时间那么输出就又不一样</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class TestMain {
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Thread(new Runnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                while (i &lt; 5) {
+                    System.out.println(Thread.currentThread() + &quot; : &quot; + (i++));
+                }
+            }
+        }, &quot;t1&quot;);
+        Thread t2 = new Thread(new Runnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                try {
+                    t1.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                while (i &lt; 5) {
+                    System.out.println(Thread.currentThread() + &quot; : &quot; + (i++));
+                }
+            }
+        }, &quot;t2&quot;);
+        t1.start();
+        t2.start();
+        //t1.join();
+        //TimeUnit.MICROSECONDS.sleep(2);
+        //t1.interrupt();
+    }
+}
+</code></pre>
+
+<p>我们让t2阻塞，t1在没有t2竞争CPU的情况下独自占用CPU运行，由于只有1毫秒，5太小看不到预期结果，改为1000，那么运行就会发现1毫秒后t1与t2抢占式交替执行，这是因为t1对CPU的独占在1毫秒后就失效了。</p>
+
+<p>再看这个</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class TestMain {
+    public static void main(String[] args) throws InterruptedException {
+        Thread t3 = new Thread(new Runnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                while (i &lt; 5) {
+                    System.out.println(Thread.currentThread() + &quot; : &quot; + (i++));
+                }
+            }
+        }, &quot;t3&quot;);
+        Thread t1 = new Thread(new Runnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                try {
+                    t3.join();
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                while (i &lt; 5) {
+                    System.out.println(Thread.currentThread() + &quot; : &quot; + (i++));
+                }
+            }
+        }, &quot;t1&quot;);
+        Thread t2 = new Thread(new Runnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                try {
+                    t1.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                while (i &lt; 5) {
+                    System.out.println(Thread.currentThread() + &quot; : &quot; + (i++));
+                }
+            }
+        }, &quot;t2&quot;);
+        t1.start();
+        t2.start();
+        t3.start();
+        //t1.join();
+        //TimeUnit.MICROSECONDS.sleep(2);
+        //t1.interrupt();
+    }
+}
+</code></pre>
+
+<p>t2把CPU使用权让渡给t1，t1让渡给t3，那么执行顺序就是t3&gt;t1&gt;t2，如下</p>
+
+<pre><code>Thread[t3,5,main] : 0
+Thread[t3,5,main] : 1
+Thread[t3,5,main] : 2
+Thread[t3,5,main] : 3
+Thread[t3,5,main] : 4
+Thread[t1,5,main] : 0
+Thread[t1,5,main] : 1
+Thread[t1,5,main] : 2
+Thread[t1,5,main] : 3
+Thread[t1,5,main] : 4
+Thread[t2,5,main] : 0
+Thread[t2,5,main] : 1
+Thread[t2,5,main] : 2
+Thread[t2,5,main] : 3
+Thread[t2,5,main] : 4
+</code></pre>
+
+<p>我们再改动一下上面的程序，t2将权力让渡给t3，我们让t1调用t3的interrupt方法中断t3，会出现什么情况，如下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class TestMain {
+    public static void main(String[] args) throws InterruptedException {
+        Thread t3 = new Thread(new Runnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                while (i &lt; 5) {
+                    System.out.println(Thread.currentThread() + &quot; : &quot; + (i++) + &quot; &quot; + Thread.interrupted());
+                }
+            }
+        }, &quot;t3&quot;);
+        Thread t1 = new Thread(new Runnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                t3.interrupt();
+                while (i &lt; 5) {
+                    System.out.println(Thread.currentThread() + &quot; : &quot; + (i++));
+                }
+            }
+        }, &quot;t1&quot;);
+        Thread t2 = new Thread(new Runnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                try {
+                    t3.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                while (i &lt; 5) {
+                    System.out.println(Thread.currentThread() + &quot; : &quot; + (i++));
+                }
+            }
+        }, &quot;t2&quot;);
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>Thread[t1,5,main] : 0
+Thread[t1,5,main] : 1
+Thread[t1,5,main] : 2
+Thread[t1,5,main] : 3
+Thread[t1,5,main] : 4
+Thread[t3,5,main] : 0 true
+Thread[t3,5,main] : 1 false
+Thread[t3,5,main] : 2 false
+Thread[t3,5,main] : 3 false
+Thread[t3,5,main] : 4 false
+Thread[t2,5,main] : 0
+Thread[t2,5,main] : 1
+Thread[t2,5,main] : 2
+Thread[t2,5,main] : 3
+Thread[t2,5,main] : 4
+</code></pre>
+
+<p>可见t1先于t3执行(不一定，但是肯定不是t3独占式运行)，t2最后执行。</p>
+
+<p>而且可见t3的<code>Thread.interrupted()</code>方法第一次检测到标识信号，输出为true，然后擦除掉了，以后输出为false</p>
+
+<h2>七、线程的关闭</h2>
+
+<p>线程在生命周期正常结束时就会关闭，即run方法执行完毕后关闭(ru中的循环不算，因为尚未执行完毕)。</p>
+
+<p>也可以捕获中断信号关闭线程，例如</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class TestMain {
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (Thread.interrupted()) {
+                    
+                }
+                System.out.println(&quot;I will exit&quot;);
+            }
+        }, &quot;t1&quot;);
+        t1.start();
+        TimeUnit.MICROSECONDS.sleep(1);
+        System.out.println(&quot;System will be shutdown&quot;);
+        t1.interrupt();
+    }
+}
+</code></pre>
+
+<p>以上代码通过检测中断标识而中断自己，也是正常生命周期结束的一种变体。</p>
+
+<p>也可以使用volatile关键字修饰的开关flag来实现，如下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class TestMain {
+    
+    static class MyThread extends Thread {
+        private volatile boolean closed = false;
+        @Override
+        public void run() {
+            while (!closed &amp;&amp; !isInterrupted()) {
+               
+            }
+            System.out.println(&quot;I will exit&quot;);
+        }
+        public void close() {
+            this.closed = true;
+            this.interrupt();
+        }
+    }
+    
+    public static void main(String[] args) throws InterruptedException {
+        MyThread mt = new MyThread();
+        mt.start();
+        TimeUnit.MICROSECONDS.sleep(1);
+        System.out.println(&quot;System will be shutdown&quot;);
+        //do something
+        mt.close();
+    }
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>System will be shutdown
+I will exit
+</code></pre>
+
+<p>注意，本文的代码中可能含有没有用途的变量或者方法，忘记删除，需要读者甄别。</p>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/thread-safety-and-data-synchronization.html">线程安全与数据同步</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/deep-understanding-of-thread-class-constructors.html">深入理解Thread类构造函数</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

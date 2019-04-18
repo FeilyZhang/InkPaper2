@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
+
+        <meta name="keywords" content="Java Core,">
+        <meta name="description" content="Cache模型与Java内存模型及volatile关键字">
+        <meta name="author" content="林奕清">
+        <title>Cache模型与Java内存模型及volatile关键字</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">Cache模型与Java内存模型及volatile关键字</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1545479646"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>CPU比RAM的速度快得多，通常差距达上千倍，在极端情况下有上万倍的差距，那么为了协调RAM与CPU之间的速度矛盾提高CPU资源利用率，一般在CPU与RAM之间增设Cache，CPU访Cache的速度远高于访RAM的速度。</p>
+
+<p>这实际上基于程序的局部性原理，在程序运行时，将运算所需要的数据从主内存中复制一份到CPU Cache中，这样CPU是直接对Cache进行数据的读出与写入的，当运算结束后，再将Cache中的数据刷回内存中。那么这样就会出现CPU缓存一致性问题。</p>
+
+<h2>一、CPU缓存一致性问题</h2>
+
+<p>CPU缓存一致性问题在单线程下是不存在的，因为对数据的操作始终是一个线程，但是在多线程高并发环境下就会出现线程不安全问题。因为每个线程都会有自己的工作内存，每次对内存中的数据操作时是把内存中的数据复制到自己工作内存中而不是直接对内存操作，以i++为例：</p>
+
+<ol>
+<li>假设存在记录访问数量的字段i的初始值为0；</li>
+<li>假定存在两个线程，分别对同一个i进行操作；</li>
+<li>由于对i的操作分为以下几步：
+
+<ol>
+<li>读取主内存的i到CPU Cache中；</li>
+<li>对i进行+1操作；</li>
+<li>将结果写回CPU Cache中；</li>
+<li>最终将结果刷回RAM中。</li>
+</ol></li>
+<li>如果一个线程读取了i的值到自己的工作内存中还没来得及加1也就还没来得及刷回主内存，那么恰好丧失了对CPU的控制被调度到就绪队列，那么另一个线程获得对CPU的控制权再次读取i到自己的工作内存；</li>
+<li>那么两个线程分别加1都刷回主内存，最终结果仍然是1，但是我们的预期结果是2</li>
+</ol>
+
+<p>这样就会造成线程不安全问题。究其缘由，造成线程不安全问题的原因是一线程对共享数据的修改对另一线程不可见。</p>
+
+<p>举个例子，如下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class VolatileFoo {
+    final static int MAX = 5;
+    static int init_value = 0;
+    public static void main(String[] args) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int localValue = init_value;
+                while (localValue &lt; MAX) {
+                    if (init_value != localValue) {
+                        System.out.printf(&quot;The init_value is update to [%d]\n&quot;, init_value);
+                        localValue = init_value;
+                    }
+                }
+            }
+            
+        },&quot;Reader&quot;).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int localValue = init_value;
+                while (localValue &lt; MAX) {
+                    System.out.printf(&quot;The init_value will be changed to [%d]\n&quot; , ++localValue);
+                    init_value = localValue;
+                    try {
+                        TimeUnit.MICROSECONDS.sleep(2);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            
+        },&quot;Updater&quot;).start();
+    }
+
+}
+</code></pre>
+
+<p>Updater线程对init_value进行修改，Reader线程检测这种修改，一旦修改，那么就打印出来，结果呢？如下</p>
+
+<pre><code>The init_value will be changed to [1]
+The init_value will be changed to [2]
+The init_value will be changed to [3]
+The init_value will be changed to [4]
+The init_value will be changed to [5]
+</code></pre>
+
+<p>可以看到，修改不断进行，但是Reader线程并没有检测到这种修改，这就是init_value的修改对Reader不可见，什么原因呢？</p>
+
+<p>Updater线程缓存init_value为0进入自己的工作内存，Reader也缓存init_value为0进入自己的工作内存，由于线程的工作内存都是独立的，那么Reader线程自然无法感知Updater线程对init_value的变动。</p>
+
+<h2>二、volatile关键字</h2>
+
+<p>如果我们给共享的变量加上volatile关键字，那么就能保证多线程间共享变量修改的可见性，如下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class VolatileFoo {
+    final static int MAX = 5;
+    static volatile int init_value = 0;
+    public static void main(String[] args) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int localValue = init_value;
+                while (localValue &lt; MAX) {
+                    if (init_value != localValue) {
+                        System.out.printf(&quot;The init_value is update to [%d]\n&quot;, init_value);
+                        localValue = init_value;
+                    }
+                }
+            }
+            
+        },&quot;Reader&quot;).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int localValue = init_value;
+                while (localValue &lt; MAX) {
+                    System.out.printf(&quot;The init_value will be changed to [%d]\n&quot; , ++localValue);
+                    init_value = localValue;
+                    try {
+                        TimeUnit.MICROSECONDS.sleep(2);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            
+        },&quot;Updater&quot;).start();
+    }
+
+}
+</code></pre>
+
+<p>结果为</p>
+
+<pre><code>The init_value will be changed to [1]
+The init_value is update to [1]
+The init_value will be changed to [2]
+The init_value is update to [2]
+The init_value will be changed to [3]
+The init_value is update to [3]
+The init_value will be changed to [4]
+The init_value is update to [4]
+The init_value will be changed to [5]
+The init_value is update to [5]
+</code></pre>
+
+<p>volatile是怎样保证可见性的呢？这要了解一下Java内存模型</p>
+
+<h2>三、Java内存模型</h2>
+
+<p>Java内存模型(JMM)规定了Java虚拟机(JVM)如果与计算机的主存(RAM)进行工作,其决定了一个线程对共享变量的写入何时对其它线程可见，JMM定义的JVM与RAM之间的抽象关系，具体如下</p>
+
+<ol>
+<li>共享变量存储于主内存之中，每个线程都可以访问；</li>
+<li>每个线程都有私有的工作内存或者称为本地内存；</li>
+<li>工作内存只存储该线程对共享变量的副本；</li>
+<li>线程不能直接操作主内存，只有先操作了工作内存之后才能写回主内存；</li>
+</ol>
+
+<p>举个例子，假设主内存的共享变量为0，线程1和线程2分别读取共享变量的副本进入自己的工作内存，假设线程1此时将共享变量修改为1同时刷回主内存中，当线程2想要去使用自己本地内存中共享变量的副本时就会发现该缓存的变量失效了，就不得不重新回到主存中重新缓存共享变量进自己的工作内存。</p>
+
+<p>那么上述的例子就很好理解了，Updater和Reader线程分别缓存init_value进入自己的工作内存，Updater对init_value进行+1操作并立即刷回主内存中，同时Reader线程本地内存中的init_value失效，Reader重新缓存init_value，然后判断是否发生变化。</p>
+
+<p>这就是volatile的作用，即保证共享变量对线程的可见性。</p>
+
+<p>volatile与synchronized的区别如下</p>
+
+<ol>
+<li>volatile只能作用于变量，synchronized作用在方法和代码块上；</li>
+<li>volatile能保证可见性与有序性，但是无法保证原子性，synchronized不仅可以保证可见性还可以保证原子性；</li>
+<li>volatile不会造成线程阻塞那么就不能用于同步线程，synchronized可以阻塞线程可以用于同步</li>
+<li>volatile修饰的变量可以为null，synchronized关键字同步的monitor对象不能为null。</li>
+</ol>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/introduction-to-prolog-language.html">Prolog 语言入门</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/summary-of-previous-multithreading-foundations.html">对前面多线程基础的总结</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

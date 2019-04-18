@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
+
+        <meta name="keywords" content="Java Core,">
+        <meta name="description" content="捕获线程运行时异常信息与注入钩子线程">
+        <meta name="author" content="林奕清">
+        <title>捕获线程运行时异常信息与注入钩子线程</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">捕获线程运行时异常信息与注入钩子线程</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1545380198"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><h2>一、捕获线程运行时异常信息</h2>
+
+<p>线程在运行时是不允许抛出checked异常的，而且线程运行在自己的上下文中，派生它的线程无法直接获得它运行时出现的异常信息。但是，Java提供了UncaughtExceptionHandler接口，当线程在运行过程中出现异常时，会回掉UncaughtExceptionHandler接口，从而就可以知道哪个线程在运行时出错了以及出现了什么样的错误。</p>
+
+<p>在Thread类当中，关于处理运行时异常的API共有四个，如下</p>
+
+<pre><code>public void setUncaughtExceptionHandler(UncaughtExceptionHandler eh)：为某个特定线程指定UncaughtExceptionHandler
+public static void setDefaultUncaughtExceptionHandler(UncaughtExceptionHandler eh)：设置全局的UncaughtExceptionHandler
+public UncaughtExceptionHandler getUncaughtExceptionHandler()：获取特定线程的UncaughtExceptionHandler
+public static UncaughtExceptionHandler getDefaultUncaughtExceptionHandler()：获取全局的UncaughtExceptionHandler
+</code></pre>
+
+<p>示例如下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class CaptrureThreadException {
+
+    public static void main(String[] args) {
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -&gt; {
+            System.out.println(t.getName() + &quot; occur exception&quot;);
+            e.printStackTrace();
+        });
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                // 这里会出现unchecked异常
+                System.out.println(1 / 0);
+            }
+        }, &quot;Test-Thread&quot;);
+        thread.start();
+    }
+
+}
+</code></pre>
+
+<p>我们通过<code>Thread.setDefaultUncaughtExceptionHandler</code>为线程设置全局的异常捕获回调。该示例输出为</p>
+
+<pre><code>Test-Thread occur exception
+java.lang.ArithmeticException: / by zero
+    at CaptrureThreadException$1.run(CaptrureThreadException.java:19)
+    at java.lang.Thread.run(Unknown Source)
+</code></pre>
+
+<p>可以看出，明显捕获出现异常的线程和原因。</p>
+
+<h2>二、注入钩子线程</h2>
+
+<p>JVM进程的退出，是由于JVM进程中没有活跃的非守护线程或者收到了系统的中断信号。向JVM程序注入一个Hook线程，那么在JVM进程退出的时候，Hook线程就会启动执行，通过Runtime可以为JVM注入多个Hook线程，示例代码如下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class ThreadHook {
+
+    public static void main(String[] args) {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println(&quot;The hook thread 1 is running.&quot;);
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(&quot;The hook thread 1 will exit.&quot;);
+            }
+        });
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println(&quot;The hook thread 2 is running.&quot;);
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(&quot;The hook thread 2 will exit.&quot;);
+            }
+        });
+        System.out.println(&quot;The main thread will is stopping.&quot;);
+    }
+
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>The main thread will is stopping.
+The hook thread 1 is running.
+The hook thread 2 is running.
+The hook thread 2 will exit.
+The hook thread 1 will exit.
+</code></pre>
+
+<p>可见，在主线程退出后Hook线程就会运行，待Hook线程运行结束后，整个JVM进程退出。</p>
+
+<p>Hook的实际意义在哪？比如为了防止某个程序被重复启动，在进程启动时会创建一个lock文件，在又一次启动程序时，程序会检查是否存在lock文件，如果存在，那么说明程序已经启动不能重复启动，如果不存在那么就启动。但是为了下一次正常启动程序，我们得在程序关闭的时候删除掉lock文件，那么Hook线程就派上用场了。</p>
+
+<p>事实上，在MySQL服务器、zookeeper、kafka等系统中都能看到lock文件的存在。</p>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/summary-of-previous-multithreading-foundations.html">对前面多线程基础的总结</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/threadgroup-detailed-explanation.html">ThreadGroup详解</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

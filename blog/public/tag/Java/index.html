@@ -44,12 +44,34 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="">
         <meta name="description" content="">
         <title>Feily Zhang</title>
     </head>
-    <body>
+    <body style="font-family:NSimSun">
         <article class="container">
             <header class="header-wrap" style="font-family:NSimSun">
   <a class="index" href="/">
@@ -63,58 +85,39 @@
   </ul>
 </header>
 
-            <article class="main tag" style="font-family:KaiTi">
-                <header class="site">
-                    <h1 class="title">Feily Zhang</h1>
-                    <h2 class="subtitle"></h2>
+            <article class="main page">
+                <header class="header site">
+                    
+                        <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+                        <h1 class="tag">Java</h1>
+                        <h2 class="tag-sub">1 篇文章</h2>
+                    
                 </header>
-                <header class="header">
-                    <span class="title">标签 -</span>
-                    <span class="subtitle">52 篇文章</span>
-                </header>
-                <ul class="tag-list clearfix">
+                <ul class="article-list">
                     
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/Java%20Core/index.html">Java Core<span class="tag-count"> (23)</span></a>
-                    </li>
-                    
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/Spring%20Framework/index.html">Spring Framework<span class="tag-count"> (6)</span></a>
-                    </li>
-                    
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/Machine%20Learning/index.html">Machine Learning<span class="tag-count"> (6)</span></a>
-                    </li>
-                    
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/Prolog/index.html">Prolog<span class="tag-count"> (4)</span></a>
-                    </li>
-                    
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/%e6%96%87%e5%8f%b2%e7%ac%94%e8%ae%b0/index.html">文史笔记<span class="tag-count"> (3)</span></a>
-                    </li>
-                    
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/%e4%b8%80%e6%99%8c%e8%b4%aa%e6%ac%a2/index.html">一晌贪欢<span class="tag-count"> (3)</span></a>
-                    </li>
-                    
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/MySQL/index.html">MySQL<span class="tag-count"> (3)</span></a>
-                    </li>
-                    
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/Astrophysics/index.html">Astrophysics<span class="tag-count"> (2)</span></a>
-                    </li>
-                    
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/Java/index.html">Java<span class="tag-count"> (1)</span></a>
-                    </li>
-                    
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/Erlang/index.html">Erlang<span class="tag-count"> (1)</span></a>
+                    <li class="article">
+                        <a class="title" href="/class-loading-process.html">类的加载过程</a>
+                        <div class="cover" style="background-image:url(/images/article/class-load-process.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>ClassLoader的主要职责就是负责加载各种class文件到JVM中，ClassLoader是一个抽象的class，给定一个class的二进制文件名，ClassLoader会尝试加载并且在JVM中生成构成这个类的各个数据结构，然后使其分布在JVM对应的内存区域中。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1555591825"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java/index.html">Java</a>
+                            </span>
+                        </section>
                     </li>
                     
                 </ul>
+                <section class="page-nav">
+                    
+                    
+                    
+                </section>
             </article>
         </article>
         <footer class="footer" style="font-family:NSimSun">

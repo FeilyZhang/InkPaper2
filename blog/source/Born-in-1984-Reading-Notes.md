@@ -4,7 +4,7 @@ update: 2018-10-18 21:53:25 +0800
 author: me
 cover: "-/images/born-in-1984.jpeg"
 tags:
-    - Literature
+    - 文史笔记
 preview: 有时候我宁愿相信，人生的诸多不顺，只是因为最适合你的那条路尚未出现。
 
 ---

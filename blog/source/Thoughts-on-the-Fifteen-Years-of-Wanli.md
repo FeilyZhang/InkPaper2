@@ -4,7 +4,7 @@ update: 2017-12-05 11:18:54 +0800
 author: me
 cover: "-/images/the-Fifteen-Years-of-Wanli.jpg"
 tags:
-    - Literature
+    - 文史笔记
 preview: 一部《万历十五年》,就是一部简明扼要的明朝兴衰史。
 
 ---

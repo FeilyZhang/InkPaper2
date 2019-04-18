@@ -44,30 +44,8 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
 
-
-        <meta name="keywords" content="Literature,">
+        <meta name="keywords" content="文史笔记,">
         <meta name="description" content="《生于一九八四》·阅读小记">
         <meta name="author" content="林奕清">
         <title>《生于一九八四》·阅读小记</title>
@@ -94,7 +72,7 @@
                     
                     <span class="date" data-time="1539870805"><span class="from"></span></span>
                     
-                    <span class="tags"><a class="tag" href="/tag/Literature/index.html">Literature</a></span>
+                    <span class="tags"><a class="tag" href="/tag/%e6%96%87%e5%8f%b2%e7%ac%94%e8%ae%b0/index.html">文史笔记</a></span>
                 </section>
                 <article class="content" style="font-family:KaiTi"><p>在图书馆拿这本书，起初是因为它的名字吸引了我;后来在阅读了一章之后，才发现吸引我的是宿命;读完了整本书，直到现在，其实真正让我感同身受的是&rdquo;自由&rdquo;。</p>
 

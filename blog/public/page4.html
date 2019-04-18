@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -146,7 +124,7 @@
                             <span class="date" data-time="1539870805"><span class="from"></span></span>
                             
                             <span class="tags">
-                            <a class="tag" href="/tag/Literature/index.html">Literature</a>
+                            <a class="tag" href="/tag/%e6%96%87%e5%8f%b2%e7%ac%94%e8%ae%b0/index.html">文史笔记</a>
                             </span>
                         </section>
                     </li>
@@ -163,7 +141,7 @@
                             <span class="date" data-time="1512443934"><span class="from"></span></span>
                             
                             <span class="tags">
-                            <a class="tag" href="/tag/Literature/index.html">Literature</a>
+                            <a class="tag" href="/tag/%e6%96%87%e5%8f%b2%e7%ac%94%e8%ae%b0/index.html">文史笔记</a>
                             </span>
                         </section>
                     </li>
@@ -180,7 +158,7 @@
                             <span class="date" data-time="1512358034"><span class="from"></span></span>
                             
                             <span class="tags">
-                            <a class="tag" href="/tag/Literature/index.html">Literature</a>
+                            <a class="tag" href="/tag/%e6%96%87%e5%8f%b2%e7%ac%94%e8%ae%b0/index.html">文史笔记</a>
                             </span>
                         </section>
                     </li>

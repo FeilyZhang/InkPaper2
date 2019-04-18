@@ -67,10 +67,10 @@
 </script>
 
 
-        <meta name="keywords" content="Astrophysics,">
-        <meta name="description" content="弦理论中的弦、粒子、物质以及宇宙">
+        <meta name="keywords" content="Java Core,">
+        <meta name="description" content="泛型方法与泛型接口">
         <meta name="author" content="林奕清">
-        <title>弦理论中的弦、粒子、物质以及宇宙</title>
+        <title>泛型方法与泛型接口</title>
     </head>
     <body>
         <article class="container">
@@ -87,16 +87,100 @@
 </header>
 
             <article class="main article">
-                <h1 class="title" style="font-family:KaiTi">弦理论中的弦、粒子、物质以及宇宙</h1>
+                <h1 class="title" style="font-family:KaiTi">泛型方法与泛型接口</h1>
                 <section class="info" style="font-family:KaiTi">
                     <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                     <a class="name" href="/about.me.html">林奕清</a>
                     
-                    <span class="date" data-time="1543735414"><span class="from"></span></span>
+                    <span class="date" data-time="1544261325"><span class="from"></span></span>
                     
-                    <span class="tags"><a class="tag" href="/tag/Astrophysics/index.html">Astrophysics</a></span>
+                    <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
                 </section>
-                <article class="content" style="font-family:KaiTi"><p>超弦理论中，弦的大小不到质子的10^19倍(因而尚且观测不到)且是振动的，每种振动模式代表一种独特的共振或粒子(即粒子不是一个点，而是以某种模式振动的弦)。电子并不比中微子更基本，这是由于我们的显微镜还不够强大，无法观测到更深层的结构，根据弦理论，如果我们能把点粒子放大，那么我们就会看到一个小的振动弦，也就是说物质本质上是由这个振动弦产生的(由于振动而产生的一种“和声”，就像小提琴可以组合出无限多的和声，振动弦也可以构造出无限数量的物质形式，其实这样就明确解释了自然界中粒子的丰富性)，同样，物理定律可以被比作弦上所允许的和声定律，那么由无数的振动弦组成的宇宙就可以被当做一首交响曲了。</p>
+                <article class="content" style="font-family:KaiTi"><p>泛型不仅仅是类层面的，也可以单独给方法定义，形式是在方法的声明的返回值类型前加上<code>&lt;T&gt;</code>，这是只有一种泛型的情况，如果是多种泛型，那么用逗号隔开即可，然后就可以在形参列表使用了。如下，我们实现一个数组的相关方法</p>
+
+<h2>一、泛型方法</h2>
+
+<pre><code>public class Array {
+
+    public static  int indexFirstOf(T[] array, T ele) {
+        for (int i = 0; i &lt; array.length; i++) { 
+            if (array[i].equals(ele)) { 
+                return i; 
+            } 
+        } 
+        return -1; 
+    } 
+
+    public static  int indexLastOf(T[] array, T ele) {
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            if (array[i].equals(ele)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    public static  boolean isExist(T[] array, T ele) {
+        for (T e : array) {
+            if (e.equals(ele)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+}
+public class ArrayTest {
+
+    public static void main(String[] args) {
+        String[] string = {&quot;Zhang&quot;, &quot;Peng&quot;, &quot;Fei&quot;, &quot;Zhang&quot;};
+        System.out.println(Array.indexFirstOf(string, &quot;Zhang&quot;));
+        System.out.println(Array.indexLastOf(string, &quot;Zhang&quot;));
+        System.out.println(Array.isExist(string, &quot;Zhang&quot;));
+        System.out.println(Array.isExist(string, &quot;feily&quot;));
+    }
+
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>0
+3
+true
+false
+</code></pre>
+
+<h2>二、泛型接口</h2>
+
+<p>接口也可以是泛Comparator型的，注意是接口层面而不是接口中的抽象方法，Comparable和Comparator接口都是泛型的，代码如下</p>
+
+<pre><code>public interface Comparable {
+    public int comparaTo(T o);
+}
+public interface comparator {
+    int compare(T o1, T o2);
+    boolean equals(Object obj);
+}
+</code></pre>
+
+<p>实现接口时，应该指定具体的类型，比如，对于Integer类，实现代码是</p>
+
+<pre><code>public final class Integer extends Number implements Comparable {
+    public int comparaTo(Integer anotherInteger) {
+          return compare(this.value, anotherInteger.value);
+    }
+}
+</code></pre>
+
+<p>而String类内部的一个Comparator接口实现为</p>
+
+<pre><code>private static class CaseInsensitiveComparator implements Comparator {
+    public int compare(String s1, String s2) {
+        // ...
+    }
+}
+</code></pre>
 </article>
                 <section class="author" style="font-family:NSimSun">
                     <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
@@ -107,13 +191,13 @@
                     
                     <section class="nav prev more">
                         <div class="head">上篇文章</div>
-                        <a class="link" href="/the-rise-and-fall-of-stars-once-born-it%27s-designed-to-be-eternal.html">恒星兴衰史:一诞生就注定永恒</a>
+                        <a class="link" href="/usage-of-predicate-interface-in-java-functional-programming.html">Java函数式编程之Predicate接口的用法</a>
                     </section>
                     
                     
                     <section class="nav next more">
                         <div class="head">下篇文章</div>
-                        <a class="link" href="/java-exception-and-exception-handling-mechanism.html">Java异常及异常处理机制</a>
+                        <a class="link" href="/analysis-of-java-generics.html">Java泛型浅析</a>
                     </section>
                     
                 </section>

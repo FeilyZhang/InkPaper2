@@ -67,10 +67,10 @@
 </script>
 
 
-        <meta name="keywords" content="Astrophysics,">
-        <meta name="description" content="弦理论中的弦、粒子、物质以及宇宙">
+        <meta name="keywords" content="Java Core,">
+        <meta name="description" content="Java函数式编程之Predicate接口的用法">
         <meta name="author" content="林奕清">
-        <title>弦理论中的弦、粒子、物质以及宇宙</title>
+        <title>Java函数式编程之Predicate接口的用法</title>
     </head>
     <body>
         <article class="container">
@@ -87,16 +87,125 @@
 </header>
 
             <article class="main article">
-                <h1 class="title" style="font-family:KaiTi">弦理论中的弦、粒子、物质以及宇宙</h1>
+                <h1 class="title" style="font-family:KaiTi">Java函数式编程之Predicate接口的用法</h1>
                 <section class="info" style="font-family:KaiTi">
                     <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                     <a class="name" href="/about.me.html">林奕清</a>
                     
-                    <span class="date" data-time="1543735414"><span class="from"></span></span>
+                    <span class="date" data-time="1544326891"><span class="from"></span></span>
                     
-                    <span class="tags"><a class="tag" href="/tag/Astrophysics/index.html">Astrophysics</a></span>
+                    <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
                 </section>
-                <article class="content" style="font-family:KaiTi"><p>超弦理论中，弦的大小不到质子的10^19倍(因而尚且观测不到)且是振动的，每种振动模式代表一种独特的共振或粒子(即粒子不是一个点，而是以某种模式振动的弦)。电子并不比中微子更基本，这是由于我们的显微镜还不够强大，无法观测到更深层的结构，根据弦理论，如果我们能把点粒子放大，那么我们就会看到一个小的振动弦，也就是说物质本质上是由这个振动弦产生的(由于振动而产生的一种“和声”，就像小提琴可以组合出无限多的和声，振动弦也可以构造出无限数量的物质形式，其实这样就明确解释了自然界中粒子的丰富性)，同样，物理定律可以被比作弦上所允许的和声定律，那么由无数的振动弦组成的宇宙就可以被当做一首交响曲了。</p>
+                <article class="content" style="font-family:KaiTi"><p>Java8定义了大量的预定义函数式接口，用于常见的代码传递(其实就是参数化函数)，这些函数定义在包java.util.function下,每个接口只有一个抽象方法</p>
+
+<p>Predicate函数接口的接口签名如下</p>
+
+<pre><code>Predicate&lt;T&gt;
+</code></pre>
+
+<p>其唯一的方法test的签名如下</p>
+
+<pre><code>boolean test(T t)    //谓词，判断输入是否满足条件
+</code></pre>
+
+<p>用一个例子来简单说明，首先定义序列化学生姓名和成绩的JavaBean，如下</p>
+
+<pre><code>public class Student {
+
+    String name;
+    double score;
+    
+    public Student(String name, double score) {
+        this.name = name;
+        this.score = score;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setScore(double score) {
+        this.score = score;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public double getScore() {
+        return score;
+    }
+}
+</code></pre>
+
+<p>再在main方法所在的主文件中重写有Predicate和test方法参与的函数，如下</p>
+
+<pre><code>public static &lt;E&gt; List&lt;E&gt; filter(List&lt;E&gt; list, Predicate&lt;E&gt; pred) {
+    List&lt;E&gt; retList  = new ArrayList&lt;E&gt;();
+    for (E e : list) {
+        if (pred.test(e)) {
+            retList.add(e);
+        }
+    }
+    return retList;
+}
+</code></pre>
+
+<p>该方法通过Predicate的test过滤不符合条件的Student，正是谓词的作用</p>
+
+<p>那么再定义Student型List列表，通过arrays.asList方法将Student型数组转化为列表，如下</p>
+
+<pre><code>List&lt;Student&gt; list = Arrays.asList(new Student[] {
+    new Student(&quot;Feily Zhang&quot;, 95d), new Student(&quot;Haoyue Li&quot;, 100d),
+    new Student(&quot;Daji Luobu&quot;, 80d), new Student(&quot;Xin Chen&quot;, 94d)
+});
+</code></pre>
+
+<p>然后就需要调用filter方法，传入list，并编写Lambda表达式作为函数接口Predicate的实现，如下</p>
+
+<pre><code>List&lt;Student&gt; result = filter(list, student -&gt; student.getScore() &gt; 90);
+</code></pre>
+
+<p>这样过滤的结果就会全部保存在result列表中</p>
+
+<p>完整的主文件代码如下</p>
+
+<pre><code>import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+
+public class StudentTest {
+
+    public static void main(String[] args) {
+        List&lt;Student&gt; list = Arrays.asList(new Student[] {
+            new Student(&quot;Feily Zhang&quot;, 95d), new Student(&quot;Haoyue Li&quot;, 100d),
+            new Student(&quot;Daji Luobu&quot;, 80d), new Student(&quot;Xin Chen&quot;, 94d)
+        });
+        List&lt;Student&gt; result = filter(list, student -&gt; student.getScore() &gt; 90);
+        for (Student ele : result) {
+            System.out.println(ele.getName() + &quot; , &quot; + ele.getScore());
+        }
+    }
+
+    public static &lt;E&gt; List&lt;E&gt; filter(List&lt;E&gt; list, Predicate&lt;E&gt; pred) {
+        List&lt;E&gt; retList  = new ArrayList&lt;E&gt;();
+        for (E e : list) {
+            if (pred.test(e)) {
+                retList.add(e);
+            }
+        }
+        return retList;
+    }
+}
+</code></pre>
+
+<p>结果为</p>
+
+<pre><code>Feily Zhang , 95.0
+Haoyue Li , 100.0
+Xin Chen , 94.0
+</code></pre>
 </article>
                 <section class="author" style="font-family:NSimSun">
                     <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
@@ -107,13 +216,13 @@
                     
                     <section class="nav prev more">
                         <div class="head">上篇文章</div>
-                        <a class="link" href="/the-rise-and-fall-of-stars-once-born-it%27s-designed-to-be-eternal.html">恒星兴衰史:一诞生就注定永恒</a>
+                        <a class="link" href="/usage-of-predicate-function-and-consumer-interfaces-in-java-functional-programming.html">Java函数式编程之Predicate、Function、Consumer接口的用法</a>
                     </section>
                     
                     
                     <section class="nav next more">
                         <div class="head">下篇文章</div>
-                        <a class="link" href="/java-exception-and-exception-handling-mechanism.html">Java异常及异常处理机制</a>
+                        <a class="link" href="/generic-method-and-generic-interface.html">泛型方法与泛型接口</a>
                     </section>
                     
                 </section>

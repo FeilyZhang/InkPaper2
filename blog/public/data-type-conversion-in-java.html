@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
+
+        <meta name="keywords" content="Java Core,">
+        <meta name="description" content="Java中的数据类型转换">
+        <meta name="author" content="林奕清">
+        <title>Java中的数据类型转换</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">Java中的数据类型转换</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1542212583"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>Java中的数据类型分为三大类，分别是数值型、布尔型、字符型，其中数值型分为整型和浮点型。</p>
+
+<p>相对于数据类型，Java中的变量类型分为布尔型boolean；字符型char；整型byte、short、int、long；浮点型float、double。</p>
+
+<p>需要注意的是String虽然平时与int、double等常用，但是String并不是Java当中的简单数据类型，String是类变量。</p>
+
+<p>Java数据类型的转换分为三种，分别是：简单数据类型之间的转换(低级变量向高级变量的自动类型转换、高级变量向低级变量的强制类型转换以及包装类过渡类型转换)、字符串型与其他数据类型的转换、将字符型直接作为数值转换为其他数据类型。</p>
+
+<p>Java当中简单数据类型由低级到高级分别是：(byte、short、char)—int—long—float—double</p>
+
+<h2>一、简单数据类型之间的转换</h2>
+
+<h3>1.1 低级变量向高级变量的自动类型转换</h3>
+
+<pre><code>public class TestPlus {
+    public static void main(String[] args) {
+        byte bi = 10;
+        int ii = bi;
+        long li = ii;
+        float fi = li;
+        double di = fi;
+        System.out.println(bi);    //10
+        System.out.println(ii);    //10
+        System.out.println(li);    //10
+        System.out.println(fi);    //10.0
+        System.out.println(di);    //10.0
+        char cj = 'a';
+        int ij = cj;
+        long lj = ij;
+        float fj = lj;
+        double dj = fj;
+        System.out.println(cj);    //a
+        System.out.println(ij);    //97
+        System.out.println(lj);    //97
+        System.out.println(fj);    //97.0
+        System.out.println(dj);    //97.0
+
+    }
+}
+</code></pre>
+
+<p>如果是char型自动类型转化那么会转化为其对应的ASCII码值。</p>
+
+<p>对于char、byte、short三种类型而言，由于他们是相同的级别，所以不能自动类型转化，但是可以强制类型转化，比如</p>
+
+<pre><code>byte bi = 97;
+System.out.println((char)bi);    //a
+</code></pre>
+
+<h3>1.2 高级变量向低级变量的强制类型转换</h3>
+
+<pre><code>public class TestPlus {
+    public static void main(String[] args) {
+        double di = 10.0;
+        float fi = (float)di;
+        long li = (long)di;
+        int ii = (int)di;
+        byte bi = (byte)ii;
+        System.out.println(bi);    //10
+        System.out.println(ii);    //10
+        System.out.println(li);    //10
+        System.out.println(fi);    //10.0
+        System.out.println(di);    //10.0
+    }
+}
+</code></pre>
+
+<p>不过这种转化会导致溢出或精度下降，比如</p>
+
+<pre><code>public class TestPlus {
+    public static void main(String[] args) {
+        double di = 10.1111111111111111111;
+        float fi = (float)di;
+        long li = (long)di;
+        int ii = (int)di;
+        byte bi = (byte)ii;
+        System.out.println(bi);    //10
+        System.out.println(ii);    //10
+        System.out.println(li);    //10
+        System.out.println(fi);    //10.111111
+        System.out.println(di);    //10.11111111111111
+    }
+}
+</code></pre>
+
+<p>明显损失掉了double型变量的精度</p>
+
+<h3>1.3 包装类过渡类型转换</h3>
+
+<p>包装类其实就是对简单数据类型的一个包装,char、int、long、float、double、boolean类型的包装类分别是Character、Integer、Long、Float、Double、Boolean，而String本身就是类因此不存在包装类。</p>
+
+<p>对简单数据类型进行包装的一个好处就是规避了NPE风险，简单数据类型是不可以接收null值的，比如</p>
+
+<pre><code>double di = null;    //Error:(5, 21) java: incompatible types: &lt;nulltype&gt; cannot be converted to double
+</code></pre>
+
+<p>以上代码会报错，但是包装类却不存在问题</p>
+
+<pre><code>Double di = null;
+System.out.println(di);    //null
+</code></pre>
+
+<p>在进行简单数据类型之间的转换(无论自动还是强制)时可以用包装类进行中间过渡，如下</p>
+
+<pre><code>Double di = 10.11111111111;
+System.out.println(di);    //10.11111111111
+System.out.println(di.floatValue());    //10.111111
+</code></pre>
+
+<p>直接得到了double对应的包装类Double转化的float型数据</p>
+
+<p>简单数据类型到包装数据类型(装箱的过程)可以通过相应包装类的构造函数，例如</p>
+
+<pre><code>Double di = new Double(10.11111111111);
+Float fi = new Float(10.1111f);
+Long li = new Long(10l);
+Integer ii = new Integer(10);
+Boolean bi = new Boolean(true);
+Character ci = new Character('a');
+</code></pre>
+
+<p>而拆箱同样简单，只需要将包装类对象直接赋值给相应的简单类型变量即可。</p>
+
+<h2>二、字符串型与其他数据类型的转换</h2>
+
+<h3>2.1 其它数据类型转字符串，通过相应包装类的toString()方法即可实现</h3>
+
+<pre><code>public class TestPlus {
+    public static void main(String[] args) {
+        Double di = new Double(10.11111111111);
+        Float fi = new Float(10.1111f);
+        Long li = new Long(10l);
+        Integer ii = new Integer(10);
+        Boolean bi = new Boolean(true);
+        Character ci = new Character('a');
+        System.out.println(di.toString().getClass().toString());
+        System.out.println(fi.toString().getClass().toString());
+        System.out.println(li.toString().getClass().toString());
+        System.out.println(ii.toString().getClass().toString());
+        System.out.println(bi.toString().getClass().toString());
+        System.out.println(ci.toString().getClass().toString());
+    }
+}
+</code></pre>
+
+<p>如下输出</p>
+
+<pre><code>class java.lang.String
+class java.lang.String
+class java.lang.String
+class java.lang.String
+class java.lang.String
+class java.lang.String
+</code></pre>
+
+<p>可以看到明显转化为了String类型，需要注意的是只有包装类的toString方法可以getClass，因为toString的目标类型是String类，那么就可以通过getClass获取其类型；但是诸如包装类的floatValue之类的转化附带拆箱的方法是无法getClass的，因为其目标类型是简单数据类型，简单数据类型不是类，无法getClass</p>
+
+<h3>2.2 字符串转简单数据类型，通过包装类的parse方法即可实现</h3>
+
+<pre><code>String s = &quot;11&quot;;
+System.out.println(Integer.parseInt(s));    //11
+System.out.println(Double.parseDouble(s));    //11.0
+</code></pre>
+
+<p>parse之后的目标类型是简单数据类型(附带拆箱)，所以仍然无法getClass</p>
+
+<h3>2.3 将字符型直接作为数值转换为其他数据类型</h3>
+
+<p><strong>一种是将字符型直接转化为其对应的ASCII码值，</strong>如</p>
+
+<pre><code>char c = '1';
+System.out.println((int)c);    //49
+</code></pre>
+
+<p><a name="d9c2dd1a"></a>
+<strong>另一种是直接获取字面量</strong></p>
+
+<p>但是我们有些时候想得到的是字面量1的数值(是数值)，那么可以通过Character的getNumericValue方法实现，如下</p>
+
+<pre><code>char c = '1';
+System.out.println(Character.getNumericValue(c));    //1
+</code></pre>
+
+<p>全文完！</p>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/java-exception-and-exception-handling-mechanism.html">Java异常及异常处理机制</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/born-in-1984-reading-notes.html">《生于一九八四》·阅读小记</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

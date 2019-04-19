@@ -420,9 +420,12 @@ public class MyClassLoader extends ClassLoader {
     
     @Override
     protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        synchronized(getClassLoadingLock(name)) {
+        synchronized(getClassLoadingLock(name)) {    // ①
+		    // ②
             Class<?> cls = findLoadedClass(name);
+			// ③
             if (cls == null) {
+			    // ④
                 if (name.startsWith("java.") || name.startsWith("javax")) {
                     try {
                         cls = getSystemClassLoader().loadClass(name);
@@ -430,11 +433,13 @@ public class MyClassLoader extends ClassLoader {
                         
                     }
                 } else {
+				    // ⑤
                     try {
                         cls = this.findClass(name);
                     } catch (ClassNotFoundException e) {
                         
                     }
+					// ⑥
                     if (cls == null) {
                         if (getParent() != null) {
                             cls = getParent().loadClass(name);
@@ -444,6 +449,7 @@ public class MyClassLoader extends ClassLoader {
                     }
                 }
             }
+			// ⑦
             if (null == cls) {
                 throw new ClassNotFoundException("The class " + name + " not found.");
             }
@@ -457,4 +463,13 @@ public class MyClassLoader extends ClassLoader {
 }
 ```
 
-然后现在即使是IDE下不用删除`HelloWorld.java`与`HelloWorld.class`文件仍然能够通过自定义类加载器加载HelloWorld。
+代码还是很好理解的，与**双亲委托机制的源码描述片段**的理解同理，详细的代码解释如下
+
++ ①：根据类的全路径名称进行加锁，确保每一个类在多线程的情况下只被加载一次；
++ ②：到已加载类的缓存中查看该类是否已经被加载，如果已加载则直接返回；
++ ③④：若缓存中没有被加载的类，则需要对其进行首次加载，如果类的全路径以`java`和`javax`开头，(那么说明是核心类库，)则直接委托给系统类加载器对其进行加载；
++ ⑤如果类不是以`java`或`javax`开头，则尝试用我们自定义的类加载器进行加载；
++ ⑥若自定义类加载器仍旧没有完成对类的加载，则委托给其父类加载器进行加载或者系统类加载器进行加载；
++ ⑦经过若干次尝试之后，如果还是无法对类进行加载，则抛出无法找到类的异常。
+
+然后现在即使是IDE下,不用删除`HelloWorld.java`与`HelloWorld.class`文件仍然能够通过自定义类加载器加载HelloWorld。

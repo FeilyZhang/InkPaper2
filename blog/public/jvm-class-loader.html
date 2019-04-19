@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
+
+        <meta name="keywords" content="Java,">
+        <meta name="description" content="JVM类加载器">
+        <meta name="author" content="林奕清">
+        <title>JVM类加载器</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">JVM类加载器</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1555671625"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Java/index.html">Java</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>类加载器的职责就是负责类的加载，对于任意一个class，都需要由加载它的类加载器和这个类本身确立其在JVM中的唯一性，这也就是运行时包。</p>
+
+<h2>一、JVM内置的三大类加载器</h2>
+
+<p>JVM提供内置的三大类加载器，不同的类加载器负责将不同的类加载到JVM内存之中，并且它们之间严格遵守着父委托机制，如下图所示</p>
+
+<p><img src="data:image/gif;base64,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" data-src="/images/article/JVM-class-loader1.jpg" alt="" /></p>
+
+<blockquote>
+<p>图片来源：<a href="http://www.cnblogs.com/huizhi/p/10177126.html">http://www.cnblogs.com/huizhi/p/10177126.html</a></p>
+</blockquote>
+
+<h3>1.1 根类加载器</h3>
+
+<p>又称Bootstrap类加载器，该类加载器是最顶层的类加载器，没有任何父加载器，由C++编写，主要负责虚拟机核心类库的加载，比如整个java.lang包都是由根加载器所加载，可以通过<code>-Xbootclasspath</code>来指定根加载器的路径,也可以通过系统属性来得知当前JVM的根加载器都加载了哪些资源。</p>
+
+<pre><code>public class BootstrapClassLoader {
+
+    public static void main(String[] args) {
+        System.out.println(&quot;Bootstrap:&quot; + String.class.getClassLoader());
+        System.out.println(System.getProperty(&quot;sun.boot.class.path&quot;).replace(&quot;;&quot;, &quot;\n&quot;));
+    }
+
+}
+</code></pre>
+
+<p>上述代码获取了String类的类加载器以及根加载器所在的加载路径，输出为</p>
+
+<pre><code>Bootstrap:null
+C:\Program Files\Java\jdk1.8.0_201\jre\lib\resources.jar
+C:\Program Files\Java\jdk1.8.0_201\jre\lib\rt.jar
+C:\Program Files\Java\jdk1.8.0_201\jre\lib\sunrsasign.jar
+C:\Program Files\Java\jdk1.8.0_201\jre\lib\jsse.jar
+C:\Program Files\Java\jdk1.8.0_201\jre\lib\jce.jar
+C:\Program Files\Java\jdk1.8.0_201\jre\lib\charsets.jar
+C:\Program Files\Java\jdk1.8.0_201\jre\lib\jfr.jar
+C:\Program Files\Java\jdk1.8.0_201\jre\classes
+</code></pre>
+
+<p>由于<code>String.class</code>的类加载器是根加载器，而根加载器是获取不到引用的，所以输出为null。</p>
+
+<h3>1.2 扩展类加载器</h3>
+
+<p>扩展类加载器的父加载器是根加载器，主要是用于加载<code>JAVA_HOME</code>下的<code>jre/lib/ext</code>子目录里面的类库，由纯Java语言实现，扩展类加载器所加载的类库可以通过系统属性<code>java.ext.dirs</code>获得，如下</p>
+
+<pre><code>public class ExtClassLoader {
+
+    public static void main(String[] args) {
+        System.out.println(System.getProperty(&quot;java.ext.dirs&quot;).replace(&quot;;&quot;, &quot;\n&quot;));
+    }
+
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>C:\Program Files\Java\jdk1.8.0_201\jre\lib\ext
+C:\Windows\Sun\Java\lib\ext
+</code></pre>
+
+<p>也可以将自己的类打包为jar，然后放到扩展类加载器所在的路径中，扩展类加载器会负责加载自己所需要的类。</p>
+
+<h3>1.3 系统类加载器</h3>
+
+<p>系统类加载器是一种常见的类加载器，其负责加载classpath下的类库资源。系统类加载器的父加载器是扩展类加载器，同时也是自定义类加载器的默认父加载器，系统类加载器的加载路径一般通过<code>-classpath</code>或者<code>-cp</code>指定，同样也可以通过系统属性<code>java.class.path</code>获取，如下</p>
+
+<pre><code>public class SysClassLoader {
+
+    public static void main(String[] args) {
+        System.out.println(System.getProperty(&quot;java.class.path&quot;).replace(&quot;;&quot;, &quot;\n&quot;));
+        System.out.println(SysClassLoader.class.getClassLoader());
+    }
+
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>D:\R-Java\REngine.jar
+D:\R-Java\RserveEngine.jar
+C:\Users\Administrator\eclipse-workspace\Demo\bin
+sun.misc.Launcher$AppClassLoader@6d06d69c
+</code></pre>
+
+<h2>二、自定义类加载器</h2>
+
+<p>自定义类加载器都是ClassLoader的直接子类或者间接子类，<code>java.lang.ClassLoader</code>是一个抽象类，但是里面并没有抽象方法，但是有<code>findClass</code>方法，自定义类加载器务必重写该方法，否则会抛出Class找不到的异常。</p>
+
+<p>一个自定义类加载器如下所示</p>
+
+<pre><code>import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class MyClassLoader extends ClassLoader {
+
+    private final static Path DEFAULT_CLASS_DIR = Paths.get(&quot;D:&quot;, &quot;classloader&quot;);
+    private final Path classDir;
+    
+    public MyClassLoader() {
+        super();
+        this.classDir = DEFAULT_CLASS_DIR;
+    }
+    
+    public MyClassLoader(String classDir) {
+        super();
+        this.classDir = Paths.get(classDir);
+    }
+    
+    public MyClassLoader(String classDir, ClassLoader parent) {
+        super(parent);
+        this.classDir = Paths.get(classDir);
+    }
+    
+    
+    /*
+     * Method of overwriting parent class.
+     * (non-Javadoc)
+     * @see java.lang.ClassLoader#findClass(java.lang.String)
+     */
+    @Override
+    protected Class&lt;?&gt; findClass(String name) throws ClassNotFoundException {
+        // Read class binary data.
+        byte[] classBytes = this.readClassBytes(name);
+        // If the data is null, or no information was read, then throw ClassNotFoundException.
+        if (null == classBytes || classBytes.length == 0) {
+            throw new ClassNotFoundException(&quot;Can not load the class &quot; + name);
+        }
+        // Calling defineClass method define class.
+        return this.defineClass(name, classBytes, 0, classBytes.length);
+    }
+    
+    /*
+     * Read the class file into memory.
+     */
+    private byte[] readClassBytes(String name) throws ClassNotFoundException {
+        // Converting a package delimiter to a file path delimiter.
+        String classPath = name.replace(&quot;.&quot;, &quot;/&quot;);
+        Path classFullPath = classDir.resolve(Paths.get(classPath + &quot;.class&quot;));
+        if (!classFullPath.toFile().exists()) {
+            throw new ClassNotFoundException(&quot;The class &quot; + name + &quot; not found.&quot;);
+        }
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            Files.copy(classFullPath, baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            throw new ClassNotFoundException(&quot;load the class &quot; + name + &quot; occur error.&quot;, e);
+        }
+    }
+    
+    @Override
+    public String toString() {
+        return &quot;My ClassLoader&quot;;
+    }
+    
+}
+</code></pre>
+
+<p>以上是一个简单的基于磁盘的类加载器，共有三个构造器，分别为</p>
+
+<ul>
+<li>第一个构造器使用默认的文件路径；</li>
+<li>第二个构造器允许从外部指定一个特定的磁盘目录；</li>
+<li>第三个构造器除了可以指定磁盘目录之外还可以指定该类加载器的父加载器。</li>
+</ul>
+
+<p>在上述定义的自定义类加载器中，将类的权限定名转换成文件的全路径然后读取class文件的字节流数据，最后使用<code>defineClass</code>方法对class完成了定义。</p>
+
+<p>以下再编写一个简单的程序，通过如下自定义类加载器进行加载。</p>
+
+<pre><code>public class HelloWorld {
+
+    static {
+        System.out.println(&quot;Hello World Class is Initialized.&quot;);
+    }
+    
+    public String welcome() {
+       return &quot;Hello, World&quot;;
+    }
+    
+}
+</code></pre>
+
+<p>如果用的是IDE，那么编译完成后需要将包下的<code>HelloWorld.class</code>文件(连同包)复制到加载器默认文件路径下并且删除IDE工作空间下的<code>HelloWorld.class</code>和<code>HelloWorld.java</code>文件，否则JVM仍然会通过系统类加载器所加载(这是由于类加载器的双亲委托机制所导致的)，接下来进行加载，如下</p>
+
+<pre><code>public class MyClassLoaderTest {
+
+    public static void main(String[] args) throws ClassNotFoundException {
+        MyClassLoader myClassLoader = new MyClassLoader();
+        Class&lt;?&gt; aClass = myClassLoader.loadClass(&quot;tech.feily.doc.thread.HelloWorld&quot;);
+        System.out.println(aClass.getClassLoader());
+    }
+
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>My ClassLoader
+</code></pre>
+
+<p>可见是通过自定义类加载器加载的，这里通过一种变相的方式打破了双亲委托机制。还有两种方式来打破，等会介绍。</p>
+
+<p>而且上述程序也验证了<strong>类加载器也不会导致类的初始化</strong>，因为HelloWorld程序中静态代码块并未得到执行，即在初始化阶段静态代码会得到执行的，但是并没有执行，所以得到了类加载器不会导致类主动初始化的结论。</p>
+
+<p>如果再通过反射操作来执行代码，那么将会输出，修改一下</p>
+
+<pre><code>import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+public class MyClassLoaderTest {
+
+    public static void main(String[] args) 
+            throws ClassNotFoundException, InstantiationException, 
+            IllegalAccessException, NoSuchMethodException, SecurityException, 
+            IllegalArgumentException, InvocationTargetException {
+        MyClassLoader myClassLoader = new MyClassLoader();
+        Class&lt;?&gt; aClass = myClassLoader.loadClass(&quot;tech.feily.doc.thread.HelloWorld&quot;);
+        System.out.println(aClass.getClassLoader());
+        
+        // Here the static code block is executed.
+        Object helloWorld = aClass.newInstance();
+        System.out.println(helloWorld);
+        Method welcomeMethod = aClass.getMethod(&quot;welcome&quot;);
+        String result = (String) welcomeMethod.invoke(helloWorld);
+        System.out.println(&quot;Result: &quot; + result);
+    }
+
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>My ClassLoader
+Hello World Class is Initialized.
+tech.feily.doc.thread.HelloWorld@2328c243
+Result: Hello, World
+</code></pre>
+
+<h2>三、双亲委托机制</h2>
+
+<p>有一张图很好的说明了类加载器的双亲委托机制，如下</p>
+
+<p><img src="data:image/gif;base64,R0lGODlhGAAYAPQAAP///wAAAM7Ozvr6+uDg4LCwsOjo6I6OjsjIyJycnNjY2KioqMDAwPLy8nd3d4aGhri4uGlpaQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkHAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAGAAYAAAFriAgjiQAQWVaDgr5POSgkoTDjFE0NoQ8iw8HQZQTDQjDn4jhSABhAAOhoTqSDg7qSUQwxEaEwwFhXHhHgzOA1xshxAnfTzotGRaHglJqkJcaVEqCgyoCBQkJBQKDDXQGDYaIioyOgYSXA36XIgYMBWRzXZoKBQUMmil0lgalLSIClgBpO0g+s26nUWddXyoEDIsACq5SsTMMDIECwUdJPw0Mzsu0qHYkw72bBmozIQAh+QQJBwAAACwAAAAAGAAYAAAFsCAgjiTAMGVaDgR5HKQwqKNxIKPjjFCk0KNXC6ATKSI7oAhxWIhezwhENTCQEoeGCdWIPEgzESGxEIgGBWstEW4QCGGAIJEoxGmGt5ZkgCRQQHkGd2CESoeIIwoMBQUMP4cNeQQGDYuNj4iSb5WJnmeGng0CDGaBlIQEJziHk3sABidDAHBgagButSKvAAoyuHuUYHgCkAZqebw0AgLBQyyzNKO3byNuoSS8x8OfwIchACH5BAkHAAAALAAAAAAYABgAAAW4ICCOJIAgZVoOBJkkpDKoo5EI43GMjNPSokXCINKJCI4HcCRIQEQvqIOhGhBHhUTDhGo4diOZyFAoKEQDxra2mAEgjghOpCgz3LTBIxJ5kgwMBShACREHZ1V4Kg1rS44pBAgMDAg/Sw0GBAQGDZGTlY+YmpyPpSQDiqYiDQoCliqZBqkGAgKIS5kEjQ21VwCyp76dBHiNvz+MR74AqSOdVwbQuo+abppo10ssjdkAnc0rf8vgl8YqIQAh+QQJBwAAACwAAAAAGAAYAAAFrCAgjiQgCGVaDgZZFCQxqKNRKGOSjMjR0qLXTyciHA7AkaLACMIAiwOC1iAxCrMToHHYjWQiA4NBEA0Q1RpWxHg4cMXxNDk4OBxNUkPAQAEXDgllKgMzQA1pSYopBgonCj9JEA8REQ8QjY+RQJOVl4ugoYssBJuMpYYjDQSliwasiQOwNakALKqsqbWvIohFm7V6rQAGP6+JQLlFg7KDQLKJrLjBKbvAor3IKiEAIfkECQcAAAAsAAAAABgAGAAABbUgII4koChlmhokw5DEoI4NQ4xFMQoJO4uuhignMiQWvxGBIQC+AJBEUyUcIRiyE6CR0CllW4HABxBURTUw4nC4FcWo5CDBRpQaCoF7VjgsyCUDYDMNZ0mHdwYEBAaGMwwHDg4HDA2KjI4qkJKUiJ6faJkiA4qAKQkRB3E0i6YpAw8RERAjA4tnBoMApCMQDhFTuySKoSKMJAq6rD4GzASiJYtgi6PUcs9Kew0xh7rNJMqIhYchACH5BAkHAAAALAAAAAAYABgAAAW0ICCOJEAQZZo2JIKQxqCOjWCMDDMqxT2LAgELkBMZCoXfyCBQiFwiRsGpku0EshNgUNAtrYPT0GQVNRBWwSKBMp98P24iISgNDAS4ipGA6JUpA2WAhDR4eWM/CAkHBwkIDYcGiTOLjY+FmZkNlCN3eUoLDmwlDW+AAwcODl5bYl8wCVYMDw5UWzBtnAANEQ8kBIM0oAAGPgcREIQnVloAChEOqARjzgAQEbczg8YkWJq8nSUhACH5BAkHAAAALAAAAAAYABgAAAWtICCOJGAYZZoOpKKQqDoORDMKwkgwtiwSBBYAJ2owGL5RgxBziQQMgkwoMkhNqAEDARPSaiMDFdDIiRSFQowMXE8Z6RdpYHWnEAWGPVkajPmARVZMPUkCBQkJBQINgwaFPoeJi4GVlQ2Qc3VJBQcLV0ptfAMJBwdcIl+FYjALQgimoGNWIhAQZA4HXSpLMQ8PIgkOSHxAQhERPw7ASTSFyCMMDqBTJL8tf3y2fCEAIfkECQcAAAAsAAAAABgAGAAABa8gII4k0DRlmg6kYZCoOg5EDBDEaAi2jLO3nEkgkMEIL4BLpBAkVy3hCTAQKGAznM0AFNFGBAbj2cA9jQixcGZAGgECBu/9HnTp+FGjjezJFAwFBQwKe2Z+KoCChHmNjVMqA21nKQwJEJRlbnUFCQlFXlpeCWcGBUACCwlrdw8RKGImBwktdyMQEQciB7oACwcIeA4RVwAODiIGvHQKERAjxyMIB5QlVSTLYLZ0sW8hACH5BAkHAAAALAAAAAAYABgAAAW0ICCOJNA0ZZoOpGGQrDoOBCoSxNgQsQzgMZyIlvOJdi+AS2SoyXrK4umWPM5wNiV0UDUIBNkdoepTfMkA7thIECiyRtUAGq8fm2O4jIBgMBA1eAZ6Knx+gHaJR4QwdCMKBxEJRggFDGgQEREPjjAMBQUKIwIRDhBDC2QNDDEKoEkDoiMHDigICGkJBS2dDA6TAAnAEAkCdQ8ORQcHTAkLcQQODLPMIgIJaCWxJMIkPIoAt3EhACH5BAkHAAAALAAAAAAYABgAAAWtICCOJNA0ZZoOpGGQrDoOBCoSxNgQsQzgMZyIlvOJdi+AS2SoyXrK4umWHM5wNiV0UN3xdLiqr+mENcWpM9TIbrsBkEck8oC0DQqBQGGIz+t3eXtob0ZTPgNrIwQJDgtGAgwCWSIMDg4HiiUIDAxFAAoODwxDBWINCEGdSTQkCQcoegADBaQ6MggHjwAFBZUFCm0HB0kJCUy9bAYHCCPGIwqmRq0jySMGmj6yRiEAIfkECQcAAAAsAAAAABgAGAAABbIgII4k0DRlmg6kYZCsOg4EKhLE2BCxDOAxnIiW84l2L4BLZKipBopW8XRLDkeCiAMyMvQAA+uON4JEIo+vqukkKQ6RhLHplVGN+LyKcXA4Dgx5DWwGDXx+gIKENnqNdzIDaiMECwcFRgQCCowiCAcHCZIlCgICVgSfCEMMnA0CXaU2YSQFoQAKUQMMqjoyAglcAAyBAAIMRUYLCUkFlybDeAYJryLNk6xGNCTQXY0juHghACH5BAkHAAAALAAAAAAYABgAAAWzICCOJNA0ZVoOAmkY5KCSSgSNBDE2hDyLjohClBMNij8RJHIQvZwEVOpIekRQJyJs5AMoHA+GMbE1lnm9EcPhOHRnhpwUl3AsknHDm5RN+v8qCAkHBwkIfw1xBAYNgoSGiIqMgJQifZUjBhAJYj95ewIJCQV7KYpzBAkLLQADCHOtOpY5PgNlAAykAEUsQ1wzCgWdCIdeArczBQVbDJ0NAqyeBb64nQAGArBTt8R8mLuyPyEAOw==" data-src="/images/JVM-class-loader.jpg" alt="" /></p>
+
+<blockquote>
+<p>图片来源：该图尚无法找到原始出处</p>
+</blockquote>
+
+<p>上图双亲委托机制的源码描述片段为</p>
+
+<pre><code>public Class&lt;?&gt; loadClass(String name) throws ClassNotFoundException {
+    return loadClass(name, false);
+}
+
+protected Class&lt;?&gt; loadClass(String name, boolean resolve) throws ClassNotFoundException {
+    synchronized (getClassLoadingLock(name)) {
+        Class&lt;?&gt; c = findLoadedClass(name);    // ①
+        if (c == null) {
+            long t0 = System.nanoTime();
+            try {
+                if (parent != null) {   // ②
+                    c = parent.loadClass(name, false);    // ③
+                } else {
+                    c = findBootstrapClassOrNull(name);    // ④
+                }
+            } catch (ClassNotFoundException e) {
+            
+            }
+            if (c == null) {
+                long t1 = System.nanoTime();
+                c = findClass(name);    // ⑤
+                sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);
+                sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);
+                sun.misc.PerfCounter.getFindClasses().increment();
+            }
+        }
+        if (resolve) {
+            resolveClass(c);
+        }
+        return c;
+    }
+}
+</code></pre>
+
+<p>解释如下</p>
+
+<ul>
+<li>①：从当前类加载器的缓存中根据类的全路径名查询是否存在该类，如果存在则直接返回(即后面的if条件就不满足了，直接就return了)；</li>
+<li>②③：如果当前类加载器缓存中不存在该类，那么进入if判断，如果当前类存在父类加载器，那么就调用父类加载器的loadClass方法对该类进行加载，即执行③；</li>
+<li>④：如果当前类不存在父类加载器那么就用根类加载器对该类进行加载；</li>
+<li>⑤：如果当前类的所有父类加载器都没有成功加载class，那么就尝试调用当前类加载器的<code>findClass</code>方法对其进行加载，<strong>该方法就是我们自定义类加载器需要重写的方法；</strong></li>
+<li>最后如果类被成功加载，就做一些性能数据的统计；</li>
+<li>由于<code>loadClass</code>指定了<code>resolve</code>为<code>false</code>，所以不会进行连接阶段的继续进行，<strong>这也就解释了为什么通过类加载器加载类并不会导致类的初始化。</strong></li>
+</ul>
+
+<p>另外两种自定义类加载器绕过双亲委托机制加载类的办法分别是：</p>
+
+<ul>
+<li>一种办法是，<strong>直接将拓展类加载器作为自定义类加载器的父加载器，</strong>示例代码如下</li>
+</ul>
+
+<pre><code>public class MyClassLoaderTest {
+
+    public static void main(String[] args) throws ClassNotFoundException {
+        ClassLoader extClassLoader = MyClassLoader.class.getClassLoader().getParent();
+        MyClassLoader myClassLoader = new MyClassLoader(&quot;D:\\classloader&quot;, extClassLoader);
+        Class&lt;?&gt; aClass = myClassLoader.loadClass(&quot;tech.feily.doc.thread.HelloWorld&quot;);
+        System.out.println(aClass.getClassLoader());    // My ClassLoader
+    }
+
+}
+</code></pre>
+
+<ul>
+<li>另一种办法是，<strong>在构造自定义类加载器的时候指定父类加载器为null，</strong>示例如下</li>
+</ul>
+
+<pre><code>public class MyClassLoaderTest {
+
+    public static void main(String[] args) throws ClassNotFoundException {
+        MyClassLoader myClassLoader = new MyClassLoader(&quot;D:\\classloader&quot;, null);
+        Class&lt;?&gt; aClass = myClassLoader.loadClass(&quot;tech.feily.doc.thread.HelloWorld&quot;);
+        System.out.println(aClass.getClassLoader());    // My ClassLoader
+    }
+
+}
+</code></pre>
+
+<p>上述破坏类加载器的双亲委托机制是通过绕过系统类加载器（SystemClassLoader）实现的，但是并没有避免一层一层的委托，还有一种更为稳健的办法就是<strong>通过在自定义类加载器中重写<code>loadClass</code>方法来实现。</strong></p>
+
+<h2>四、重写loadClass方法来打破双亲委托机制</h2>
+
+<p>对上述自定义类加载器做如下改动，即增加重写的classLoad方法，为</p>
+
+<pre><code>import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class MyClassLoader extends ClassLoader {
+
+    private final static Path DEFAULT_CLASS_DIR = Paths.get(&quot;D:&quot;, &quot;classloader&quot;);
+    private final Path classDir;
+    
+    public MyClassLoader() {
+        super();
+        this.classDir = DEFAULT_CLASS_DIR;
+    }
+    
+    public MyClassLoader(String classDir) {
+        super();
+        this.classDir = Paths.get(classDir);
+    }
+    
+    public MyClassLoader(String classDir, ClassLoader parent) {
+        super(parent);
+        this.classDir = Paths.get(classDir);
+    }
+    
+    
+    /*
+     * Method of overwriting parent class.
+     * (non-Javadoc)
+     * @see java.lang.ClassLoader#findClass(java.lang.String)
+     */
+    @Override
+    protected Class&lt;?&gt; findClass(String name) throws ClassNotFoundException {
+        // Read class binary data.
+        byte[] classBytes = this.readClassBytes(name);
+        // If the data is null, or no information was read, then throw ClassNotFoundException.
+        if (null == classBytes || classBytes.length == 0) {
+            throw new ClassNotFoundException(&quot;Can not load the class &quot; + name);
+        }
+        // Calling defineClass method define class.
+        return this.defineClass(name, classBytes, 0, classBytes.length);
+    }
+    
+    /*
+     * Read the class file into memory.
+     */
+    private byte[] readClassBytes(String name) throws ClassNotFoundException {
+        // Converting a package delimiter to a file path delimiter.
+        String classPath = name.replace(&quot;.&quot;, &quot;/&quot;);
+        Path classFullPath = classDir.resolve(Paths.get(classPath + &quot;.class&quot;));
+        if (!classFullPath.toFile().exists()) {
+            throw new ClassNotFoundException(&quot;The class &quot; + name + &quot; not found.&quot;);
+        }
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            Files.copy(classFullPath, baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            throw new ClassNotFoundException(&quot;load the class &quot; + name + &quot; occur error.&quot;, e);
+        }
+    }
+    
+    @Override
+    public String toString() {
+        return &quot;My ClassLoader&quot;;
+    }
+    
+    @Override
+    protected Class&lt;?&gt; loadClass(String name, boolean resolve) throws ClassNotFoundException {
+        synchronized(getClassLoadingLock(name)) {
+            Class&lt;?&gt; cls = findLoadedClass(name);
+            if (cls == null) {
+                if (name.startsWith(&quot;java.&quot;) || name.startsWith(&quot;javax&quot;)) {
+                    try {
+                        cls = getSystemClassLoader().loadClass(name);
+                    } catch (Exception e) {
+                        
+                    }
+                } else {
+                    try {
+                        cls = this.findClass(name);
+                    } catch (ClassNotFoundException e) {
+                        
+                    }
+                    if (cls == null) {
+                        if (getParent() != null) {
+                            cls = getParent().loadClass(name);
+                        } else {
+                            cls= getSystemClassLoader().loadClass(name);
+                        }
+                    }
+                }
+            }
+            if (null == cls) {
+                throw new ClassNotFoundException(&quot;The class &quot; + name + &quot; not found.&quot;);
+            }
+            if (resolve) {
+                resolveClass(cls);
+            }
+            return cls;
+        }
+    }
+    
+}
+</code></pre>
+
+<p>然后现在即使是IDE下不用删除<code>HelloWorld.java</code>与<code>HelloWorld.class</code>文件仍然能够通过自定义类加载器加载HelloWorld。</p>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro">但远山长，云山乱，晓山青</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    
+                    <section class="nav next">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/class-loading-process.html">类的加载过程</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

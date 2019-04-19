@@ -17,6 +17,8 @@ ClassLoader的主要职责就是负责加载各种class文件到JVM中，ClassLo
 
 ![](/images/article/class-load-process.jpg)
 
+> 图片来源：http://www.cnblogs.com/chenpi/p/5393650.html
+
 + 加载阶段：主要负责查找并且加载类的二进制数据文件，其实就是class文件；
 + 连接阶段：主要包括如下三个方面；
   - 验证：主要是确保类文件的正确性，比如class的版本、魔数等是否正确；

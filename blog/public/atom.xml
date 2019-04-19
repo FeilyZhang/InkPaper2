@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-04-18T20:50:27+08:00</updated>
+  <updated>2019-04-19T21:23:22+08:00</updated>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>JVM类加载器</title>
+    <updated>2019-04-19T19:00:25+08:00</updated>
+    <id>tag:doc.feily.tech,2019-04-19:/jvm-class-loader.html</id>
+    <content type="html">&lt;p&gt;类加载器的职责就是负责类的加载，对于任意一个class，都需要由加载它的类加载器和这个类本身确立其在JVM中的唯一性，这也就是运行时包。&lt;/p&gt;&#xA;</content>
+    <link href="https://doc.feily.tech/jvm-class-loader.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>类的加载过程</title>
     <updated>2019-04-18T20:50:25+08:00</updated>
@@ -92,16 +102,6 @@
     <id>tag:doc.feily.tech,2019-03-29:/support-vector-machine.html</id>
     <content type="html">&lt;p&gt;支持向量机基于间隔最大化原理，以严格的数学理论为基础，以寻找特征空间最优超平面为目标，以内积的回旋巧妙地构造核函数，适用于数值预测以及分类任务。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/support-vector-machine.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>黑箱方法——人工神经网络</title>
-    <updated>2019-03-26T15:55:25+08:00</updated>
-    <id>tag:doc.feily.tech,2019-03-26:/artificial-neural-network.html</id>
-    <content type="html">&lt;p&gt;人工神经网络有监督学习算法，适用于数值预测以及分类任务。适合解决输入数据和输出数据都很好理解或简单，但是涉及输入与输出的过程却极其复杂。因此，适合黑箱操作。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/artificial-neural-network.html"></link>
     <author>
       <name>林奕清</name>
     </author>

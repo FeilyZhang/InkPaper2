@@ -15,7 +15,7 @@ preview: 类加载器的职责就是负责类的加载，对于任意一个class
 
 JVM提供内置的三大类加载器，不同的类加载器负责将不同的类加载到JVM内存之中，并且它们之间严格遵守着父委托机制，如下图所示
 
-![](/images/article/JVM-class-loader1.jpg)
+![](/images/article/jvm-class-loader1.jpg)
 
 > 图片来源：http://www.cnblogs.com/huizhi/p/10177126.html
 

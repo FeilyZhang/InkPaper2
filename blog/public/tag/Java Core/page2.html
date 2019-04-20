@@ -68,10 +68,27 @@
                     
                         <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
                         <h1 class="tag">Java Core</h1>
-                        <h2 class="tag-sub">23 篇文章</h2>
+                        <h2 class="tag-sub">24 篇文章</h2>
                     
                 </header>
                 <ul class="article-list">
+                    
+                    <li class="article">
+                        <a class="title" href="/inter-thread-communication.html">线程间通信</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>前文的叫号机示例为保证线程安全引入了synchronized关键字(获得锁保证同一时间只能有一个线程对共享资源操作)，而为了解决synchorized关键字的不可中断不可超时问题，我们引入了显式锁，显式锁通过wait关键字和closed标志为true来实现加锁让欲获得锁的线程进入阻塞状态以等待，通过notify关键字和closed为false来实现释放锁让阻塞状态的线程竞争锁，实际上这就涉及到了进程间的调度，synchronized关键字不仅仅是加锁保证对共享变量访问的互斥性，还可以配合某些策略或者关键实现进程调度。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1545365024"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/java-exception-and-exception-handling-mechanism.html">Java异常及异常处理机制</a>
@@ -219,23 +236,6 @@
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545224122"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/thread-safety-and-data-synchronization.html">线程安全与数据同步</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>如果用synchronized关键字修饰一个方法或者代码块，那么就可以防止因多线程作用共享资源而导致的数据不一致或者线程安全问题，该关键字只会保证其作用的方法或者代码块在同一时间只会被一个线程使用，即被修饰对象只对获得锁的线程可见，其余线程只能阻塞等待锁的释放。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1545295998"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>

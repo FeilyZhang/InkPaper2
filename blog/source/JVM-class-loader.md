@@ -4,7 +4,7 @@ update: 2019-04-19 19:00:25 +0800
 author: me
 cover: "-/images/JVM-class-loader.jpg"
 tags:
-    - Java
+    - Java Core
 preview: 类加载器的职责就是负责类的加载，对于任意一个class，都需要由加载它的类加载器和这个类本身确立其在JVM中的唯一性，这也就是运行时包。
 
 ---

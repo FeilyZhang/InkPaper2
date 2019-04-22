@@ -4,7 +4,7 @@ update: 2019-04-18 20:50:25 +0800
 author: me
 cover: "-/images/article/class-load-process.jpg"
 tags:
-    - Java
+    - Java Core
 preview: ClassLoader的主要职责就是负责加载各种class文件到JVM中，ClassLoader是一个抽象的class，给定一个class的二进制文件名，ClassLoader会尝试加载并且在JVM中生成构成这个类的各个数据结构，然后使其分布在JVM对应的内存区域中。
 
 ---

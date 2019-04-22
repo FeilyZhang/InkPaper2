@@ -4,7 +4,7 @@ update: 2019-04-22 21:24:05 +0800
 author: me
 cover: "-/images/class-file.png"
 tags:
-    - Java
+    - Java Core
 preview: Class文件被抽象组织为了一张表，名称描述该类型(连续地址空间)中的内容代表的是什么东西(魔数还是版本号？常量池？等等)，数量描述的是该名称内部的子项目有多少个。
 
 ---

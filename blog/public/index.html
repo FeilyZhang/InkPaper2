@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="">
         <meta name="description" content="">
@@ -99,6 +77,23 @@
                     
                 </header>
                 <ul class="article-list">
+                    
+                    <li class="article">
+                        <a class="title" href="/class-file-structure.html">类文件结构</a>
+                        <div class="cover" style="background-image:url(/images/class-file.png);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>名称描述该类型(连续地址空间)中的内容代表的是什么东西(魔数还是版本号？常量池？等等)，数量描述的是该名称内部的子项目有多少个。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1555919005"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java/index.html">Java</a>
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/design-of-seven-kinds-of-singleton-patterns.html">七种单例模式的设计</a>
@@ -246,23 +241,6 @@
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1554193610"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            <a class="tag" href="/tag/Machine%20Learning/index.html">Machine Learning</a>
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/k-means-clustering.html">物以类聚——K均值聚类学习算法</a>
-                        <div class="cover" style="background-image:url(/images/k-means.png);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>聚类学习被认为是典型的无监督学习算法，训练集数据没有目标特征。聚类的目标就是探索数据集中蕴藏的内在结构，并将相似或同质的群组数据聚集在一起。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1554034126"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Machine%20Learning/index.html">Machine Learning</a>

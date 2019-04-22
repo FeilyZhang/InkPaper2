@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-04-22T17:48:28+08:00</updated>
+  <updated>2019-04-22T21:21:38+08:00</updated>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
   <entry>
-    <title>类文件结构</title>
+    <title>Class文件结构</title>
     <updated>2019-04-22T15:43:25+08:00</updated>
     <id>tag:doc.feily.tech,2019-04-22:/class-file-structure.html</id>
-    <content type="html">&lt;p&gt;名称描述该类型(连续地址空间)中的内容代表的是什么东西(魔数还是版本号？常量池？等等)，数量描述的是该名称内部的子项目有多少个。&lt;/p&gt;&#xA;</content>
+    <content type="html">&lt;p&gt;Class文件被抽象组织为了一张表，名称描述该类型(连续地址空间)中的内容代表的是什么东西(魔数还是版本号？常量池？等等)，数量描述的是该名称内部的子项目有多少个。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/class-file-structure.html"></link>
     <author>
       <name>林奕清</name>

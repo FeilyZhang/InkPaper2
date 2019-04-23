@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-04-23T20:09:33+08:00</updated>
+  <updated>2019-04-23T21:15:40+08:00</updated>
+  <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>JVM运行时数据区域</title>
+    <updated>2019-04-23T20:39:14+08:00</updated>
+    <id>tag:doc.feily.tech,2019-04-23:/jvm-runtime-data-area.html</id>
+    <content type="html">&lt;p&gt;Java虚拟机在执行Java程序过程中会把它所管理的内存划分为若干个不同的数据区域，这些区域各有用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。&lt;/p&gt;&#xA;</content>
+    <link href="https://doc.feily.tech/jvm-runtime-data-area.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>Class文件结构</title>
     <updated>2019-04-22T21:24:05+08:00</updated>
@@ -92,16 +103,6 @@
     <id>tag:doc.feily.tech,2019-04-03:/intro-erlang-1.html</id>
     <content type="html">&lt;p&gt;常量与变量、常用数据类型。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/intro-erlang-1.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>懒惰学习——K最近邻学习算法</title>
-    <updated>2019-04-02T16:26:50+08:00</updated>
-    <id>tag:doc.feily.tech,2019-04-02:/k-nearest-neighbor-algorithm.html</id>
-    <content type="html">&lt;p&gt;k最近邻分类器就是把未标记的案例归类为与它们最相似的带有标记的案例所在的类，广泛适用于数据特征与目标类之间的关系众多且复杂，用其它方式难以理解，但是具有相似类的项目又非常类似的分类任务。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/k-nearest-neighbor-algorithm.html"></link>
     <author>
       <name>林奕清</name>
     </author>

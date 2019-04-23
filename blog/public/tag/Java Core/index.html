@@ -58,7 +58,7 @@
   </a>
   <ul class="menu">
       <li class="menu-item"><a href="/archive.html">归档</a></li>
-      
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
       <li class="menu-item"><a href="/atom.xml">订阅</a></li>
   </ul>
 </header>
@@ -68,14 +68,15 @@
                     
                         <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
                         <h1 class="tag">Java Core</h1>
-                        <h2 class="tag-sub">27 篇文章</h2>
+                        <h2 class="tag-sub" style="font-family:KaiTi">27 篇文章</h2>
                     
                 </header>
                 <ul class="article-list">
                     
+                    
                     <li class="article">
                         <a class="title" href="/analysis-of-arrays-classes.html">Arrays类的相关用法</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>toString方法, sort方法, binarySearch()方法。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -84,13 +85,15 @@
                             
                             <span class="date" data-time="1545124145"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/analysis-of-java-generics.html">Java泛型浅析</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>泛型，即广泛的类型，也就是不指定数据类型，而是在创建对象的时候在根据实际情况设置数据类型。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -99,13 +102,15 @@
                             
                             <span class="date" data-time="1544258434"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/analysis-of-string-classes.html">剖析String类</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>String类基于char数组，String对字符串的操作并不是在字符串或者字符数组本身进行操作，而是创建一个新的char数组然后把内容复制进去再操作。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -114,13 +119,15 @@
                             
                             <span class="date" data-time="1545120968"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/analysis-of-stringbuilder-classes.html">剖析StringBuilder类</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>String类适合少量字符串的不太频繁的操作，因为String的每次的字符串操作基本上都是重新创建一个字符数组，这样性能太低，可以考虑使用StringBuilder或者StringBuffer。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -129,13 +136,15 @@
                             
                             <span class="date" data-time="1545122706"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/cache-model-and-java-memory-model-and-volatile-keyword.html">Cache模型与Java内存模型及volatile关键字</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>CPU比RAM的速度快得多，通常差距达上千倍，在极端情况下有上万倍的差距，那么为了协调RAM与CPU之间的速度矛盾提高CPU资源利用率，一般在CPU与RAM之间增设Cache，CPU访Cache的速度远高于访RAM的速度。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -144,13 +153,15 @@
                             
                             <span class="date" data-time="1545479646"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/capturing-thread-runtime-exception-information-and-injecting-hook-threads.html">捕获线程运行时异常信息与注入钩子线程</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>线程在运行时是不允许抛出checked异常的，而且线程运行在自己的上下文中，派生它的线程无法直接获得它运行时出现的异常信息。但是，Java提供了UncaughtExceptionHandler接口，当线程在运行过程中出现异常时，会回掉UncaughtExceptionHandler接口，从而就可以知道哪个线程在运行时出错了以及出现了什么样的错误。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -159,13 +170,15 @@
                             
                             <span class="date" data-time="1545380198"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/class-file-structure.html">Class文件结构</a>
-                        <div class="cover" style="background-image:url(/images/class-file.png);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>Class文件被抽象组织为了一张表，名称描述该类型(连续地址空间)中的内容代表的是什么东西(魔数还是版本号？常量池？等等)，数量描述的是该名称内部的子项目有多少个。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -174,13 +187,15 @@
                             
                             <span class="date" data-time="1555939445"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/class-loading-process.html">类的加载过程</a>
-                        <div class="cover" style="background-image:url(/images/article/class-load-process.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>ClassLoader的主要职责就是负责加载各种class文件到JVM中，ClassLoader是一个抽象的class，给定一个class的二进制文件名，ClassLoader会尝试加载并且在JVM中生成构成这个类的各个数据结构，然后使其分布在JVM对应的内存区域中。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -189,13 +204,15 @@
                             
                             <span class="date" data-time="1555591825"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/data-type-conversion-in-java.html">Java中的数据类型转换</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>Java中的数据类型分为三大类，分别是数值型、布尔型、字符型，其中数值型分为整型和浮点型。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -204,13 +221,15 @@
                             
                             <span class="date" data-time="1542212583"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/deep-understanding-of-thread-class-constructors.html">深入理解Thread类构造函数</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>由于线程有自己的程序计数器、局部变量表和操作数栈，那么也就意味着每实例化一个继承了Thread的类或者实现了Runnable接口的类，就意味着创建了一个对象，这些都是线程私有的，也就无法对变量实现共享。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -219,9 +238,12 @@
                             
                             <span class="date" data-time="1545208153"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
+                    
                     
                 </ul>
                 <section class="page-nav">

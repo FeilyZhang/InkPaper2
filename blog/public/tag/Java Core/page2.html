@@ -58,7 +58,7 @@
   </a>
   <ul class="menu">
       <li class="menu-item"><a href="/archive.html">归档</a></li>
-      
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
       <li class="menu-item"><a href="/atom.xml">订阅</a></li>
   </ul>
 </header>
@@ -68,14 +68,15 @@
                     
                         <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
                         <h1 class="tag">Java Core</h1>
-                        <h2 class="tag-sub">27 篇文章</h2>
+                        <h2 class="tag-sub" style="font-family:KaiTi">27 篇文章</h2>
                     
                 </header>
                 <ul class="article-list">
                     
+                    
                     <li class="article">
                         <a class="title" href="/design-of-seven-kinds-of-singleton-patterns.html">七种单例模式的设计</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>单例模式提供了一种在多线程情况下保证实例唯一性的解决方案，单例模式设计的标准是：懒加载、高性能、线程安全。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -84,13 +85,15 @@
                             
                             <span class="date" data-time="1555744043"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/generic-method-and-generic-interface.html">泛型方法与泛型接口</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>泛型不仅仅是类层面的，也可以单独给方法定义，形式是在方法的声明的返回值类型前加上<code>&lt;T&gt;</code>，这是只有一种泛型的情况，如果是多种泛型，那么用逗号隔开即可，然后就可以在形参列表使用了。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -99,13 +102,15 @@
                             
                             <span class="date" data-time="1544261325"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/inter-thread-communication.html">线程间通信</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>前文的叫号机示例为保证线程安全引入了synchronized关键字(获得锁保证同一时间只能有一个线程对共享资源操作)，而为了解决synchorized关键字的不可中断不可超时问题，我们引入了显式锁，显式锁通过wait关键字和closed标志为true来实现加锁让欲获得锁的线程进入阻塞状态以等待，通过notify关键字和closed为false来实现释放锁让阻塞状态的线程竞争锁，实际上这就涉及到了进程间的调度，synchronized关键字不仅仅是加锁保证对共享变量访问的互斥性，还可以配合某些策略或者关键实现进程调度。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -114,13 +119,15 @@
                             
                             <span class="date" data-time="1545365024"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/jvm-class-loader.html">JVM类加载器</a>
-                        <div class="cover" style="background-image:url(/images/JVM-class-loader.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>类加载器的职责就是负责类的加载，对于任意一个class，都需要由加载它的类加载器和这个类本身确立其在JVM中的唯一性，这也就是运行时包。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -129,13 +136,15 @@
                             
                             <span class="date" data-time="1555671625"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/java-exception-and-exception-handling-mechanism.html">Java异常及异常处理机制</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>受检异常和未受检异常的区别在于Java对这两种异常的态度，对于受检异常Java要求程序员处理，否则会有编译错误。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -144,13 +153,15 @@
                             
                             <span class="date" data-time="1543581117"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/review-encapsulation-inheritance-and-polymorphism.html">再看封装、继承和多态</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>封装是对成员变量的包装和隐藏；继承指的是子类可以继承父类的非私有属性和方法，在此之外，子类可以定义自己的和父类无关的属性和方法；多态是基于继承的。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -159,13 +170,15 @@
                             
                             <span class="date" data-time="1544773024"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/review-at-interfaces-abstract-classes-and-internal-classes.html">再看接口、抽象类与内部类</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>接口屏蔽了类型的差异性，只关注能力或者动作; 而抽象类与接口的区别在于抽象类抽象实体，而接口只抽象动作。内部类与包含它的外部类有着密切的关系，而与其他类关系不大，定义在类内部，可以实现对外的完全隐藏，代码上更为紧凑和简洁。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -174,13 +187,15 @@
                             
                             <span class="date" data-time="1544780070"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/review-at-the-byte-stream-of-java-file-operations.html">再看Java文件操作之字节流</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>这里Java以二进制字节的方式处理文件。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -189,13 +204,15 @@
                             
                             <span class="date" data-time="1545102990"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/review-at-the-character-stream-of-java-file-operations.html">再看Java文件操作之字符流</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>字符流以字符为单位操作文件。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -204,13 +221,15 @@
                             
                             <span class="date" data-time="1545105049"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
                     
                     <li class="article">
                         <a class="title" href="/review-the-creation-and-life-cycle-of-java-threads.html">复习Java线程的创建与其生命周期</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        
                         <section class="preview content" style="font-family:KaiTi"><p>Java线程的两种创建方式与线程的生命周期。</p>
 </section>
                         <section class="info" style="font-family:KaiTi">
@@ -219,9 +238,12 @@
                             
                             <span class="date" data-time="1545131333"><span class="from"></span></span>
                             
-                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
                         </section>
                     </li>
+                    
                     
                 </ul>
                 <section class="page-nav">

@@ -1116,6 +1116,328 @@ SourceFile: &quot;TestClass.java&quot;
 </code></pre>
 
 <p>这是直接计算出了方法表集合中的所有信息，包括描述符标识字符descriptor、方法名称等、访问标志还有属性表集合Code属性。</p>
+
+<h3>6.2 Exceptions属性</h3>
+
+<p>这里的Exceptions属性是在方法表中与Code属性平级的一项属性。Exceptions属性的作用是列举出方法中可能抛出的受检<strong>异常</strong>，也就是方法描述时在throws关键字后面列举的异常。结构如下表所示</p>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>数量</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>u2</td>
+<td>attribute_name_index</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u4</td>
+<td>attribute_length</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u2</td>
+<td>number_of_exceptions</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u2</td>
+<td>exception_index_table</td>
+<td>number_of_exceptions</td>
+</tr>
+</tbody>
+</table>
+
+<p>仍然是通过attribute_name_index判断该属性属于属性表集合中的哪一个具体的属性，number_of_exceptions指明了该方法可能抛出的受检异常的个数，紧接着连续从常量池读取number_of_exceptions个数个具体常量就是受检异常的类型。</p>
+
+<h3>6.3 LineNumberTable属性</h3>
+
+<p>该属性用于描述Java源码行号与字节码行号之间的对应关系。并不是运行时的必须属性，但是会默认生成到Class文件之中，可以在javac中使用<code>-g:none</code>或者<code>-g:lines</code>选项忽略该属性。</p>
+
+<p>如果选择不生成该属性，那么对程序主要的影响就是在抛出异常时，堆栈中将不会显示出错的行号，并且在调试程序的时候无法按照源码来设置断点。表结构如下</p>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>数量</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>u2</td>
+<td>attribute_name_index</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u4</td>
+<td>attribute_length</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u2</td>
+<td>line_number_table_length</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>line_number_info</td>
+<td>line_number_table</td>
+<td>line_number_table_length</td>
+</tr>
+</tbody>
+</table>
+
+<p>line_number_info中包括了<code>start_pc</code>和<code>line_number</code>两个u2类型的数据项，前者是字节码行号，后者是Java源码行号。</p>
+
+<p>TestClass中的该属性被描述为</p>
+
+<pre><code>{
+  public org.fenixsoft.clazz.TestClass();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;
+&quot;:()V
+         4: return
+      LineNumberTable:
+        line 3: 0
+
+  public int inc();
+    descriptor: ()I
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #2                  // Field m:I
+         4: iconst_1
+         5: iadd
+         6: ireturn
+      LineNumberTable:
+        line 8: 0
+}
+SourceFile: &quot;TestClass.java&quot;
+</code></pre>
+
+<h3>6.4 localVariableTable属性</h3>
+
+<p>该属性用于描述栈帧中局部变量表中的变量与Java源码中定义的变量之间的关系，不是运行时必需的属性，默认也不会生成到Class文件中，可以通过在javac中使用<code>-g:none</code>或者<code>-g:vars</code>选项来忽略该属性信息。</p>
+
+<p>如果没有生成该属性，那么最大的影响就是当其他人引用这个方法时，所有的参数名称将丢失，IDE可能会使用诸如arg0、arg1之类的占位符来代替原有的参数名。表结构如下</p>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>数量</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>u2</td>
+<td>attribute_name_index</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u4</td>
+<td>attribute_length</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u2</td>
+<td>local_variable_table_length</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>local_variable_info</td>
+<td>local_variable_table</td>
+<td>local_variable_table_length</td>
+</tr>
+</tbody>
+</table>
+
+<p>其中local_variable_info项目代表了一个栈帧与源码中的局部变量的关联，结构如下</p>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>数量</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>u2</td>
+<td>start_pc</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u2</td>
+<td>length</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u2</td>
+<td>name_index</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u2</td>
+<td>descriptor_index</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u2</td>
+<td>index</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+<p>index是这个局部变量在栈帧局部变量表中Slot的位置，当这个变量的数据类型是64位类型时(double、long)，它占用的Slot为index和index+1两个位置。</p>
+
+<h3>6.5 SourceFile属性</h3>
+
+<p>该属性用于记录生成这个Class文件的源码文件名称。该属性页数可选的，可以通过在javac中使用<code>-g:none</code>或者<code>-g:source</code>选项来忽略该属性信息。</p>
+
+<p>在Java中，对于大多数类来说，类名与文件名一致，但是一些特殊情况例外，例如内部类。如果不生成这项属性，当抛出异常时，堆栈中将不会显示出错误代码所属的文件名，结构如下</p>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>数量</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>u2</td>
+<td>attribute_name_index</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u4</td>
+<td>attribute_length</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u2</td>
+<td>sourcefile_index</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+<p>是一个定长属性，sourcefile_index数据项指向常量池中CONSTANT_Utf8_info型常量的索引，常量值是源码文件的文件名。</p>
+
+<h3>6.6 ConstantValue属性</h3>
+
+<p>该属性的作用是通知虚拟机自动为静态变量赋值。只有被static关键字修饰的类变量才可以使用这项属性。</p>
+
+<p>对于非static修饰的的变量(实例变量)的赋值是在实例构造器<code>&lt;init&gt;</code>中进行的；而对于类变量，则有两种方法可以选择：</p>
+
+<ul>
+<li>赋值在类构造器<code>&lt;clinit&gt;</code>方法中进行；</li>
+<li>使用ConstantValue属性来赋值。</li>
+</ul>
+
+<p>目前Sun Javac编译器的选择是：<strong>如果同时使用final和static来修饰一个变量(也就是常量，因为final)，并且这个变量的数据类型是基本类型或java.lang.String的话，就生成ConstantValue属性来初始化该变量，如果这个变量没有被final修饰，或者并非基本类型及字符串，则选择在<code>&lt;clinit&gt;</code>方法中进行初始化。</strong>表结构如下</p>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>数量</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>u2</td>
+<td>attribute_name_index</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u4</td>
+<td>attribute_length</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u2</td>
+<td>contributevalue_index</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+<p>可以看出该属性是一个定长属性，它的attribute_length属性值必须为。该属性的数据项contributevalue_index代表了常量池中一个字面量常量的引用，根据常量字段类型的不同，字面量可以是CONSTANT_Long_info、CONSTANT_Float_info、CONSTANT_Double_info、CONSTANT_Integer_info、CONSTANT_String_info常量中的一种。</p>
+
+<h3>6.7 InnerClasses属性</h3>
+
+<p>该属性用于记录内部类与宿主类之间的关联。如果一个类中定义了内部类，那么编译器将会为它及它所包含的内部类生成InnerClasses属性(因为内部类在编译期间，会被独立出来，所以需要建立内部类与宿主类之间的关联)。结构如下</p>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>数量</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>u2</td>
+<td>attribute_name_index</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u4</td>
+<td>attribute_length</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>u2</td>
+<td>contributevalue_index</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
 </article>
                 <section class="author" style="font-family:NSimSun">
                     <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>

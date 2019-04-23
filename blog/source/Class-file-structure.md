@@ -534,6 +534,132 @@ SourceFile: "TestClass.java"
 
 这是直接计算出了方法表集合中的所有信息，包括描述符标识字符descriptor、方法名称等、访问标志还有属性表集合Code属性。
 
+在字节码指令Code属性的code数据项之后是该方法的显式异常处理表集合，exception_table_length指明了该方法的异常数量，而exception_table数据项则指出了该方法每个异常类型为exception_info的exception_table_length个异常。exception_info的定义如下
+
+|类型|名称|数量|
+|------|------|------|
+|u2|start_pc|1|
+|u2|end_pc|1|
+|u2|handler_pc|1|
+|u2|catch_type|1|
+
+整体含义为：**如果字节码指令从第start_pc行到第end_pc行(不含第end_pc行)出现了类型为catch_type或其子类的异常(catch_type指向一个CONSTANT_Class_info型常量的索引)，则转到第handler_pc行继续处理。当catch_type的值为0时，代表任何异常都由handler_pc处进行处理。**
+
+这里的异常表不是必须的，比如TestClass没有显式的捕获异常，所以没有。
+
+我们改动一下TestClass文件，如下
+
+```
+1 package org.fenixsoft.clazz;
+2 
+3 public class TestClass {
+4 	
+5     private int m;
+6 	
+7     public int inc() {
+8         int x;
+9         try {
+10            x = 1;
+11            return x;
+12        } catch (Exception e) {
+13            x = 2;
+14            return x;
+15        } finally {
+16            x = 3;
+17        }
+18    }
+19	
+20 }
+```
+
+编译后的inc方法的相关内容为
+
+```
+public int inc();
+  descriptor: ()I
+  flags: ACC_PUBLIC
+  Code:
+    stack=1, locals=5, args_size=1
+       0: iconst_1    // x = 1;
+       1: istore_1
+       2: iload_1    // return x;
+       3: istore_2
+       4: iconst_3    // x = 3;
+       5: istore_1
+       6: iload_2    // return x;
+       7: ireturn
+       8: astore_2
+       9: iconst_2    // x = 2;
+      10: istore_1
+      11: iload_1    // return x;
+      12: istore_3    // int x;
+      13: iconst_3    // x = 3;
+      14: istore_1    
+      15: iload_3    // return x;
+      16: ireturn    
+      17: astore        4
+      19: iconst_3
+      20: istore_1
+      21: aload         4
+      23: athrow
+    Exception table:
+       from    to  target type
+           0     4     8   Class java/lang/Exception
+           0     4    17   any
+           8    13    17   any
+          17    19    17   any
+    LineNumberTable:
+      line 10: 0
+      line 11: 2
+      line 16: 4
+      line 11: 6
+      line 12: 8
+      line 13: 9
+      line 14: 11
+      line 16: 13
+      line 14: 15
+      line 16: 17
+      line 17: 21
+    StackMapTable: number_of_entries = 2
+      frame_type = 72 /* same_locals_1_stack_item */
+        stack = [ class java/lang/Exception ]
+      frame_type = 72 /* same_locals_1_stack_item */
+        stack = [ class java/lang/Throwable ]
+```
+
+**需要说明的是，方法中的参数以及局部变量均存储在栈帧中的局部变量表中，而对局部变量表中参数与局部变量的操作是在栈帧的操作数栈中进行的。**
+
+根据LineNumberTable指出的源码与字节码指令的对应关系得知
+
++ 第0条字节码指令`iconst_1`对应的是源码中的第10行`x = 1;`，含义是**将int型1推送至栈顶**；
+  + 第1条字节码指令`istore_1`，含义是**将栈顶int数值存入本地变量表中的第二个Slot中**；
++ 第2条字节码指令`iload_1`对应源码中的第11行`return x;`，含义是**将第2个int型本地变量推送至栈顶**；有个疑问，int型1不是本来就在栈顶吗，怎么又推送一次？还出现了个**第二个**？由于第1条字节码指令的执行，原来栈顶的int型1已经被存入局部变量表中的第二个Slot中，所以已经不在栈顶了，所以第2条字节码指令需要将本地变量表中的第2个Slot的int型1值取出来推送至栈顶；
+  + 第3条字节码指令`istore_2`，含义是**将栈顶int数值存入本地变量表中的第三个Slot中**；也就是将栈顶的int型1再次存入第三个Slot中；
++ 第4条字节码指令`iconst_3`对应源码中的第16行`x = 3;`，含义是**将int型3推送至栈顶**。
+  + 第5条字节码指令`istore_1`的含义是**将栈顶int型数值存入局部变量表中的第二个Slot中**，由于int型1已经被从第二个Slot中取出推送至栈中后又被存入第三个Slot中，所以第二个Slot空出来了，任意一个int型数值都可以进入；这条字节码指令执行后，局部变量表中的第二个Slot中为int型3；
++ 第6条字节码指令`iload_2`对应源码中的第11行`return x;`。含义是**将局部变量表中的第三个Slot的值推送至栈顶**，也就是int型1被推送至栈顶。
+  + 第7条字节码指令`ireturn`含义是**从当前方法返回int**。即将该方法的返回值返回给该方法的调用者(即虚拟机栈当前线程调用栈的在inc方法(栈帧)执行时位于其底部的栈帧)。返回值为1，**从这里也可以看出，方法的返回值仍然是从操作数栈中返回而不是局部变量表，所以没有返回3而是1。这里也揭示了try-finally块中返回值的原理。**
+
+以上是try中没有发生异常的情况下字节码指令的执行方式，如果发生了类型为`Class java/lang/Exception`的异常，即字节码指令第0条到第3条(不包括第4条)，那么根据异常表的指示将会跳转到第8行处理。由于字节码指令第4条才会将3推送至栈顶，而第五条才会将3存入第2个Slot，也就意味着如果发生异常就不会执行到第4条和第五条字节码指令，也就意味着第2个Slot并没有值(根据第2条字节码指令，局部变量表中的第2个Slot中的1被推送至栈顶后又存放到了第3个Slot中，所以第二个Slot没有值)如下
+
++ 第8条字节码指令`astore_2`对应源码中的第12行`} catch (Exception e) {`，代表的是异常处理，继续看下一行，因为是一个整体；
++ 第9条字节码指令`iconst_2`对应源码中的第13行`x = 2;`，是对异常的处理，含义为**将int型2推送至栈顶**；
+  + 第10条字节码指令`istore_1`一目了然，含义是将**将栈顶int数值2存入本地变量表中的第二个Slot中**；由于出现了异常，上面已经解释过了，第二个Slot无值，因此可以存放而不会覆盖别的值。
++ 第11条字节码指令`iload_1`对应源码中的第14行`return x;`，含义是**将局部变量表中第2个Slot的值2推送至栈顶**；
+  + 第12条字节码指令`istore_3`的含义是将栈顶的值2存入局部变量表中的第四个Slot中，因为第三个Slot存放的是int型1，上面也解释过了；`由于是不管有没有发生异常，都会执行finally，所以接下来执行finally`；
++ 第13条字节码指令`iconst_3`对应的仍是源码第16行`x = 3;`，含义是**将int型3推送至栈顶**。(注意，发生异常后try中并未执行到这里)；含义是将int型3推送至栈顶；
+  + 第14条字节码指令`istore_1 `的含义是**将栈顶的3存入局部变量表中的第2个Slot中**，由于第11条字节码指令`iload_1`将局部变量表第2个Slot中的数据2推送至了栈顶，紧接着第12条指令将栈顶的2存入了第四个Slot中，所以此时Slot无值，可以存入栈顶的3；
++ 第15条字节码指令`iload_3`对应源码的第14行`return x;`，含义是**将局部变量表第4个Slot中的值推送至栈顶，即将2推送至栈顶；**
+  + 第16条字节码指令`ireturn`含义是**从当前方法返回int**。即将该方法的返回值返回给该方法的调用者(即虚拟机栈当前线程调用栈的在inc方法(栈帧)执行时位于其底部的栈帧)。返回值为2，**这里也揭示了try-catch-finally块中返回值的原理。**
+  
+以上是字节码指令第0条到第3条(不包括第4条)发生了类型为`Class java/lang/Exception`的异常的处理方式，如果发生了别的异常，即类型为`any`，那么将会跳转到第17条字节码指令处理。从方法表集合的属性表集合的Code属性的异常表集合得知，第8到12行字节码、17到18行字节码发生类型为`any`的异常，也会调到第17条字节码指令进行处理，所以统一看一下
+
++ 第17条字节码指令`astore    4`对应源码第16行`x = 3;`，该指令原型为`astore index`，含义是将栈顶树值存入局部变量表中索引为index(第index+1个Slot)的Slot中，此处不详细展开，因为类型为`any`对应的异常字节码有三段，所以也不知道具体是哪一段的哪一条字节码出现异常，但是无非两种情况，一种是栈顶存在操作数，一种是栈顶不存在操作数，不管存不存在操作数，那么都将其存入第5(索引为4)个Slot中，这样就清空了栈；
++ 第19条字节码指令`iconst_3`，含义是**将int型3推送至栈顶**。也就是finally中的x = 3；
++ 第20条字节码指令`istore_1`，含义是**将栈顶的操作数存入第2个Slot中(索引为1)**,也就是将3存入第二个Slot中，这里分析也比较复杂，因为类型为`any`对应的异常字节码有三段，所以也不知道具体是哪一段的哪一条字节码出现异常，但是无非两种情况，第二个Slot中有可能有值也有可能没有。这种情况已经不重要了，因为这种情况下并没有返回值会返回给上层方法调用者，而是直接将栈顶的异常抛出。即第23条字节码`athrow`。
+
+解释完毕，可以看出，Java方法的执行确实是基于栈的，对参数以及变量(局部变量)的操作都是在操作数栈中进行的，局部变量表存储方法中的变量及参数，通过对局部变量表中变量的入栈参与指令运算和出栈暂存数值最终出栈栈顶元素实现返回结果！而对实例变量的访问是通过局部变量表中第1个Slot(索引为0)中存放的this来指向具体对象的地址，这样就可以通过地址引用到实例变量，也可以通过地址将对实例变量的修改写入堆中。
+
 ### 6.2 Exceptions属性
 
 这里的Exceptions属性是在方法表中与Code属性平级的一项属性。Exceptions属性的作用是列举出方法中可能抛出的受检**异常**，也就是方法描述时在throws关键字后面列举的异常。结构如下表所示
@@ -660,4 +786,53 @@ index是这个局部变量在栈帧局部变量表中Slot的位置，当这个�
 |------|------|------|
 |u2|attribute_name_index|1|
 |u4|attribute_length|1|
-|u2|contributevalue_index|1|
+|u2|number_of_classes|1|
+|inner_classes_info|inner_classes|number_of_classes|
+
+数据项number_of_classes代表需要记录多少个内部类信息，每一个内部类信息都由一个inner_classes_info表进行描述，number_of_classes有多少就有几个连续的inner_classes_info表，inner_classes_info表结构如下
+
+
+|类型|名称|数量|
+|------|------|------|
+|u2|inner_classes_info_index|1|
+|u2|outer_class_info_index|1|
+|u2|inner_name_index|1|
+|u2|inner_class_access_flags|1|
+
+inner_classes_info_index和outer_class_info_index都是指向常量池中CONSTANT_Class_info型常量的索引，分别代表了内部类与宿主类的符号引用。
+
+inner_name_index是指向常量池中CONSTANT_Utf8_info类型常量的索引，代表这个内部类的名称，如果是匿名内部类，则这项值为0.
+
+inner_class_access_flags是内部类的访问标志，类似于类的access_flags，取值如下表所示
+
+|标志名称|标志值|含义|
+|------|------|------|
+|ACC_PUBLIC|0x0001|内部类是否为public|
+|ACC_PRIVATE|0x0002|内部类是否为private|
+|ACC_PROTECTED|0x0004|内部类是否为protected|
+|ACC_STATIC|0x0008|内部类是否为static|
+|ACC_FINAL|0x0010|内部类是否为final|
+|ACC_INTERFACE|0x0020|内部类是否为interface|
+|ACC_ABSTRACT|0x0400|内部类是否为abstract|
+|ACC_SYNTHETIC|0x1000|内部类是否并非由用户代码产生的|
+|ACC_ANNOTATION|0x2000|内部类是否是一个注解|
+|ACC_ENUM|0x4000|内部类是否是一个枚举|
+
+### 6.8 Deprecated及Synthetic属性
+
+这两个属性都属于标志类型的布尔属性，只存在有和没有的区别，没有属性值的概念。
+
+Deprecated属性用于表示某个类、字段或方法，已经被程序作者定为不在推荐使用，它可以通过在代码中使用`@deprecated`注释进行设置。
+
+`Synthetic`属性代表此字段或方法并不是由Java源码直接产生的，而是由编译器自行添加的，在JDK1.5之后，标识一个类、字段或方法是编译器自动产生的，也可以设置它们访问标志的ACC_SYNTHETIC标志位。
+
+这两个字段的结构都如下表
+
+|类型|名称|数量|
+|------|------|------|
+|u2|attribute_name_index|1|
+|u4|attribute_length|1|
+
+其中attribute_length数据项的值必须为0x00000000，因为没有任何属性值需要设置。
+
+以上就是Class文件的结构。可以看出，**类型**就是一个连续地址空间，而**名称**则指明了该连续地址空间代表的是什么内容，**数量**则表示该名称的内部有多少个子项(即连续数几个)。

@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-04-24T10:31:45+08:00</updated>
+  <updated>2019-04-24T11:43:37+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>JVM运行时栈帧结构</title>
+    <updated>2019-04-24T11:06:14+08:00</updated>
+    <id>tag:doc.feily.tech,2019-04-24:/runtime-stack-frame-structure.html</id>
+    <content type="html">&lt;p&gt;栈帧(Stack Frame)是用于支持虚拟机方法调用和方法执行的数据结构，它是虚拟机运行时数据区中的虚拟机栈的栈元素。栈帧中存储了方法的局部变量表、操作数栈、动态链接和方法返回出口等信息。每一个方法从调用开始到执行完成的过程，就对应着一个栈帧在虚拟机栈里面从入栈到出栈的过程。&lt;/p&gt;&#xA;</content>
+    <link href="https://doc.feily.tech/runtime-stack-frame-structure.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>JVM运行时数据区域</title>
     <updated>2019-04-23T20:39:14+08:00</updated>
@@ -93,16 +103,6 @@
     <id>tag:doc.feily.tech,2019-04-07:/naive-bayes.html</id>
     <content type="html">&lt;p&gt;朴素贝叶斯算法是一种依据贝叶斯定理的分类技术，利用概率原则进行分类，该算法易于构建模型，适用于大规模数据集的分类任务。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/naive-bayes.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>Erlang程序设计(一)</title>
-    <updated>2019-04-03T19:52:05+08:00</updated>
-    <id>tag:doc.feily.tech,2019-04-03:/intro-erlang-1.html</id>
-    <content type="html">&lt;p&gt;常量与变量、常用数据类型。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/intro-erlang-1.html"></link>
     <author>
       <name>林奕清</name>
     </author>

@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -100,6 +78,23 @@
                 </header>
                 <ul class="article-list">
                     
+                    
+                    <li class="article">
+                        <a class="title" href="/cache-model-and-java-memory-model-and-volatile-keyword.html">Cache模型与Java内存模型及volatile关键字</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>CPU比RAM的速度快得多，通常差距达上千倍，在极端情况下有上万倍的差距，那么为了协调RAM与CPU之间的速度矛盾提高CPU资源利用率，一般在CPU与RAM之间增设Cache，CPU访Cache的速度远高于访RAM的速度。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1545479646"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/summary-of-previous-multithreading-foundations.html">对前面多线程基础的总结</a>
@@ -247,23 +242,6 @@
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545131333"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/analysis-of-arrays-classes.html">Arrays类的相关用法</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>toString方法, sort方法, binarySearch()方法。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1545124145"><span class="from"></span></span>
                             
                             <span class="tags">
                             <a class="tag" href="/tag/Java%20Core/index.html">Java Core</a>

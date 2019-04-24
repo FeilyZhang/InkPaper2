@@ -45,9 +45,10 @@
 </script>
 
 
-        <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
-        <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
-        <title>Feily Zhang</title>
+        <meta name="keywords" content="Java Core,">
+        <meta name="description" content="方法调用">
+        <meta name="author" content="林奕清">
+        <title>方法调用</title>
     </head>
     <body>
         <article class="container">
@@ -63,54 +64,35 @@
   </ul>
 </header>
 
-            <article class="main tag" style="font-family:KaiTi">
-                <header class="site">
-                    <h1 class="title">Feily Zhang</h1>
-                    <h2 class="subtitle" style="font-family:KaiTi">昨夜星辰昨夜风，画楼西畔桂堂东</h2>
-                </header>
-                <header class="header">
-                    <span class="title">标签 -</span>
-                    <span class="subtitle">59 篇文章</span>
-                </header>
-                <ul class="tag-list clearfix">
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">方法调用</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
                     
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/Java%20Core/index.html">Java Core<span class="tag-count"> (31)</span></a>
-                    </li>
+                    <span class="date" data-time="1556110514"><span class="from"></span></span>
                     
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/Spring%20Framework/index.html">Spring Framework<span class="tag-count"> (6)</span></a>
-                    </li>
+                    <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>JVM执行引擎在执行方法字节码的之前最重要的一个步骤就是方法调用。方法调用阶段唯一的任务就是确定被调用方法的版本，即调用哪一个方法，并未涉及方法的运行过程。</p>
+
+<p>在程序运行时，进行方法调用是最普遍、最频繁的操作，但是Class文件的编译过程中不包含传统编译中的连接步骤，一切方法调用在Class文件中存储的都只是符号引用，而不是方法在实际运行时内存布局中的入口地址（相当于直接引用）。这个特性给Java带来了更强大的动态拓展能力，但也使得Java方法的调用过程变得相对复杂起来，需要在类加载期间甚至到运行期间才能确定目标方法的直接引用。</p>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">我是彗星孤掷久，忆曾飞掠土星环</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
                     
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/Machine%20Learning/index.html">Machine Learning<span class="tag-count"> (6)</span></a>
-                    </li>
                     
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/Prolog/index.html">Prolog<span class="tag-count"> (4)</span></a>
-                    </li>
+                    <section class="nav next">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/stack-based-interpreter-execution-process.html">基于栈的解释器执行过程</a>
+                    </section>
                     
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/%e6%96%87%e5%8f%b2%e7%ac%94%e8%ae%b0/index.html">文史笔记<span class="tag-count"> (3)</span></a>
-                    </li>
-                    
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/%e4%b8%80%e6%99%8c%e8%b4%aa%e6%ac%a2/index.html">一晌贪欢<span class="tag-count"> (3)</span></a>
-                    </li>
-                    
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/MySQL/index.html">MySQL<span class="tag-count"> (3)</span></a>
-                    </li>
-                    
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/Astrophysics/index.html">Astrophysics<span class="tag-count"> (2)</span></a>
-                    </li>
-                    
-                    <li class="tag-item">
-                        <a class="tag-name" href="/tag/Erlang/index.html">Erlang<span class="tag-count"> (1)</span></a>
-                    </li>
-                    
-                </ul>
+                </section>
+                
             </article>
         </article>
         <footer class="footer" style="font-family:NSimSun">
@@ -123,6 +105,6 @@
     <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
 </footer>
 
+        <script src="/bundle/index.js"></script>
     </body>
-    <script src="/bundle/index.js"></script>
 </html>

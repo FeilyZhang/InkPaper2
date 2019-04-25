@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
+
+        <meta name="keywords" content="Java Core,">
+        <meta name="description" content="垃圾收集器与内存分配策略">
+        <meta name="author" content="林奕清">
+        <title>垃圾收集器与内存分配策略</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">垃圾收集器与内存分配策略</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1556159474"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>堆中几乎存放着Java中的所有对象实例，垃圾收集器在对堆进行回收前，要做的一件事情就是判断这些对象有哪些还“或者”，哪些已经“死去（即不可能再被任何途径使用的对象）”。然后对死去的对象进行垃圾清理完成内存回收。</p>
+
+<h2>一、对象是死是活？</h2>
+
+<h3>1.1 引用计数法</h3>
+
+<p>引用计数法（Reference Counting）是判断对象是否存活的一个办法，具体做法是：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器就加1；当引用失效时，计数器值就减一；任何时候计数器都为0的对象就是不可能再被使用的。</p>
+
+<p>这种办法的优点是实现简单，但是缺点是难以解决对象之间的相互循环引用问题。例如</p>
+
+<pre><code>objA.instance = objB;
+objB.instance = objA'
+</code></pre>
+
+<p>对象objA与objB相互引用对方，使得二者的引用计数器不为0.于是无法通知GC收集器回收它们。</p>
+
+<h3>1.2 根搜索算法</h3>
+
+<p>在主流的商用程序语言中，都是使用根搜索算法（GC Roots Tracing）判断对象是否存活的。这个算法的基本思路是通过一系列名为“GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链（Reference Chain），当一个对象到GC Roots没有任何引用链时或不可达时，则证明该对象是不可用的，它们会被判定为可回收的对象。这里的对象指的是</p>
+
+<ul>
+<li>虚拟机栈（栈帧中的本地变量表）中引用的对象，即堆区中的对象；</li>
+<li>方法区中类静态属性引用的对象；</li>
+<li>方法区中的常量引用的对象；</li>
+<li>本地方法栈JNI（即一般所说的Native方法）的引用的对象。</li>
+</ul>
+
+<p><img src="data:image/gif;base64,R0lGODlhGAAYAPQAAP///wAAAM7Ozvr6+uDg4LCwsOjo6I6OjsjIyJycnNjY2KioqMDAwPLy8nd3d4aGhri4uGlpaQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkHAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAGAAYAAAFriAgjiQAQWVaDgr5POSgkoTDjFE0NoQ8iw8HQZQTDQjDn4jhSABhAAOhoTqSDg7qSUQwxEaEwwFhXHhHgzOA1xshxAnfTzotGRaHglJqkJcaVEqCgyoCBQkJBQKDDXQGDYaIioyOgYSXA36XIgYMBWRzXZoKBQUMmil0lgalLSIClgBpO0g+s26nUWddXyoEDIsACq5SsTMMDIECwUdJPw0Mzsu0qHYkw72bBmozIQAh+QQJBwAAACwAAAAAGAAYAAAFsCAgjiTAMGVaDgR5HKQwqKNxIKPjjFCk0KNXC6ATKSI7oAhxWIhezwhENTCQEoeGCdWIPEgzESGxEIgGBWstEW4QCGGAIJEoxGmGt5ZkgCRQQHkGd2CESoeIIwoMBQUMP4cNeQQGDYuNj4iSb5WJnmeGng0CDGaBlIQEJziHk3sABidDAHBgagButSKvAAoyuHuUYHgCkAZqebw0AgLBQyyzNKO3byNuoSS8x8OfwIchACH5BAkHAAAALAAAAAAYABgAAAW4ICCOJIAgZVoOBJkkpDKoo5EI43GMjNPSokXCINKJCI4HcCRIQEQvqIOhGhBHhUTDhGo4diOZyFAoKEQDxra2mAEgjghOpCgz3LTBIxJ5kgwMBShACREHZ1V4Kg1rS44pBAgMDAg/Sw0GBAQGDZGTlY+YmpyPpSQDiqYiDQoCliqZBqkGAgKIS5kEjQ21VwCyp76dBHiNvz+MR74AqSOdVwbQuo+abppo10ssjdkAnc0rf8vgl8YqIQAh+QQJBwAAACwAAAAAGAAYAAAFrCAgjiQgCGVaDgZZFCQxqKNRKGOSjMjR0qLXTyciHA7AkaLACMIAiwOC1iAxCrMToHHYjWQiA4NBEA0Q1RpWxHg4cMXxNDk4OBxNUkPAQAEXDgllKgMzQA1pSYopBgonCj9JEA8REQ8QjY+RQJOVl4ugoYssBJuMpYYjDQSliwasiQOwNakALKqsqbWvIohFm7V6rQAGP6+JQLlFg7KDQLKJrLjBKbvAor3IKiEAIfkECQcAAAAsAAAAABgAGAAABbUgII4koChlmhokw5DEoI4NQ4xFMQoJO4uuhignMiQWvxGBIQC+AJBEUyUcIRiyE6CR0CllW4HABxBURTUw4nC4FcWo5CDBRpQaCoF7VjgsyCUDYDMNZ0mHdwYEBAaGMwwHDg4HDA2KjI4qkJKUiJ6faJkiA4qAKQkRB3E0i6YpAw8RERAjA4tnBoMApCMQDhFTuySKoSKMJAq6rD4GzASiJYtgi6PUcs9Kew0xh7rNJMqIhYchACH5BAkHAAAALAAAAAAYABgAAAW0ICCOJEAQZZo2JIKQxqCOjWCMDDMqxT2LAgELkBMZCoXfyCBQiFwiRsGpku0EshNgUNAtrYPT0GQVNRBWwSKBMp98P24iISgNDAS4ipGA6JUpA2WAhDR4eWM/CAkHBwkIDYcGiTOLjY+FmZkNlCN3eUoLDmwlDW+AAwcODl5bYl8wCVYMDw5UWzBtnAANEQ8kBIM0oAAGPgcREIQnVloAChEOqARjzgAQEbczg8YkWJq8nSUhACH5BAkHAAAALAAAAAAYABgAAAWtICCOJGAYZZoOpKKQqDoORDMKwkgwtiwSBBYAJ2owGL5RgxBziQQMgkwoMkhNqAEDARPSaiMDFdDIiRSFQowMXE8Z6RdpYHWnEAWGPVkajPmARVZMPUkCBQkJBQINgwaFPoeJi4GVlQ2Qc3VJBQcLV0ptfAMJBwdcIl+FYjALQgimoGNWIhAQZA4HXSpLMQ8PIgkOSHxAQhERPw7ASTSFyCMMDqBTJL8tf3y2fCEAIfkECQcAAAAsAAAAABgAGAAABa8gII4k0DRlmg6kYZCoOg5EDBDEaAi2jLO3nEkgkMEIL4BLpBAkVy3hCTAQKGAznM0AFNFGBAbj2cA9jQixcGZAGgECBu/9HnTp+FGjjezJFAwFBQwKe2Z+KoCChHmNjVMqA21nKQwJEJRlbnUFCQlFXlpeCWcGBUACCwlrdw8RKGImBwktdyMQEQciB7oACwcIeA4RVwAODiIGvHQKERAjxyMIB5QlVSTLYLZ0sW8hACH5BAkHAAAALAAAAAAYABgAAAW0ICCOJNA0ZZoOpGGQrDoOBCoSxNgQsQzgMZyIlvOJdi+AS2SoyXrK4umWPM5wNiV0UDUIBNkdoepTfMkA7thIECiyRtUAGq8fm2O4jIBgMBA1eAZ6Knx+gHaJR4QwdCMKBxEJRggFDGgQEREPjjAMBQUKIwIRDhBDC2QNDDEKoEkDoiMHDigICGkJBS2dDA6TAAnAEAkCdQ8ORQcHTAkLcQQODLPMIgIJaCWxJMIkPIoAt3EhACH5BAkHAAAALAAAAAAYABgAAAWtICCOJNA0ZZoOpGGQrDoOBCoSxNgQsQzgMZyIlvOJdi+AS2SoyXrK4umWHM5wNiV0UN3xdLiqr+mENcWpM9TIbrsBkEck8oC0DQqBQGGIz+t3eXtob0ZTPgNrIwQJDgtGAgwCWSIMDg4HiiUIDAxFAAoODwxDBWINCEGdSTQkCQcoegADBaQ6MggHjwAFBZUFCm0HB0kJCUy9bAYHCCPGIwqmRq0jySMGmj6yRiEAIfkECQcAAAAsAAAAABgAGAAABbIgII4k0DRlmg6kYZCsOg4EKhLE2BCxDOAxnIiW84l2L4BLZKipBopW8XRLDkeCiAMyMvQAA+uON4JEIo+vqukkKQ6RhLHplVGN+LyKcXA4Dgx5DWwGDXx+gIKENnqNdzIDaiMECwcFRgQCCowiCAcHCZIlCgICVgSfCEMMnA0CXaU2YSQFoQAKUQMMqjoyAglcAAyBAAIMRUYLCUkFlybDeAYJryLNk6xGNCTQXY0juHghACH5BAkHAAAALAAAAAAYABgAAAWzICCOJNA0ZVoOAmkY5KCSSgSNBDE2hDyLjohClBMNij8RJHIQvZwEVOpIekRQJyJs5AMoHA+GMbE1lnm9EcPhOHRnhpwUl3AsknHDm5RN+v8qCAkHBwkIfw1xBAYNgoSGiIqMgJQifZUjBhAJYj95ewIJCQV7KYpzBAkLLQADCHOtOpY5PgNlAAykAEUsQ1wzCgWdCIdeArczBQVbDJ0NAqyeBb64nQAGArBTt8R8mLuyPyEAOw==" data-src="/images/article/gc-roots.png" alt="" /></p>
+
+<h3>1.3 再谈引用</h3>
+
+<p>无论是通过引用计数算法判断对象的引用数量，还是通过根搜索算法判断对象的引用链是否可达，可见，判定对象是否存活都与“引用有关”。在JDK1.2之前，Java中的引用的定义很传统：如果reference类型的护具中存储的数值代表的是另外一块内存的起始地址，就称这块内存代表着一个引用。但是这种定义很简单纯粹，只有被引用雨没有被引用两种状态，对于一些“食之无味，弃之可惜”的对象就显得无能为力。我们希望能描述这样一类对象：当内存空间还足够时，则能保存在内存之中；如果内存在进行垃圾收集后还是非常紧张，则可以抛弃这些对象。</p>
+
+<p>在JDK1.2之后，Java对引用的概念进行了扩充，将引用分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）四种，这四种引用强度依次逐渐减弱。</p>
+
+<ul>
+<li>强引用就是指程序代码之中普遍存在的，类似于<code>Object obj = new Object()</code>之类的引用，只要强引用还存在，那么垃圾收集器永远都不会回收；</li>
+<li>软引用是用来描述一些还有用，但并非必需的对象。对于软引用的对象，在系统将要发生内存溢出异常之前，将会把这些对象列入垃圾回收范围之内并进行第二次回收。如果这次回收还是没有足够的内存，才会抛出内存溢出异常。在JDK1.2之后，提供了<code>SoftReference</code>类来实现软引用.</li>
+<li>弱引用也是用来描述非必需对象的，但是它的强度比软引用更弱一些，被弱引用关联的对象只能生存到下一次垃圾收集发生之前。当垃圾收集器工作时，无论当前内存是否足够，都会回收掉只被弱引用关联的对象（这也是区别于软引用的地方）。在JDK1.2之后，提供了<code>WeakReference</code>类来实现弱引用；</li>
+<li>虚引用也成为幽灵引用或者幻影引用，是最弱的的一种引用关系。一个对象是否有虚引用的存在，完全不会对其生存时间构成影响，也无法通过虚引用来取得一个对象实例。为一个对象设置虚引用关联的唯一目的就是希望能在这个对象被收集器回收时收到一个系统通知。在JDK1.2之后，提供了<code>PhantomReference</code>类来实现虚引用。</li>
+</ul>
+
+<h3>1.4 生存还是死亡</h3>
+
+<p>在根搜素算法中，不可达的对象并非非死不可，这时候它们只是进入了缓刑阶段，要真正宣告一个对象的死亡，至少需要两次标记过程：如果对象在进行根搜索后发现没有与GC Roots相连接的引用链，那么它将会被标记并且进行一次筛选，筛选的条件是此对象是否有必要执行<code>finalize()</code>方法，当对象没有覆盖这个方法时或者该方法已经被虚拟机调用过，虚拟机将这两种情况都视为“没有必要执行”。</p>
+
+<p>如果这个对象被判定为有必要执行<code>finalize()</code>方法，那么这个对象将会被放置在一个名为<code>F-Queue</code>的队列之中，并在稍后由一条由虚拟机自动建立的、低优先级的<code>Finalizer</code>线程去执行。这里所谓的执行是指虚拟机会触发这个方法但并不承诺会等待它运行结束。这样做的原因是，如果一个对象在<code>Finalize()</code>方法中执行缓慢或者发生了死循环，将很可能会导致<code>F-Queue</code>队列中的其他对象永久处于等待状态，甚至导致整个内存回收系统崩溃。</p>
+
+<p><code>finalize()</code>方法是对象逃脱死亡命运的最后一次机会，稍后GC将对<code>F-Queue</code>中的对象进行第二次小规模标记，如果对象要在<code>finalize()</code>中成功拯救自己，只需要重新与引用链上的任何一个对象建立关联即可。譬如，把自己(this关键字)赋给某个类变量或对象的成员变量（随便一个类都可以，包括自己），那么在第二次标记时它将被移除出“即将回收”的集合；如果对象这时候还没有逃脱，那么就真的离死不远了。示例如下</p>
+
+<pre><code>import java.util.concurrent.TimeUnit;
+
+public class FinalizeEscapeGC {
+
+    public static FinalizeEscapeGC SAVE_HOOK = null;
+    
+    public void isLive() {
+        System.out.println(&quot;yes, i am still live.&quot;);
+    }
+    
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        System.out.println(&quot;finalize method executed.&quot;);
+        // 把自己赋给FinalizeEscapeGC型对象SAVE_HOOK,从而拯救自己
+        FinalizeEscapeGC.SAVE_HOOK = this;
+    }
+    public static void main(String[] args) throws InterruptedException {
+        SAVE_HOOK = new FinalizeEscapeGC();
+        
+        // 对象第一次成功拯救自己
+        SAVE_HOOK = null;
+        System.gc();
+        // 因为Finalizer方法优先级很低，主线程暂停0.5s，以等待它
+        TimeUnit.SECONDS.sleep(5);
+        if (SAVE_HOOK != null) {
+            SAVE_HOOK.isLive();
+        } else {
+            System.out.println(&quot;no, i am dead.&quot;);
+        }
+        
+        // 下面这段代码与上面的完全相同，但是却拯救失败了
+        SAVE_HOOK = null;
+        System.gc();
+        // 因为Finalizer方法优先级很低，主线程暂停0.5s，以等待它
+        TimeUnit.SECONDS.sleep(5);
+        if (SAVE_HOOK != null) {
+            SAVE_HOOK.isLive();
+        } else {
+            System.out.println(&quot;no, i am dead.&quot;);
+        }
+    }
+
+}
+</code></pre>
+
+<p>结果为</p>
+
+<pre><code>finalize method executed.
+yes, i am still live.
+no, i am dead.
+</code></pre>
+
+<p>可以看到，SAVE_HOOK对象的<code>finalize()</code>方法确实被GC收集器触发过，并且在被收集之前成功逃脱了。</p>
+
+<p>第二次执行失败是因为<code>finalize()</code>方法只会被系统自动执行一次，第二次无效，所以自救失败了。</p>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">我是彗星孤掷久，忆曾飞掠土星环</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    
+                    <section class="nav next">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/jvm-method-call.html">方法调用</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

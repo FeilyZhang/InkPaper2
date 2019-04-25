@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="Java Core,">
         <meta name="description" content="方法调用">
@@ -85,8 +107,13 @@
                 </section>
                 <section class="recommend" style="font-family:KaiTi">
                     
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/garbage-collector-and-memory-allocation-strategy.html">垃圾收集器与内存分配策略</a>
+                    </section>
                     
-                    <section class="nav next">
+                    
+                    <section class="nav next more">
                         <div class="head">下篇文章</div>
                         <a class="link" href="/stack-based-interpreter-execution-process.html">基于栈的解释器执行过程</a>
                     </section>

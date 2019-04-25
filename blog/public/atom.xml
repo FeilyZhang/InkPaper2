@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://doc.feily.tech</id>
-  <updated>2019-04-24T21:03:16+08:00</updated>
+  <updated>2019-04-25T11:31:39+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://doc.feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>垃圾收集器与内存分配策略</title>
+    <updated>2019-04-25T10:31:14+08:00</updated>
+    <id>tag:doc.feily.tech,2019-04-25:/garbage-collector-and-memory-allocation-strategy.html</id>
+    <content type="html">&lt;p&gt;堆中几乎存放着Java中的所有对象实例，垃圾收集器在对堆进行回收前，要做的一件事情就是判断这些对象有哪些还“或者”，哪些已经“死去（即不可能再被任何途径使用的对象）”。然后对死去的对象进行垃圾清理完成内存回收。&lt;/p&gt;&#xA;</content>
+    <link href="https://doc.feily.tech/garbage-collector-and-memory-allocation-strategy.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>方法调用</title>
     <updated>2019-04-24T20:55:14+08:00</updated>
@@ -93,16 +103,6 @@
     <id>tag:doc.feily.tech,2019-04-17:/data-backup-and-restore.html</id>
     <content type="html">&lt;p&gt;包括数据备份、数据还原、数据库迁移以及导出数据到外部文件。&lt;/p&gt;&#xA;</content>
     <link href="https://doc.feily.tech/data-backup-and-restore.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>MySQL权限与安全</title>
-    <updated>2019-04-16T22:49:50+08:00</updated>
-    <id>tag:doc.feily.tech,2019-04-16:/mysql-permissions-and-security.html</id>
-    <content type="html">&lt;p&gt;MySQL服务器通过权限表来控制用户对数据库的访问，权限表存放在mysql数据库中，由mysql_install_db脚本初始化。存储账户权限信息表主要有:user、db、host、tables_priv、columns_priv和procs_priv。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/mysql-permissions-and-security.html"></link>
     <author>
       <name>林奕清</name>
     </author>

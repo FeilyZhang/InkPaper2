@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://doc.feily.tech">
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="Spring,">
+        <meta name="description" content="Spring中Bean的配置方式">
+        <meta name="author" content="林奕清">
+        <title>Spring中Bean的配置方式</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">Spring中Bean的配置方式</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1558252874"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/tag/Spring/index.html">Spring</a></span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><h2>一、类-xml方式</h2>
+
+<p>这种方式是先编写普通的Java类，然后在Spring配置文件中通过<code>&lt;bean&gt;</code>标签来定义bean，最后就可以通过IoC容器取得Bean实例，如下</p>
+
+<pre><code>package spring.feily.tech;
+
+public interface SpringBean {
+
+    public abstract void sayHello();
+    
+}
+</code></pre>
+
+<pre><code>package spring.feily.tech;
+
+public class SpringBeanImpl implements SpringBean {
+
+    @Override
+    public void sayHello() {
+        System.out.println(&quot;hello, world&quot;);
+    }
+    
+}
+</code></pre>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class SpringBeanMain {
+
+    public static void main(String[] args) {
+        ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;context.xml&quot;);
+        SpringBean sb = ac.getBean(&quot;springBean&quot;, SpringBean.class);
+        sb.sayHello();
+    }
+
+}
+</code></pre>
+
+<p>配置文件为(一定要放在src目录下)</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;&gt;
+  &lt;!-- 
+  &lt;context:component-scan base-package=&quot;spring.feily.tech&quot;/&gt;
+  &lt;context:annotationconfig/&gt;
+   --&gt;
+  &lt;bean id=&quot;springBean&quot; class=&quot;spring.feily.tech.SpringBeanImpl&quot;&gt;&lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>运行结果为</p>
+
+<pre><code>五月 19, 2019 4:00:35 下午 org.springframework.context.support.ClassPathXmlApplicationContext prepareRefresh
+信息: Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@b1a58a3: startup date [Sun May 19 16:00:35 CST 2019]; root of context hierarchy
+五月 19, 2019 4:00:35 下午 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+信息: Loading XML bean definitions from class path resource [context.xml]
+hello, world
+</code></pre>
+
+<h2>二、注解-xml方式</h2>
+
+<p>这种办法是给类加上注解，只是配置文件不需要<code>&lt;bean&gt;</code>标签，只需要打开注解和配置扫描路径就好了，IoC取得bean对象的代码不变，如下</p>
+
+<pre><code>package spring.feily.tech;
+
+public interface SpringBean {
+
+    public abstract void sayHello();
+    
+}
+</code></pre>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.stereotype.Component;
+
+@Component(&quot;springBean&quot;)
+public class SpringBeanImpl implements SpringBean {
+
+    @Override
+    public void sayHello() {
+        System.out.println(&quot;hello, world&quot;);
+    }
+    
+}
+</code></pre>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class SpringBeanMain {
+
+    public static void main(String[] args) {
+        ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;context.xml&quot;);
+        SpringBean sb = ac.getBean(&quot;springBean&quot;, SpringBean.class);
+        sb.sayHello();
+    }
+
+}
+
+</code></pre>
+
+<p>配置文件为</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+  &lt;context:component-scan base-package=&quot;spring.feily.tech&quot;/&gt;
+  &lt;context:annotation-config/&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>运行结果为</p>
+
+<pre><code>五月 19, 2019 4:23:25 下午 org.springframework.context.support.ClassPathXmlApplicationContext prepareRefresh
+信息: Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@b1a58a3: startup date [Sun May 19 16:23:25 CST 2019]; root of context hierarchy
+五月 19, 2019 4:23:25 下午 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+信息: Loading XML bean definitions from class path resource [context.xml]
+hello, world
+</code></pre>
+
+<h3>三、注解-配置类方式</h3>
+
+<p>这种办法是用一个被<code>@Configurator</code>和<code>ComponentScan(basePackages = &quot;&quot;)</code>修饰的配置类来替代前两种办法中的xml配置文件的作用，IoC取得bean对象的方式也相应地变成了<code>AnnotationConfigApplicationContext</code>,如下</p>
+
+<pre><code>package spring.feily.tech;
+
+public interface SpringBean {
+
+    public abstract void sayHello();
+    
+}
+</code></pre>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.stereotype.Component;
+
+@Component(&quot;springBean&quot;)
+public class SpringBeanImpl implements SpringBean {
+
+    @Override
+    public void sayHello() {
+        System.out.println(&quot;hello, world&quot;);
+    }
+    
+}
+</code></pre>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class SpringBeanMain {
+
+    public static void main(String[] args) {
+        ApplicationContext ac = new AnnotationConfigApplicationContext(SpringConfigurator.class);
+        SpringBean sb = ac.getBean(&quot;springBean&quot;, SpringBean.class);
+        sb.sayHello();
+    }
+
+}
+</code></pre>
+
+<p>配置类为</p>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = &quot;spring.feily.tech&quot;)
+public class SpringConfigurator {
+
+}
+</code></pre>
+
+<p>运行结果为</p>
+
+<pre><code>五月 19, 2019 4:30:15 下午 org.springframework.context.annotation.AnnotationConfigApplicationContext prepareRefresh
+信息: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@5fa7e7ff: startup date [Sun May 19 16:30:15 CST 2019]; root of context hierarchy
+hello, world
+</code></pre>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">星河滚烫，你是人间理想</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    
+                    <section class="nav next">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/garbage-collector-and-memory-allocation-strategy.html">垃圾收集器与内存分配策略</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

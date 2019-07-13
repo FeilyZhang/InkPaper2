@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://feily.tech">
+
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-itouch-icon" href="/favicon.png">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="Spring,">
+        <meta name="description" content="Spring AOP的XML实现方式">
+        <meta name="author" content="林奕清">
+        <title>Spring AOP的XML实现方式</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/about.me.html">关于</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">Spring AOP的XML实现方式</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1563015349"><span class="from"></span></span>
+                    
+                    <span class="tags">Spring</span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><p>被织入的类为</p>
+
+<pre><code>package spring.feily.tech;
+
+public class SayHello {
+
+    public void sayHello() {
+        System.out.println(&quot;Hello, world!&quot;);
+    }
+}
+</code></pre>
+
+<p>前置、方法返回前、环绕实现类分别为</p>
+
+<pre><code>package spring.feily.tech;
+
+import java.lang.reflect.Method;
+import java.util.Date;
+
+import org.springframework.aop.MethodBeforeAdvice;
+
+public class BeforeAdvice implements MethodBeforeAdvice {
+
+    @Override
+    public void before(Method arg0, Object[] arg1, Object arg2) throws Throwable {
+        System.out.println(&quot;Hello, current time isb &quot; + new Date());
+    }
+
+}
+
+
+package spring.feily.tech;
+
+import java.lang.reflect.Method;
+import java.util.Date;
+
+public class AfterReturningAdvice implements org.springframework.aop.AfterReturningAdvice {
+
+    @Override
+    public void afterReturning(Object arg0, Method arg1, Object[] arg2, Object arg3) throws Throwable {
+        System.out.println(&quot;Hello, current time is &quot; + new Date());
+    }
+
+}
+
+package spring.feily.tech;
+
+import java.util.Date;
+
+import org.aopalliance.intercept.MethodInvocation;
+
+public class MethodInterceptor implements org.aopalliance.intercept.MethodInterceptor {
+
+    @Override
+    public Object invoke(MethodInvocation arg0) throws Throwable {
+        Date startTime = new Date();
+        Object result = arg0.proceed();
+        Date endTime = new Date();
+        Long runtime = endTime.getTime() - startTime.getTime();
+        System.out.println(&quot;Method ： &quot; + arg0.getMethod() + &quot; running time is &quot; + runtime + &quot;ms.&quot;);
+        return result;
+    }
+
+}
+</code></pre>
+
+<p>xml配置文件为</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:util=&quot;http://www.springframework.org/schema/util&quot; 
+    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;             
+    xsi:schemaLocation=&quot;                                               
+            http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans.xsd    
+            http://www.springframework.org/schema/context     
+            http://www.springframework.org/schema/context/spring-context.xsd    
+            http://www.springframework.org/schema/mvc    
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd  
+            http://www.springframework.org/schema/tx   
+            http://www.springframework.org/schema/tx/spring-tx.xsd  
+            http://www.springframework.org/schema/aop  
+            http://www.springframework.org/schema/aop/spring-aop.xsd&quot;&gt;
+            
+  &lt;bean id=&quot;sayHello&quot; class=&quot;spring.feily.tech.SayHello&quot;/&gt;
+  
+  &lt;bean id=&quot;beforeAdvice&quot; class=&quot;spring.feily.tech.BeforeAdvice&quot;/&gt;
+  &lt;bean id=&quot;afterReturnningAdvice&quot; class=&quot;spring.feily.tech.AfterReturningAdvice&quot;/&gt;
+  &lt;bean id=&quot;methodInterceptor&quot; class=&quot;spring.feily.tech.MethodInterceptor&quot;/&gt;
+  
+  &lt;aop:config&gt;
+    &lt;aop:pointcut id=&quot;pointCut&quot; expression=&quot;execution(* spring.feily.tech.SayHello.*(..))&quot; /&gt;
+    &lt;aop:advisor advice-ref=&quot;beforeAdvice&quot; pointcut-ref=&quot;pointCut&quot;/&gt;
+    &lt;aop:advisor advice-ref=&quot;afterReturnningAdvice&quot; pointcut-ref=&quot;pointCut&quot;/&gt;
+    &lt;aop:advisor advice-ref=&quot;methodInterceptor&quot; pointcut-ref=&quot;pointCut&quot;/&gt;
+  &lt;/aop:config&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>测试主文件为</p>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class AOPMain {
+
+    public static void main(String[] args) {
+        ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;context.xml&quot;);
+        SayHello sayHello = ac.getBean(&quot;sayHello&quot;, SayHello.class);
+        sayHello.sayHello();
+
+    }
+
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>七月 13, 2019 6:58:25 下午 org.springframework.context.support.ClassPathXmlApplicationContext prepareRefresh
+信息: Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@3d71d552: startup date [Sat Jul 13 18:58:25 CST 2019]; root of context hierarchy
+七月 13, 2019 6:58:25 下午 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+信息: Loading XML bean definitions from class path resource [context.xml]
+Hello, current time isb Sat Jul 13 18:58:26 CST 2019
+Hello, world!
+Method ： public void spring.feily.tech.SayHello.sayHello() running time is 13ms.
+Hello, current time is Sat Jul 13 18:58:26 CST 2019
+</code></pre>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">If not now, when? If not me, who?</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    
+                    <section class="nav next">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/implementation-of-spring-%20dependency-injection.html">Spring依赖注入的实现方式</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

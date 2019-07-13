@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://feily.tech">
+
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-itouch-icon" href="/favicon.png">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="Spring,">
+        <meta name="description" content="Spring依赖注入的实现方式">
+        <meta name="author" content="林奕清">
+        <title>Spring依赖注入的实现方式</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/about.me.html">关于</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">Spring依赖注入的实现方式</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1563004789"><span class="from"></span></span>
+                    
+                    <span class="tags">Spring</span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><h2>一、属性方式DI的实现</h2>
+
+<h4>1.1 xml方式实现DI注入</h4>
+
+<p>Spring在XML配置形式中，使用嵌入到<code>&lt;bean&gt;</code>的子标记<code>&lt;property&gt;</code>实现属性set方式的注入，其配置语法如下</p>
+
+<pre><code>&lt;bean id=&quot;id&quot; class=&quot;Bean全称&quot;&gt;
+  &lt;property name=&quot;Bean需要注入的属性名&quot; 属性名=&quot;注入的值或者对象&quot; /&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p>其中属性名的取值如下</p>
+
+<ul>
+<li>取值为<code>value</code>：这种情况下name属性对应的值得类型为简单类型的值或String类型的值；</li>
+<li>取值为<code>ref</code>：对象类型的注入，值为配置的Bean的id；</li>
+<li>空值注入：示例为<code>&lt;property name=&quot;comment&quot;&gt;&lt;null/&gt;&lt;/property&gt;</code>;</li>
+<li>集合类型的注入：要注入数组或list集合，使用<code>&lt;list&gt;</code>标签，内部使用<code>&lt;value&gt;</code>标签对将值包含进来；要注入set集合，使用<code>&lt;set&gt;</code>标签，内部使用<code>&lt;value&gt;</code>标签对将值包含进来；要注入map集合，使用<code>&lt;map&gt;</code>标签，内部为<code>&lt;entry key=&quot;keyName&quot;&gt;&lt;value&gt;keyValue&lt;/value&gt;&lt;/entry&gt;</code>；property集合使用<property>标签，内部为<code>&lt;props&gt;&lt;prop key=&quot;keyName&quot;&gt;keyValue&lt;/prop&gt;&lt;/props&gt;</code>。<strong>值得注意的是如果注入的是对象就不能使用<code>&lt;value&gt;</code>标签，要使用<code>&lt;rel bean=&quot;beanid&quot;/&gt;</code>标签。</strong></li>
+</ul>
+
+<p>相应的Bean实体中必须针对每个属性编写set方法。</p>
+
+<p>示例代码如下</p>
+
+<p>要注入的实体类为</p>
+
+<pre><code>package spring.feily.tech;
+
+import java.util.List;
+import java.util.Set;
+
+public class User {
+
+    private String name;
+    private int age;
+    private String hobby;
+    private List&lt;User&gt; boyFriends;
+    private Set&lt;User&gt; girlFriends;
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setAge(int age) {
+        this.age = age;
+    }
+    
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+    
+    public void setBoyFriends(List&lt;User&gt; boyFriends) {
+        this.boyFriends = boyFriends;
+    }
+    
+    public void setGirlFriends(Set&lt;User&gt; grilFriends) {
+        this.girlFriends = grilFriends;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+    
+    public String getHobby() {
+        return hobby;
+    }
+    
+    public List&lt;User&gt; getBoyFriends() {
+        return boyFriends;
+    }
+    
+    public Set&lt;User&gt; getGirlFriends() {
+        return girlFriends;
+    }
+    
+}
+</code></pre>
+
+<p>注入的配置文件为</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+  &lt;bean id=&quot;boy1&quot; class=&quot;spring.feily.tech.User&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;Boy1&quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;22&quot;/&gt;
+    &lt;property name=&quot;hobby&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;boyFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;girlFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+  &lt;/bean&gt;
+  &lt;bean id=&quot;boy2&quot; class=&quot;spring.feily.tech.User&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;Boy2&quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;22&quot;/&gt;
+    &lt;property name=&quot;hobby&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;boyFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;girlFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+  &lt;/bean&gt;
+  &lt;bean id=&quot;girl1&quot; class=&quot;spring.feily.tech.User&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;girl1&quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;22&quot;/&gt;
+    &lt;property name=&quot;hobby&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;boyFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;girlFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+  &lt;/bean&gt;
+  &lt;bean id=&quot;girl2&quot; class=&quot;spring.feily.tech.User&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;girl2&quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;22&quot;/&gt;
+    &lt;property name=&quot;hobby&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;boyFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;girlFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+  &lt;/bean&gt;
+  &lt;bean id=&quot;user&quot; class=&quot;spring.feily.tech.User&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;Feily Zhang&quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;21&quot;/&gt;
+    &lt;property name=&quot;hobby&quot; value=&quot;Running, coding, sing song&quot;/&gt;
+    &lt;property name=&quot;boyFriends&quot;&gt;
+      &lt;list&gt;
+        &lt;ref bean=&quot;boy1&quot;/&gt;
+        &lt;ref bean=&quot;boy2&quot;/&gt;
+      &lt;/list&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;girlFriends&quot;&gt;
+      &lt;set&gt;
+        &lt;ref bean=&quot;girl1&quot;/&gt;
+        &lt;ref bean=&quot;girl2&quot;/&gt;
+      &lt;/set&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>测试用的主文件为</p>
+
+<pre><code>package spring.feily.tech;
+
+import java.util.List;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class SpringBeanMain {
+
+    public static void main(String[] args) {
+        ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;context.xml&quot;);
+        User user = ac.getBean(&quot;user&quot;, User.class);
+        
+        System.out.println(&quot;name : &quot; + user.getName());
+        System.out.println(&quot;age : &quot; + user.getAge());
+        System.out.println(&quot;hobby : &quot; + user.getHobby());
+        
+        System.out.println(&quot;BoyFriends : &quot;);
+        List&lt;User&gt; userBoyFriends = user.getBoyFriends();
+        for (User u : userBoyFriends) {
+            System.out.println(&quot;\tname : &quot; + u.getName());
+            System.out.println(&quot;\tage : &quot; + u.getAge());
+            System.out.println(&quot;\thobby : &quot; + u.getHobby());
+            System.out.println(&quot;\tboyFriends : &quot; + u.getBoyFriends());
+            System.out.println(&quot;\tgirlFriends : &quot; + u.getGirlFriends());
+            System.out.println(&quot;\t----------&quot;);
+        }
+        
+        System.out.println(&quot;GirlFriends : &quot;);
+        List&lt;User&gt; userGirlFriends = user.getBoyFriends();
+        for (User u : userGirlFriends) {
+            System.out.println(&quot;\tname : &quot; + u.getName());
+            System.out.println(&quot;\tage : &quot; + u.getAge());
+            System.out.println(&quot;\thobby : &quot; + u.getHobby());
+            System.out.println(&quot;\tboyFriends : &quot; + u.getBoyFriends());
+            System.out.println(&quot;\tgirlFriends : &quot; + u.getGirlFriends());
+            System.out.println(&quot;\t----------&quot;);
+        }
+    }
+
+}
+
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>七月 13, 2019 4:41:52 下午 org.springframework.context.support.ClassPathXmlApplicationContext prepareRefresh
+信息: Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@b1a58a3: startup date [Sat Jul 13 16:41:52 CST 2019]; root of context hierarchy
+七月 13, 2019 4:41:52 下午 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+信息: Loading XML bean definitions from class path resource [context.xml]
+name : Feily Zhang
+age : 21
+hobby : Running, coding, sing song
+BoyFriends : 
+    name : Boy1
+    age : 22
+    hobby : null
+    boyFriends : null
+    girlFriends : null
+    ----------
+    name : Boy2
+    age : 22
+    hobby : null
+    boyFriends : null
+    girlFriends : null
+    ----------
+GirlFriends : 
+    name : Boy1
+    age : 22
+    hobby : null
+    boyFriends : null
+    girlFriends : null
+    ----------
+    name : Boy2
+    age : 22
+    hobby : null
+    boyFriends : null
+    girlFriends : null
+    ----------
+</code></pre>
+
+<h4>1.2 注解方式实现DI注入</h4>
+
+<ul>
+<li><code>@Autowired</code>注解：该注解依靠注册Bean的类型进行自动装配，如果再此基础之上需要根据注册Bean的id注入那么再配合<code>@Qualifier(&quot;beanid&quot;)</code>注解实现。该注解的可选参数为<code>(required = true)</code>表示进行强制注入；</li>
+<li><code>@Resource(name = &quot;beanid)</code>注解：根据注册bean的id进行装配。</li>
+</ul>
+
+<p>由于<code>@Resource</code>注解无法实现自动注入，必须指示其标识名，因此实际编程中使用最多的是<code>@Autowired</code>注解。</p>
+
+<p>注解实现装配的方式为首先在xml配置文件中声明使用<code>@Autowired</code>注解进行注入，内容为</p>
+
+<pre><code>&lt;bean class=&quot;org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor&quot;/&gt;
+</code></pre>
+
+<p>然后被注入的类接口与实现为</p>
+
+<pre><code>package spring.feily.tech;
+
+public interface SpringBean {
+
+    public abstract void sayHello();
+    
+}
+
+
+package spring.feily.tech;
+
+public class SpringBeanImpl implements SpringBean {
+
+    @Override
+    public void sayHello() {
+        System.out.println(&quot;hello, world&quot;);
+    }
+}
+</code></pre>
+
+<p>注入的类为</p>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class ReSayHello {
+
+    private SpringBean springBean = null;
+    
+    @Autowired(required = true)
+    public void setSpringBean(SpringBean springBean) {
+        this.springBean = springBean;
+    }
+    
+    public SpringBean getSpringBean() {
+        return springBean;
+    }
+}
+</code></pre>
+
+<p>需要在xml文件中注册(或者使用注解或配置类方式注册Bean)</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+  &lt;bean class=&quot;org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor&quot;/&gt;
+  &lt;bean id=&quot;springBean&quot; class=&quot;spring.feily.tech.SpringBeanImpl&quot;&gt;&lt;/bean&gt;
+  &lt;bean id=&quot;reSayHello&quot; class=&quot;spring.feily.tech.ReSayHello&quot;&gt;&lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>主文件为</p>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class SpringBeanMain {
+
+    public static void main(String[] args) {
+        ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;context.xml&quot;);
+        ReSayHello say  =ac.getBean(&quot;reSayHello&quot;, ReSayHello.class);
+        say.getSpringBean().sayHello();
+    }
+
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>七月 13, 2019 5:19:30 下午 org.springframework.context.support.ClassPathXmlApplicationContext prepareRefresh
+信息: Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@b1a58a3: startup date [Sat Jul 13 17:19:30 CST 2019]; root of context hierarchy
+七月 13, 2019 5:19:30 下午 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+信息: Loading XML bean definitions from class path resource [context.xml]
+hello, world
+</code></pre>
+
+<h2>二、构造方法方式依赖注入的实现</h2>
+
+<h4>2.1 构造方法依赖注入的XML方式配置</h4>
+
+<p>使用如下标签来实现：</p>
+
+<pre><code>&lt;bean id=&quot;user&quot; class=&quot;spring.feily.tech.User&quot;&gt;
+  &lt;constructor-arg index=&quot;0&quot; value=&quot;Feily Zhang&quot;/&gt;
+  &lt;constructor-arg index=&quot;1&quot; value=&quot;21&quot;/&gt;
+  &lt;constructor-arg index=&quot;2&quot; value=&quot;Running, coding, sing song&quot;/&gt;
+  &lt;constructor-arg index=&quot;3&quot;&gt;
+    &lt;list&gt;
+      &lt;ref bean=&quot;boy1&quot;/&gt;
+      &lt;ref bean=&quot;boy2&quot;/&gt;
+    &lt;/list&gt;
+  &lt;/constructor-arg&gt;
+  &lt;constructor-arg index=&quot;4&quot;&gt;
+    &lt;set&gt;
+      &lt;ref bean=&quot;girl1&quot;/&gt;
+      &lt;ref bean=&quot;girl2&quot;/&gt;
+    &lt;/set&gt;
+  &lt;/constructor-arg&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p>依旧可以注入对象、简单类型和String以及集合。</p>
+
+<p>需要注意的是，使用构造方法注入，在目标类中一定要有一个默认构造方法，否则会如下报错</p>
+
+<pre><code>No default constructor found; nested exception is java.lang.NoSuchMethodException: spring.feily.tech.User.&lt;init&gt;()
+</code></pre>
+
+<p>以下示例，基于构造方法XML方式注入与属性的XML方式注入</p>
+
+<pre><code>package spring.feily.tech;
+
+import java.util.List;
+import java.util.Set;
+
+public class User {
+
+    private String name;
+    private int age;
+    private String hobby;
+    private List&lt;User&gt; boyFriends;
+    private Set&lt;User&gt; girlFriends;
+    
+    /*
+     * 以下构造方法是为了构造方法的XML注入;
+     */
+    public User() {
+        
+    }
+    
+    public User(String name, int age, String hobby, List&lt;User&gt; boyFriends, Set&lt;User&gt; girlFriends) {
+        this.name = name;
+        this.age = age;
+        this.hobby = hobby;
+        this.boyFriends = boyFriends;
+        this.girlFriends = girlFriends;
+    }
+    
+    /*
+     * 以下set、get方法是为了属性的xml注入或者注解注入
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setAge(int age) {
+        this.age = age;
+    }
+    
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+    
+    public void setBoyFriends(List&lt;User&gt; boyFriends) {
+        this.boyFriends = boyFriends;
+    }
+    
+    public void setGirlFriends(Set&lt;User&gt; grilFriends) {
+        this.girlFriends = grilFriends;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+    
+    public String getHobby() {
+        return hobby;
+    }
+    
+    public List&lt;User&gt; getBoyFriends() {
+        return boyFriends;
+    }
+    
+    public Set&lt;User&gt; getGirlFriends() {
+        return girlFriends;
+    }
+    
+}
+</code></pre>
+
+<p>xml文件为</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+  &lt;!-- 以下是属性的XML方式注入--&gt;
+  &lt;bean id=&quot;boy1&quot; class=&quot;spring.feily.tech.User&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;Boy1&quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;22&quot;/&gt;
+    &lt;property name=&quot;hobby&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;boyFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;girlFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+  &lt;/bean&gt;
+  &lt;bean id=&quot;boy2&quot; class=&quot;spring.feily.tech.User&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;Boy2&quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;22&quot;/&gt;
+    &lt;property name=&quot;hobby&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;boyFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;girlFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+  &lt;/bean&gt;
+  &lt;bean id=&quot;girl1&quot; class=&quot;spring.feily.tech.User&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;girl1&quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;22&quot;/&gt;
+    &lt;property name=&quot;hobby&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;boyFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;girlFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+  &lt;/bean&gt;
+  &lt;bean id=&quot;girl2&quot; class=&quot;spring.feily.tech.User&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;girl2&quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;22&quot;/&gt;
+    &lt;property name=&quot;hobby&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;boyFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+    &lt;property name=&quot;girlFriends&quot;&gt;&lt;null/&gt;&lt;/property&gt;
+  &lt;/bean&gt;
+  &lt;!-- 以下是构造方法的XML方式注入--&gt;
+  &lt;bean id=&quot;user&quot; class=&quot;spring.feily.tech.User&quot;&gt;
+    &lt;constructor-arg index=&quot;0&quot; value=&quot;Feily Zhang&quot;/&gt;
+    &lt;constructor-arg index=&quot;1&quot; value=&quot;21&quot;/&gt;
+    &lt;constructor-arg index=&quot;2&quot; value=&quot;Running, coding, sing song&quot;/&gt;
+    &lt;constructor-arg index=&quot;3&quot;&gt;
+        &lt;list&gt;
+          &lt;ref bean=&quot;boy1&quot;/&gt;
+          &lt;ref bean=&quot;boy2&quot;/&gt;
+        &lt;/list&gt;
+    &lt;/constructor-arg&gt;
+    &lt;constructor-arg index=&quot;4&quot;&gt;
+        &lt;set&gt;
+          &lt;ref bean=&quot;girl1&quot;/&gt;
+          &lt;ref bean=&quot;girl2&quot;/&gt;
+        &lt;/set&gt;
+    &lt;/constructor-arg&gt;
+  &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>主文件不变，等同于本文第一节的主文件，即</p>
+
+<pre><code>package spring.feily.tech;
+
+import java.util.List;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class SpringBeanMain {
+
+    public static void main(String[] args) {
+        ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;context.xml&quot;);
+        User user = ac.getBean(&quot;user&quot;, User.class);
+        
+        System.out.println(&quot;name : &quot; + user.getName());
+        System.out.println(&quot;age : &quot; + user.getAge());
+        System.out.println(&quot;hobby : &quot; + user.getHobby());
+        
+        System.out.println(&quot;BoyFriends : &quot;);
+        List&lt;User&gt; userBoyFriends = user.getBoyFriends();
+        for (User u : userBoyFriends) {
+            System.out.println(&quot;\tname : &quot; + u.getName());
+            System.out.println(&quot;\tage : &quot; + u.getAge());
+            System.out.println(&quot;\thobby : &quot; + u.getHobby());
+            System.out.println(&quot;\tboyFriends : &quot; + u.getBoyFriends());
+            System.out.println(&quot;\tgirlFriends : &quot; + u.getGirlFriends());
+            System.out.println(&quot;\t----------&quot;);
+        }
+        
+        System.out.println(&quot;GirlFriends : &quot;);
+        List&lt;User&gt; userGirlFriends = user.getBoyFriends();
+        for (User u : userGirlFriends) {
+            System.out.println(&quot;\tname : &quot; + u.getName());
+            System.out.println(&quot;\tage : &quot; + u.getAge());
+            System.out.println(&quot;\thobby : &quot; + u.getHobby());
+            System.out.println(&quot;\tboyFriends : &quot; + u.getBoyFriends());
+            System.out.println(&quot;\tgirlFriends : &quot; + u.getGirlFriends());
+            System.out.println(&quot;\t----------&quot;);
+        }
+    }
+
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>七月 13, 2019 5:42:33 下午 org.springframework.context.support.ClassPathXmlApplicationContext prepareRefresh
+信息: Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@b1a58a3: startup date [Sat Jul 13 17:42:33 CST 2019]; root of context hierarchy
+七月 13, 2019 5:42:33 下午 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+信息: Loading XML bean definitions from class path resource [context.xml]
+name : Feily Zhang
+age : 21
+hobby : Running, coding, sing song
+BoyFriends : 
+    name : Boy1
+    age : 22
+    hobby : null
+    boyFriends : null
+    girlFriends : null
+    ----------
+    name : Boy2
+    age : 22
+    hobby : null
+    boyFriends : null
+    girlFriends : null
+    ----------
+GirlFriends : 
+    name : Boy1
+    age : 22
+    hobby : null
+    boyFriends : null
+    girlFriends : null
+    ----------
+    name : Boy2
+    age : 22
+    hobby : null
+    boyFriends : null
+    girlFriends : null
+    ----------
+</code></pre>
+
+<h4>2.2 构造方法的依赖注入的注解实现</h4>
+
+<p>直接使用注解<code>@Autowired</code>修饰目标类即可，这种方式可以不用定义默认构造方法，如下</p>
+
+<p>目标类为</p>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class ReSayHello {
+
+    private SpringBean springBean = null;
+
+    @Autowired
+    public ReSayHello(SpringBean springBean) {
+        this.springBean = springBean;
+    }
+    
+    public SpringBean getSpringBean() {
+        return springBean;
+    }
+}
+</code></pre>
+
+<p>注入的类为</p>
+
+<pre><code>package spring.feily.tech;
+
+public interface SpringBean {
+
+    public abstract void sayHello();
+    
+}
+
+package spring.feily.tech;
+
+public class SpringBeanImpl implements SpringBean {
+
+    @Override
+    public void sayHello() {
+        System.out.println(&quot;hello, world&quot;);
+    }
+}
+</code></pre>
+
+<p>xml文件为</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+  &lt;bean class=&quot;org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor&quot;/&gt;
+  &lt;bean id=&quot;springBean&quot; class=&quot;spring.feily.tech.SpringBeanImpl&quot;&gt;&lt;/bean&gt;
+  &lt;bean id=&quot;reSayHello&quot; class=&quot;spring.feily.tech.ReSayHello&quot;&gt;&lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>主文件为</p>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class SpringBeanMain {
+
+    public static void main(String[] args) {
+        ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;context.xml&quot;);
+        ReSayHello say  =ac.getBean(&quot;reSayHello&quot;, ReSayHello.class);
+        say.getSpringBean().sayHello();
+    }
+
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>七月 13, 2019 5:55:04 下午 org.springframework.context.support.ClassPathXmlApplicationContext prepareRefresh
+信息: Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@b1a58a3: startup date [Sat Jul 13 17:55:04 CST 2019]; root of context hierarchy
+七月 13, 2019 5:55:04 下午 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+信息: Loading XML bean definitions from class path resource [context.xml]
+hello, world
+</code></pre>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">If not now, when? If not me, who?</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    
+                    <section class="nav next">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/interface-and-implementation-class-of-spring-ioc-container.html">Spring IoC容器的接口与实现类</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

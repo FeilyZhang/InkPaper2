@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-07-13T15:45:00+08:00</updated>
+  <updated>2019-07-13T17:55:48+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>Spring依赖注入的实现方式</title>
+    <updated>2019-07-13T15:59:49+08:00</updated>
+    <id>tag:feily.tech,2019-07-13:/implementation-of-spring- dependency-injection.html</id>
+    <content type="html">&lt;p&gt;依赖注入简单说就是为类的属性赋值。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/implementation-of-spring- dependency-injection.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>Spring IoC容器的接口与实现类</title>
     <updated>2019-07-13T14:43:49+08:00</updated>
@@ -93,16 +103,6 @@
     <id>tag:feily.tech,2019-07-03:/principle-basis-of-operating-system.html</id>
     <content type="html">&lt;p&gt;进程的定义、特征、模型；进程控制块（PCB）的作用、信息及组织方式；进程的控制；进程对临界资源访问的互斥性与进程间的同步；利用信号量实现同步示例；进程通信；死锁。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/principle-basis-of-operating-system.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>Spring中Bean的配置方式</title>
-    <updated>2019-05-19T16:01:14+08:00</updated>
-    <id>tag:feily.tech,2019-05-19:/configuration-of-beans-in-spring.html</id>
-    <content type="html">&lt;p&gt;Spring中的Bean配置方式，包含类-xml配置、注解-xml配置、注解-配置类配置。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/configuration-of-beans-in-spring.html"></link>
     <author>
       <name>林奕清</name>
     </author>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://feily.tech">
+
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-itouch-icon" href="/favicon.png">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="MySQL,">
+        <meta name="description" content="MySQL的高级特性">
+        <meta name="author" content="林奕清">
+        <title>MySQL的高级特性</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/about.me.html">关于</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">MySQL的高级特性</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1562378414"><span class="from"></span></span>
+                    
+                    <span class="tags">MySQL</span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><h2>一、MySQL查询缓存</h2>
+
+<p>MySQL查询缓存机制简单说就是会缓存SQL语句和查询的结果，如果运行相同的SQL语句，服务器会直接从缓存中取到结果，而不需要再去解析和执行SQL语句。查询缓存会返回最新的数据而不是过期数据，当数据被修改后，在查询缓存中的任何相关数据均被清除。对于频繁更新的表，查询缓存是不合适的，对于一些不经常改变数据且有大量相同SQL查询的表，查询缓存会提高很大的性能。</p>
+
+<p>查看系统查询缓存是否可用，命令为：</p>
+
+<pre><code>show variables like 'have_query_cache';
+</code></pre>
+
+<p>查看查询缓存是否开启，命令为：</p>
+
+<pre><code>select @@query_cache_type;
+</code></pre>
+
+<p>开启查询缓存，命令为：</p>
+
+<pre><code>set session query_cache_type=ON;
+</code></pre>
+
+<p>关闭查询缓存，命令为：</p>
+
+<pre><code>set session query_cache_type=OFF;
+</code></pre>
+
+<p>查询数据库分配给查询缓存的内存大小，命令为：</p>
+
+<pre><code>select @@global.query_cache_size;
+</code></pre>
+
+<p>设置查询缓存大小，命令为：</p>
+
+<pre><code>set @@global.query_cache_size=1000000;
+</code></pre>
+
+<p>该参数如果需要永久修改，需要修改<code>/etc/my.cnf</code>配置文件，添加该参数的选项，如下</p>
+
+<pre><code>[mysqld]
+port = 3306
+query_cache_size = 1000000
+...
+</code></pre>
+
+<p>如果查询结果很大，那么就有可能无法缓存，需要设置<code>query_cache_limit</code>参数的值，该参数用来设置查询缓存的最大值，默认是1MB，查询与修改的命令如下：</p>
+
+<pre><code>select @@global.query_cache_limit;
+set @@global.query_cache_limit=2000000;
+</code></pre>
+
+<p>如果需要永久修改，仍然需要修改<code>/etc/my.cnf</code>配置文件，添加该参数的选项，如下</p>
+
+<pre><code>[mysqld]
+port = 3306
+query_cache_size = 1000000
+query_cache_limit = 2000000
+...
+</code></pre>
+
+<p>可以使用如下命令查看查询缓存相关的参数：</p>
+
+<pre><code>show variables like '%query_cache%';
+</code></pre>
+
+<p>可以通过以下命令查看查询缓存命中的累计次数：</p>
+
+<pre><code>show status like 'Qcache_hits';
+</code></pre>
+
+<p>监控和维护查询缓存的命令如下：</p>
+
+<ul>
+<li><code>flush query cache</code>：该命令用于整理查询缓存，以便更好地利用查询缓存的内存，这个命令不会从缓存中移除任何数据；</li>
+<li><code>reset query cache</code>：该命令用于移除查询缓存中的所有查询结果；</li>
+<li><code>show status like 'Qcache%'</code>：该命令可以监视查询缓存的使用状况，可以计算出缓存的命中率。</li>
+</ul>
+
+<h2>二、合并表与分区表</h2>
+
+<h4>2.1 合并表</h4>
+
+<p>合并表是通过之前的merge存储引擎将两个MyISAN表合并起来。</p>
+
+<p>MySQL合并表对性能有一定影响：</p>
+
+<ul>
+<li>合并表看上去是一个表，事实上是逐个打开各个子表，这样的情况下，可能会因为缓存过多的表而导致超过MySQL缓存的最大设置；</li>
+<li>创建合并表的CREATE语句不会检查子表是否兼容，如果创建了一个有效地合并表后对某个表进行了修改，那么合并表也会发生错误。</li>
+</ul>
+
+<h4>2.2 分区表</h4>
+
+<p>表分区就是讲一张大表，根据条件分割成若干小表。查看当前数据库是否支持分区的命令如下：</p>
+
+<pre><code>show variables like '%partition%`；
+</code></pre>
+
+<ul>
+<li>range分区：使用values less than操作符来进行定义，把连续且不相互重叠的字段分配给分区，命令如下</li>
+</ul>
+
+<pre><code>create table table_name(
+  field...
+) partition by range(field)(
+  partition p1 values less than(1000),
+  partition p2 values less than(2000),
+  partition p3 values less than(3000)[,
+  partition p4 values less than maxvalue]
+);
+</code></pre>
+
+<ul>
+<li>list分区：该分区对应字段的值是一个集合而不是一个范围，如下</li>
+</ul>
+
+<pre><code>create table table_name(
+  field...
+) partition by list(field)(
+  partition p1 values in(10, 20),
+  partition p2 values in(30),
+  partition p3 values in(40)
+);
+</code></pre>
+
+<ul>
+<li>hash分区；</li>
+<li>线性hash分区；</li>
+<li>key分区；</li>
+<li>复合分区。</li>
+</ul>
+
+<h2>三、事务控制</h2>
+
+<p>事务通常包含一系列更新操作，这些更新操作是一个不可分割的逻辑工作单元。要么全部成功，要么全部失败。默认情况下，MySQL事务是自动提交的，如果需要通过明确的COMMIT和ROLLBACK再提交和回滚事务，就需要通过明确的事务控制来开始事务。MySQL的默认开启的事务在一定程度上影响性能，比如1000条数据提交会提交事务1000次，事实上手动开启事务只需要一次提交即可。通过如下方式关闭事务自动提交功能</p>
+
+<pre><code>set @@autocommit=0;
+</code></pre>
+
+<p>查看自动提交功能是否关闭：</p>
+
+<pre><code>show variables like &quot;autocommit&quot;;
+</code></pre>
+
+<p>开启事务的命令为：</p>
+
+<pre><code>start transaction;
+</code></pre>
+
+<p>提交事务的命令为：</p>
+
+<pre><code>commit;
+</code></pre>
+
+<p>回滚事务的命令为：</p>
+
+<pre><code>rollback;
+</code></pre>
+
+<p>如果在表的锁定期间，使用<code>start transaction</code>命令开启一个新的事务，会造成一个隐含的<code>unlock tables</code>被执行，该操作存在一定的隐患。</p>
+
+<p>另外，事务的ACID特性如下：</p>
+
+<ul>
+<li>原子性（Atomicity）：事务具有原子不可分割的特性，要么一起执行，要么都不执行；</li>
+<li>一致性（Consistency）：在事务开始和事务结束时，数据都保持一致状态；</li>
+<li>隔离性（Isolation）：在事务开始和结束过程中，事务保持着一定的隔离特性，保证事务在不受外部并发数据操作的影响；</li>
+<li>持久性（Durability）：事务完成后，数据将会被持久化到数据库中。</li>
+</ul>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">If not now, when? If not me, who?</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/mysql-locking-mechanism.html">MySQL锁定机制</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/principle-basis-of-operating-system-another.html">计算机操作系统原理总结(二)——存储管理</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

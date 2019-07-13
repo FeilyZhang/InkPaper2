@@ -38,7 +38,7 @@
                             <span class="date" data-time="{{.Date}}"><span class="from"></span></span>
                             {{end}}
                             <span class="tags">
-                            {{range .Tags}}<a class="tag" href="{{$.Site.Root}}/tag/{{.}}/index.html">{{.}}</a>{{end}}
+                            {{range .Tags}}<!--<a class="tag" href="{{$.Site.Root}}/tag/{{.}}/index.html">-->{{.}}<!--</a>-->{{end}}
                             </span>
                         </section>
                     </li>
@@ -58,7 +58,7 @@
                             <span class="date" data-time="{{.Date}}"><span class="from"></span></span>
                             {{end}}
                             <span class="tags">
-                            {{range .Tags}}<a class="tag" href="{{$.Site.Root}}/tag/{{.}}/index.html">{{.}}</a>{{end}}
+                            {{range .Tags}}<!--<a class="tag" href="{{$.Site.Root}}/tag/{{.}}/index.html">-->{{.}}<!--</a>-->{{end}}
                             </span>
                         </section>
                     </li>

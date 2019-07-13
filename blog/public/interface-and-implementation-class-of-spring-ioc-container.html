@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://feily.tech">
+
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-itouch-icon" href="/favicon.png">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="Spring,">
+        <meta name="description" content="Spring IoC容器的接口与实现类">
+        <meta name="author" content="林奕清">
+        <title>Spring IoC容器的接口与实现类</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/about.me.html">关于</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">Spring IoC容器的接口与实现类</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1563000229"><span class="from"></span></span>
+                    
+                    <span class="tags">Spring</span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><h2>一、Spring IoC容器概述</h2>
+
+<p>Spring通过IoC(控制反转)来管理对象间的依赖关系。Spring的IoC容器是一个轻量级容器，没有侵入性，不需要依赖容器的API，也不需要实现一些特殊的接口。</p>
+
+<p>Spring IoC容器是Spring框架的核心，容器将创建配置的所有对象，将他们通过注入的方式连接在一起，最后销毁所创建的对象，Spring对象管理对象的整个生命周期。在Spring容器中使用依赖注入(DI)来管理组成应用程序的类对象。这些对象被称为Spring Beans。</p>
+
+<p>Spring提供了实现<code>BeanFactory</code>和<code>ApplicationContext</code>两种不同接口类型的IoC容器。</p>
+
+<h2>二、BeanFactory容器</h2>
+
+<p>该容器是简化的IoC容器，提供了最简单的对象管理和依赖注入的基本支持，但是无法支持Spring的许多插件，例如AOP功能、Web应用等。</p>
+
+<p>该容器方法签名如下：</p>
+
+<ul>
+<li><code>&lt;T&gt; T getBean(String name, Class&lt;T&gt; requiredType) throws BeansException</code>：根据配置的name和id以及Bean类型取得配置的Bean对象，由于使用的类型参数直接取得的类对象，所以不需要强制转型；</li>
+<li><code>Object getBean(String name) throws BeansException</code>：此方法是根据name或id获取Bean对象，由于没有指定类型，所以需要进行强制类型转换；</li>
+<li><code>&lt;T&gt; T getBean(Class&lt;T&gt; requiredType) throws BeansException</code>：该方法只接受一个bean4de类型参数，会取得满足此类型的第一个bean对象。通常情况下，每个Bean类型只注册一个Bean对象，所以可以通过此种方式来取得Bean对象。</li>
+</ul>
+
+<p>该容器接口的实现类为<code>XmlBeanFactory</code>，其构造方法语法为<code>XmlBeanFactory(Resource resource)</code>。</p>
+
+<p>该构造方法接收一个<code>Resource</code>类型的对象，该对象表示一个资源文件，Resource接口的实现类如下：</p>
+
+<ul>
+<li><code>org.springframework.core.io.ClassPathResource</code>：该实现类用于读取类路径下的资源文件的资源实现类；</li>
+<li><code>org.springframework.core.io.FileSystemResource</code>：该实现类用于读取操作系统物理路径下的XML配置文件。</li>
+</ul>
+
+<p>示例代码如下：</p>
+
+<p>先是Bean接口</p>
+
+<pre><code>package spring.feily.tech;
+
+public interface SpringBean {
+
+    public abstract void sayHello();
+    
+}
+</code></pre>
+
+<p>再是Bean实现</p>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.stereotype.Component;
+
+public class SpringBeanImpl implements SpringBean {
+
+    @Override
+    public void sayHello() {
+        System.out.println(&quot;hello, world&quot;);
+    }
+}
+</code></pre>
+
+<p>配置文件如下</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+  &lt;bean id=&quot;springBean&quot; class=&quot;spring.feily.tech.SpringBeanImpl&quot;&gt;&lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>主文件如下，测试BeanFactory取得对象的三种方法</p>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.core.io.ClassPathResource;
+
+public class SpringBeanMain {
+
+    @SuppressWarnings(&quot;deprecation&quot;)
+    public static void main(String[] args) {
+        BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource(&quot;context.xml&quot;));
+        SpringBean sb = (SpringBean) beanFactory.getBean(&quot;springBean&quot;);
+        sb.sayHello();
+        SpringBean sb1 = beanFactory.getBean(SpringBeanImpl.class);
+        sb1.sayHello();
+        SpringBean sb2 = beanFactory.getBean(&quot;springBean&quot;, SpringBeanImpl.class);
+        sb2.sayHello();
+    }
+
+}
+</code></pre>
+
+<p>运行结果为</p>
+
+<pre><code>七月 13, 2019 3:15:48 下午 org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+信息: Loading XML bean definitions from class path resource [context.xml]
+hello, world
+hello, world
+hello, world
+</code></pre>
+
+<h2>三、ApplicationContext容器</h2>
+
+<p><code>ApplicationContext</code>接口除了继承了<code>BeanFactory</code>接口，还继承了<code>ApplicationEventPublisher</code>、<code>EnvironmentCapable</code>、<code>HierarchicalBeanFactory</code>、<code>ListableBeanFactory</code>、<code>MessageSource</code>、<code>ResourceLoader</code>、<code>ResourcePatternResolver</code>等与Spring容器相关的环境和事件接口，实现了更高级的适合于企业级应用的Spring IoC容器。</p>
+
+<p><code>ApplicationContext</code>具备所有<code>BeanFactory</code>的方法，还包含其他父接口的方法。</p>
+
+<p><code>ApplicationContext</code>的常用实现类如下：</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">实现类名称</th>
+<th align="center">使用场合</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center"><code>ClassPathXmlApplicationContext</code></td>
+<td align="center">通用</td>
+</tr>
+
+<tr>
+<td align="center"><code>FileSystemXmlApplicationContext</code></td>
+<td align="center">通用</td>
+</tr>
+
+<tr>
+<td align="center"><code>AnnotationConfigApplicationContext</code></td>
+<td align="center">通用</td>
+</tr>
+</tbody>
+</table>
+
+<p>这里演示<code>ClassPathXmlApplicationContext</code>和<code>AnnotationConfigApplicationContext</code>实现类的使用方法，如下</p>
+
+<p><code>ClassPathXmlApplicationContext</code>基于上述代码，只修改主文件，如下</p>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class SpringBeanMain {
+
+    public static void main(String[] args) {
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext(&quot;context.xml&quot;);
+        SpringBean sb = applicationContext.getBean(&quot;springBean&quot;, SpringBeanImpl.class);
+        sb.sayHello();
+    }
+
+}
+</code></pre>
+
+<p><code>AnnotationConfigApplicationContext</code>实现类的代码如下</p>
+
+<p>首先修改<code>SpringBean</code>的实现类<code>SpringBeanImpl</code>为注解配置方式</p>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.stereotype.Component;
+
+@Component(&quot;springBean&quot;)
+public class SpringBeanImpl implements SpringBean {
+
+    @Override
+    public void sayHello() {
+        System.out.println(&quot;hello, world&quot;);
+    }
+}
+</code></pre>
+
+<p>此处不需要xml文件，采用配置类方式，配置类为</p>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = &quot;spring.feily.tech&quot;)
+public class SpringConfigurator {
+
+}
+</code></pre>
+
+<p>主文件为</p>
+
+<pre><code>package spring.feily.tech;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class SpringBeanMain {
+
+    public static void main(String[] args) {
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(tech.feily.spring.SpringConfigurator.class);
+        SpringBean sb = applicationContext.getBean(&quot;springBean&quot;, SpringBeanImpl.class);
+        sb.sayHello();
+    }
+
+}
+</code></pre>
+
+<h2>四、BeanFactory与ApplicationContext对比</h2>
+
+<ul>
+<li>BeanFactory为轻量级IoC容器，但是无法支持Spring的许多插件，ApplicationContext则相反；</li>
+<li>ApplicationContext容器是一个勤奋型的容器，当创建ApplicationContext类型的IoC容器后，该容器就会自动创建所有注册的Bean的实例对象，而BeanFactory容器则是一个懒惰型的IoC容器，它在创建BeanFactory的IoC容器后，不会立即创建注册的Bean对象，而是调用getBean方法后才会创建请求的Bean的实例对象。</li>
+</ul>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">If not now, when? If not me, who?</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    
+                    <section class="nav next">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/redis-data-structure.html">Redis数据结构</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

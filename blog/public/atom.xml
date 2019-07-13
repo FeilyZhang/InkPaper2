@@ -1,108 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
-  <id>https://doc.feily.tech</id>
-  <updated>2019-05-19T16:30:48+08:00</updated>
+  <id>https://feily.tech</id>
+  <updated>2019-07-13T15:45:00+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
-  <link href="https://doc.feily.tech"></link>
+  <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
   <entry>
+    <title>Spring IoC容器的接口与实现类</title>
+    <updated>2019-07-13T14:43:49+08:00</updated>
+    <id>tag:feily.tech,2019-07-13:/interface-and-implementation-class-of-spring-ioc-container.html</id>
+    <content type="html">&lt;p&gt;Spring通过IoC(控制反转)来管理对象间的依赖关系。Spring的IoC容器是一个轻量级容器，没有侵入性，不需要依赖容器的API，也不需要实现一些特殊的接口。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/interface-and-implementation-class-of-spring-ioc-container.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
+  <entry>
+    <title>Redis数据结构</title>
+    <updated>2019-07-07T09:53:49+08:00</updated>
+    <id>tag:feily.tech,2019-07-07:/redis-data-structure.html</id>
+    <content type="html">&lt;p&gt;简单动态字符串(SDS的结构、SDS与C字符串的区别)、链表(链表与链表节点的实现、Redis链表的特性)。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/redis-data-structure.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
+  <entry>
+    <title>数据库范式与关系数据库设计以及简单查询和复杂查询</title>
+    <updated>2019-07-06T15:50:14+08:00</updated>
+    <id>tag:feily.tech,2019-07-06:/design-of-relational-database.html</id>
+    <content type="html">&lt;p&gt;函数依赖与数据库三大范式、关系数据库的设计、简单查询、复杂查询。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/design-of-relational-database.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
+  <entry>
+    <title>MySQL锁定机制</title>
+    <updated>2019-07-06T11:00:14+08:00</updated>
+    <id>tag:feily.tech,2019-07-06:/mysql-locking-mechanism.html</id>
+    <content type="html">&lt;p&gt;乐观锁与悲观锁、MyISAM的表级锁、InnoDB行级锁。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/mysql-locking-mechanism.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
+  <entry>
+    <title>MySQL的高级特性</title>
+    <updated>2019-07-06T10:00:14+08:00</updated>
+    <id>tag:feily.tech,2019-07-06:/advanced-features-of-mysql.html</id>
+    <content type="html">&lt;p&gt;MySQL查询缓存、合并表与分区表、事务控制。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/advanced-features-of-mysql.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
+  <entry>
+    <title>计算机操作系统原理总结(二)——存储管理</title>
+    <updated>2019-07-06T08:00:14+08:00</updated>
+    <id>tag:feily.tech,2019-07-06:/principle-basis-of-operating-system-another.html</id>
+    <content type="html">&lt;p&gt;地址重定位、存储保护与存储共享、连续存储管理（分区存储管理）、分页存储管理、分段存储管理、虚拟内存管理——请求分页存储管理。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/principle-basis-of-operating-system-another.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
+  <entry>
+    <title>深入理解计算机网络（二）</title>
+    <updated>2019-07-05T19:00:14+08:00</updated>
+    <id>tag:feily.tech,2019-07-05:/deep-understanding-of-computer-networks-another.html</id>
+    <content type="html">&lt;p&gt;传输层功能、TCP与UDP、应用层HTPP协议、DNS协议。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/deep-understanding-of-computer-networks-another.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
+  <entry>
+    <title>深入理解计算机网络（一）</title>
+    <updated>2019-07-05T15:27:14+08:00</updated>
+    <id>tag:feily.tech,2019-07-05:/deep-understanding-of-computer-networks.html</id>
+    <content type="html">&lt;p&gt;OSI/RM七层体系结构、TCP/IP协议四层体系结构、MAC子层功能、帧格式、ARP协议、网络层功能、IP数据报格式、IP地址、子网掩码与子网划分。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/deep-understanding-of-computer-networks.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
+  <entry>
+    <title>计算机操作系统原理总结(一)——处理器管理</title>
+    <updated>2019-07-03T20:58:14+08:00</updated>
+    <id>tag:feily.tech,2019-07-03:/principle-basis-of-operating-system.html</id>
+    <content type="html">&lt;p&gt;进程的定义、特征、模型；进程控制块（PCB）的作用、信息及组织方式；进程的控制；进程对临界资源访问的互斥性与进程间的同步；利用信号量实现同步示例；进程通信；死锁。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/principle-basis-of-operating-system.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
+  <entry>
     <title>Spring中Bean的配置方式</title>
     <updated>2019-05-19T16:01:14+08:00</updated>
-    <id>tag:doc.feily.tech,2019-05-19:/configuration-of-beans-in-spring.html</id>
+    <id>tag:feily.tech,2019-05-19:/configuration-of-beans-in-spring.html</id>
     <content type="html">&lt;p&gt;Spring中的Bean配置方式，包含类-xml配置、注解-xml配置、注解-配置类配置。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/configuration-of-beans-in-spring.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>垃圾收集器与内存分配策略</title>
-    <updated>2019-04-25T10:31:14+08:00</updated>
-    <id>tag:doc.feily.tech,2019-04-25:/garbage-collector-and-memory-allocation-strategy.html</id>
-    <content type="html">&lt;p&gt;堆中几乎存放着Java中的所有对象实例，垃圾收集器在对堆进行回收前，要做的一件事情就是判断这些对象有哪些还“或者”，哪些已经“死去（即不可能再被任何途径使用的对象）”。然后对死去的对象进行垃圾清理完成内存回收。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/garbage-collector-and-memory-allocation-strategy.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>方法调用</title>
-    <updated>2019-04-24T20:55:14+08:00</updated>
-    <id>tag:doc.feily.tech,2019-04-24:/jvm-method-call.html</id>
-    <content type="html">&lt;p&gt;JVM执行引擎在执行方法字节码的之前最重要的一个步骤就是方法调用。方法调用阶段唯一的任务就是确定被调用方法的版本，即调用哪一个方法，并未涉及方法的运行过程。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/jvm-method-call.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>基于栈的解释器执行过程</title>
-    <updated>2019-04-24T20:20:14+08:00</updated>
-    <id>tag:doc.feily.tech,2019-04-24:/stack-based-interpreter-execution-process.html</id>
-    <content type="html">&lt;p&gt;先总结一下，JVM通过执行方法的字节码指令来对内存(包括运行时的方法区、堆、栈)中数据进行操作，这个操作是在栈（栈帧的操作数栈）中进行的，栈中所需要的局部变量与方法参数存储在局部变量表中、类静态变量以及常量存储在方法区中、实例变量存储在堆中，对局部变量表数据的提取与存储很容易理解因为每个栈帧都有自己的局部变量表，对方法区以及堆的数据的提取与存储是通过对象句柄(如果使用的是句柄方式访问对象的话)来访问堆中的实例数据以及方法区中对象对引发的类型数据的。即句柄保存了到对象实例以及对象类型数据的指针。而这个句柄就是某对象调用方法时将自身作为this参数传递进入方法参数列表的一个隐含参数，会被映射到该栈帧的局部变量表的第一个Slot中。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/stack-based-interpreter-execution-process.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>JVM运行时栈帧结构</title>
-    <updated>2019-04-24T11:06:14+08:00</updated>
-    <id>tag:doc.feily.tech,2019-04-24:/runtime-stack-frame-structure.html</id>
-    <content type="html">&lt;p&gt;栈帧(Stack Frame)是用于支持虚拟机方法调用和方法执行的数据结构，它是虚拟机运行时数据区中的虚拟机栈的栈元素。栈帧中存储了方法的局部变量表、操作数栈、动态链接和方法返回出口等信息。每一个方法从调用开始到执行完成的过程，就对应着一个栈帧在虚拟机栈里面从入栈到出栈的过程。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/runtime-stack-frame-structure.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>JVM运行时数据区域</title>
-    <updated>2019-04-23T20:39:14+08:00</updated>
-    <id>tag:doc.feily.tech,2019-04-23:/jvm-runtime-data-area.html</id>
-    <content type="html">&lt;p&gt;Java虚拟机在执行Java程序过程中会把它所管理的内存划分为若干个不同的数据区域，这些区域各有用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/jvm-runtime-data-area.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>Class文件结构</title>
-    <updated>2019-04-22T21:24:05+08:00</updated>
-    <id>tag:doc.feily.tech,2019-04-22:/class-file-structure.html</id>
-    <content type="html">&lt;p&gt;Class文件被抽象组织为了一张表，名称描述该类型(连续地址空间)中的内容代表的是什么东西(魔数还是版本号？常量池？等等)，数量描述的是该名称内部的子项目有多少个。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/class-file-structure.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>七种单例模式的设计</title>
-    <updated>2019-04-20T15:07:23+08:00</updated>
-    <id>tag:doc.feily.tech,2019-04-20:/design-of-seven-kinds-of-singleton-patterns.html</id>
-    <content type="html">&lt;p&gt;单例模式提供了一种在多线程情况下保证实例唯一性的解决方案，单例模式设计的标准是：懒加载、高性能、线程安全。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/design-of-seven-kinds-of-singleton-patterns.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>JVM类加载器</title>
-    <updated>2019-04-19T19:00:25+08:00</updated>
-    <id>tag:doc.feily.tech,2019-04-19:/jvm-class-loader.html</id>
-    <content type="html">&lt;p&gt;类加载器的职责就是负责类的加载，对于任意一个class，都需要由加载它的类加载器和这个类本身确立其在JVM中的唯一性，这也就是运行时包。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/jvm-class-loader.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>类的加载过程</title>
-    <updated>2019-04-18T20:50:25+08:00</updated>
-    <id>tag:doc.feily.tech,2019-04-18:/class-loading-process.html</id>
-    <content type="html">&lt;p&gt;ClassLoader的主要职责就是负责加载各种class文件到JVM中，ClassLoader是一个抽象的class，给定一个class的二进制文件名，ClassLoader会尝试加载并且在JVM中生成构成这个类的各个数据结构，然后使其分布在JVM对应的内存区域中。&lt;/p&gt;&#xA;</content>
-    <link href="https://doc.feily.tech/class-loading-process.html"></link>
+    <link href="https://feily.tech/configuration-of-beans-in-spring.html"></link>
     <author>
       <name>林奕清</name>
     </author>

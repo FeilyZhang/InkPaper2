@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://feily.tech">
+
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-itouch-icon" href="/favicon.png">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="MySQL,">
+        <meta name="description" content="数据库范式与关系数据库设计以及简单查询和复杂查询">
+        <meta name="author" content="林奕清">
+        <title>数据库范式与关系数据库设计以及简单查询和复杂查询</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/about.me.html">关于</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">数据库范式与关系数据库设计以及简单查询和复杂查询</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1562399414"><span class="from"></span></span>
+                    
+                    <span class="tags">MySQL</span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><h2>一、数据库范式</h2>
+
+<ul>
+<li>函数依赖：一张表中，两个字段值的一一对应关系称为函数依赖；</li>
+<li>第一范式：如果一张表内同类字段不重复出现，则该表就满足第一范式的要求；</li>
+<li>第二范式：在满足第一范式的基础上，如果每个“非关键字”字段仅仅函数依赖于主键，那么该表就满足第二范式的要求；</li>
+<li>第三范式：在满足第二范式的基础上，并且不存在“非关键字”字段函数依赖于任何其他“非关键字”字段，那么该表就满足第三范式的要求。</li>
+</ul>
+
+<h2>二、关系数据库的设计</h2>
+
+<ul>
+<li>为每个实体建立一张数据表；</li>
+<li>为每张表定义一个主键；</li>
+<li>增加外键表示一对多关系；</li>
+<li>而特殊的一对一关系可以通过表示一对多关系的外键增加唯一性约束来实现；</li>
+<li>建立新表表示多对多关系，即将两张表的主键分别作为没有添加唯一性约束的外键关联在另一张新表中；</li>
+<li>为字段选择合适的数据类型；</li>
+<li>定义约束条件：主键约束、外键约束、唯一约束、非空约束、检查约束、默认值约束；</li>
+<li>使用规范化减少数据冗余，即满足三大范式。</li>
+</ul>
+
+<h2>三、简单查询</h2>
+
+<p>基本的查询语法格式如下</p>
+
+<pre><code>select [* | distinct | distinctrow | col_name...] [from table_name] [where condition] [group by col_name] [having condition] [order by col_name [asc | desc]] [limit [offset,] row_count];
+</code></pre>
+
+<ul>
+<li><code>[* | distinct | distinctrow | col_name...]</code>：*代表表中的全部字段；distinct和distinctrow代表的是同一意思，就是去除查询结果中相同的行；col_name代表查询的字段名，多个字段用逗号隔开；</li>
+<li><code>[where condition]</code>：代表查询的条件，可以使用运算符进行连接；</li>
+<li><code>[group by col_name]</code>：代表分组的条件，对查询的结果进行分组；</li>
+<li><code>[having condition]</code>：在分组查询中使用的条件语句，并且只能在分组查询中使用；</li>
+</ul>
+
+<h4>3.1 where条件运算符</h4>
+
+<ul>
+<li><code>and</code>：并且关系；</li>
+<li><code>or</code>：或者关系；</li>
+<li><code>like</code>：模糊查询，<code>_</code>代表一个字符，<code>%</code>代表0到多个字符；</li>
+<li><code>in</code>操作符：表示在某一范围之内，使用方式为<code>where 字段 in(..., ...)</code>, in中也可以是一个查询语句，如<code>where 字段 in(select * from ...)</code>;</li>
+<li><code>not in()</code>操作符：与in相反；</li>
+</ul>
+
+<h2>四、复杂查询</h2>
+
+<h4>4.1 分组查询</h4>
+
+<p>分组查询通过<code>select</code>语句的<code>group by</code>子句来完成，通过分组查询可以很容易完成查询中的统计操作，与普通查询不同，分组查询的条件是通过<code>having</code>来指定的而不是<code>where</code>。</p>
+
+<p>需要注意的是，当在一个查询中使用group by子句时，它的select子句后面只能是聚合函数或者是group by之后的列名，否则查询后的结果没有任何意义，示例如下(按subject字段查询studentinfo表中subject字段的记录数)</p>
+
+<pre><code>select subject, count(*) from studentinfo group by subject;
+</code></pre>
+
+<p>也可以对多列进行分组查询。</p>
+
+<h4>4.2 多表查询</h4>
+
+<h5>4.2.1 等值连接</h5>
+
+<p>等值连接就是讲多个表之间的相同字段作为条件查询数据，然后将对应的字段值查询出来。通常情况下，多个表之间的相同字段指的是表与表之间的主外键，这样就可以将一对多关系直接全部查询出来，示例如下</p>
+
+<pre><code>select newstudentinfo.name, subjectinfo.subjectname from newstudentinfo, subjectinfo where newstudentinfo.subjectid=subjectinfo.id;
+</code></pre>
+
+<p>当然可以通过where连接多个条件来查询多个表的满足条件的记录，如下示例：</p>
+
+<pre><code>select newstudentinfo.name, subjectinfo.subjectname, teacherinfo.teachername from newstudentinfo, subjectinfo, teacherinfo where newstudentinfo.subjectid=subjectinfo.id and newstudentinfo.teacherid=teacherinfo.id;
+</code></pre>
+
+<h5>4.2.2 笛卡尔积</h5>
+
+<p>查询内容是所有查询的数据表中所有列的和以及行的乘积，对实际应用没有太大意义。</p>
+
+<h5>4.2.3 外连接</h5>
+
+<p>等值连接的查询结果全部是符合条件的行组成的，如果想得到查询结果之外的行应该怎么办？答案是使用外连接查询来完成，外连接分为左外连接和右外连接。</p>
+
+<p>左外连接的查询结果是，除了返回表中符合条件的记录外还要加上左表中剩下的全部记录，右外连接的查询结果是，除了返回表中符合条件的记录外还要加上右表中剩下的全部记录。具体的语法如下所示：</p>
+
+<pre><code>select col... from tableA left outer join(right outer join) tableB on condition;
+</code></pre>
+
+<h5>4.2.4 内连接</h5>
+
+<p>内连接与外连接不同，内连接不分左右并且使用内连接查询的结果都是符合条件的结果。与上面的等值连接是很相似的，语法如下</p>
+
+<pre><code>select col... from tableA inner join tableB on condition;
+</code></pre>
+
+<p>内连接与等值连接相比，内连接的好处就是可以更好地明确数据表的连接方式，同时，使用<code>on</code>作为连接条件也能更好地清楚地知道使用的是多表连接。</p>
+
+<h4>4.3 合并查询结果</h4>
+
+<p>合并查询结果就是讲两张表的查询结果垂直合并在一起，前提是两张表查询字段的数据类型必须一致，语法格式如下</p>
+
+<pre><code>select col... from table_name union select col... from table_name;
+</code></pre>
+
+<p>还可以对查询的结果进行排序，如下</p>
+
+<pre><code>(select col... from table_name) union (select col... from table_name) order by col_name;
+</code></pre>
+
+<p>还可以限制组合查询结果的行数</p>
+
+<pre><code>(select col... from table_name) union (select col... from table_name) limit 行数;
+</code></pre>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">If not now, when? If not me, who?</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/redis-data-structure.html">Redis数据结构</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/mysql-locking-mechanism.html">MySQL锁定机制</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

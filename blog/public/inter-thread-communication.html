@@ -13,24 +13,24 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feily Zhang">
 <meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
-<meta name="twitter:image:src" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta name="twitter:image:src" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
 
-<meta property="og:url" content="https://doc.feily.tech">
+<meta property="og:url" content="https://feily.tech">
 <meta property="og:title" content="Feily Zhang">
 <meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
 <meta property="og:site_name" content="Feily Zhang">
-<meta property="og:image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
 <meta property="og:type" content="website">
 <meta name="robots" content="noodp">
 
 <meta itemprop="name" content="Feily Zhang">
 <meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
-<meta itemprop="image" content="https://doc.feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta itemprop="image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
 
-<link rel="canonical" href="https://doc.feily.tech">
+<link rel="canonical" href="https://feily.tech">
 
-<link rel="shortcut icon" href="/favicon.ico">
-<link rel="apple-itouch-icon" href="/favicon.ico">
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-itouch-icon" href="/favicon.png">
 <link rel="stylesheet" href="/bundle/index.css">
 <script type="text/javascript">
     var timeSinceLang = {
@@ -54,12 +54,12 @@
         <article class="container">
             <header class="header-wrap" style="font-family:NSimSun">
   <a class="index" href="/">
-    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
     Feily Zhang
   </a>
   <ul class="menu">
       <li class="menu-item"><a href="/archive.html">归档</a></li>
-      <li class="menu-item"><a href="/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/about.me.html">关于</a></li>
       <li class="menu-item"><a href="/atom.xml">订阅</a></li>
   </ul>
 </header>
@@ -67,12 +67,12 @@
             <article class="main article">
                 <h1 class="title" style="font-family:KaiTi">线程间通信</h1>
                 <section class="info" style="font-family:KaiTi">
-                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                     <a class="name" href="/about.me.html">林奕清</a>
                     
                     <span class="date" data-time="1545365024"><span class="from"></span></span>
                     
-                    <span class="tags"><a class="tag" href="/tag/Java%20Core/index.html">Java Core</a></span>
+                    <span class="tags">Java Core</span>
                 </section>
                 <article class="content" style="font-family:KaiTi"><p>前文的叫号机示例为保证线程安全引入了synchronized关键字(获得锁保证同一时间只能有一个线程对共享资源操作)，而为了解决synchorized关键字的不可中断不可超时问题，我们引入了显式锁，显式锁通过wait关键字和closed标志为true来实现加锁让欲获得锁的线程进入阻塞状态以等待，通过notify关键字和closed为false来实现释放锁让阻塞状态的线程竞争锁，实际上这就涉及到了进程间的调度，synchronized关键字不仅仅是加锁保证对共享变量访问的互斥性，还可以配合某些策略或者关键实现进程调度。</p>
 
@@ -477,9 +477,9 @@ public class EventQueue {
 <p>综上，线程间通信，通过synchronized关键字(monitor锁)、wait、notify、notifyAll来实现，synchronized关键字本身实现的是一种轮询式的调度，耗费系统资源，如果它配合其余三个方法，那么真正就会利用通知机制，只会在有必要的时候运行。</p>
 </article>
                 <section class="author" style="font-family:NSimSun">
-                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
                     <a class="name" href="/about.me.html">林奕清</a>
-                    <div class="intro" style="font-family:KaiTi">星河滚烫，你是人间理想</div>
+                    <div class="intro" style="font-family:KaiTi">If not now, when? If not me, who?</div>
                 </section>
                 <section class="recommend" style="font-family:KaiTi">
                     

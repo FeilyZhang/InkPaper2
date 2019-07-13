@@ -4,17 +4,18 @@ site:
     limit: 10
     theme: theme
     lang: zh
-    url: "https://doc.feily.tech/"
+    url: "https://feily.tech/"
     comment: username
-    logo: "https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png"
+    logo: "https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png"
     # link: "{category}/{year}/{month}/{day}/{title}.html"
     # root: "/blog"
 
 authors:
     me:
         name: "林奕清"
-        intro: "星河滚烫，你是人间理想"
-        avatar: "https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png"
+        intro: "If not now, when? If not me, who?"
+        avatar: "https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png"
+#        avatar: "https://cdn.nlark.com/yuque/0/2019/png/257195/1555147780483-avatar/550c911e-e363-49b7-8d65-21edddf99a07.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png"
 
 build:
     # output: "public"

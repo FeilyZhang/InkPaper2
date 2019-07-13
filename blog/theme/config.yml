@@ -10,9 +10,14 @@ lang:
         zh: 归档
         ru: Архив
         ja: アーカイブ
+#    tag:
+#        en: TAG
+#        zh: 标签
+#        ru: Теги
+#        ja: タグ
     tag:
-        en: TAG
-        zh: 标签
+        en: ABOUT
+        zh: 关于
         ru: Теги
         ja: タグ
     rss:

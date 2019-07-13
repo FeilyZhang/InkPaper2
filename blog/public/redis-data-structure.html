@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://feily.tech">
+
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-itouch-icon" href="/favicon.png">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="Redis,">
+        <meta name="description" content="Redis数据结构">
+        <meta name="author" content="林奕清">
+        <title>Redis数据结构</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/about.me.html">关于</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">Redis数据结构</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1562464429"><span class="from"></span></span>
+                    
+                    <span class="tags">Redis</span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><h2>一、简单动态字符串（SDS）</h2>
+
+<p>Redis没有直接使用C语言传统的字符串表示（即以空字符<code>\0</code>结尾的字符数组），而是直接自己构建了一种称为简单动态字符串的抽象类型，并作为Redis中的默认字符串表示。</p>
+
+<p>当Redis需要的不仅仅是一个字符串字面量，而是一个可以被修改的字符串值时，Redis就会使用SDS来表示字符串值，比如客户端执行如下命令</p>
+
+<pre><code>redis&gt; SET msg &quot;hello, world&quot;
+OK
+</code></pre>
+
+<p>那么Redis就会在底层创建一个新的键值对，包含：</p>
+
+<ul>
+<li>键值对的键是一个字符串对象，对象的底层实现是一个保存着字符串“msg”的SDS;</li>
+<li>键值对的值也是一个字符串对象，对象的底层实现是一个保存着字符串“hello, world”的SDS。</li>
+</ul>
+
+<h4>1.1 SDS的结构（或实现）</h4>
+
+<p>SDS通过一个结构体来实现，每个<code>sds.h/sdshdr</code>结构表示一个SDS值，如下</p>
+
+<pre><code>struct sdshdr {
+    int len;
+    int free;
+    char buf[];
+}
+</code></pre>
+
+<p>各属性解释如下：</p>
+
+<ul>
+<li><code>len</code>：记录buf数组中已经使用的字节的数量；</li>
+<li><code>free</code>：记录buf数组中未使用的字节数量；</li>
+<li><code>buf[]</code>：字节<strong>数组</strong>，用于保存字符串。</li>
+</ul>
+
+<p>由于SDS遵循了C语言字符串以<code>\0</code>结尾的惯例，那么buf数组的实际长度就是<code>len + free + 1</code>个字节，加一是因为<code>\0</code>占一个字节。更直观的看，一个存放了字符串<code>Redis</code>的SDS结构如下</p>
+
+<p><img src="data:image/gif;base64,R0lGODlhGAAYAPQAAP///wAAAM7Ozvr6+uDg4LCwsOjo6I6OjsjIyJycnNjY2KioqMDAwPLy8nd3d4aGhri4uGlpaQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkHAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAGAAYAAAFriAgjiQAQWVaDgr5POSgkoTDjFE0NoQ8iw8HQZQTDQjDn4jhSABhAAOhoTqSDg7qSUQwxEaEwwFhXHhHgzOA1xshxAnfTzotGRaHglJqkJcaVEqCgyoCBQkJBQKDDXQGDYaIioyOgYSXA36XIgYMBWRzXZoKBQUMmil0lgalLSIClgBpO0g+s26nUWddXyoEDIsACq5SsTMMDIECwUdJPw0Mzsu0qHYkw72bBmozIQAh+QQJBwAAACwAAAAAGAAYAAAFsCAgjiTAMGVaDgR5HKQwqKNxIKPjjFCk0KNXC6ATKSI7oAhxWIhezwhENTCQEoeGCdWIPEgzESGxEIgGBWstEW4QCGGAIJEoxGmGt5ZkgCRQQHkGd2CESoeIIwoMBQUMP4cNeQQGDYuNj4iSb5WJnmeGng0CDGaBlIQEJziHk3sABidDAHBgagButSKvAAoyuHuUYHgCkAZqebw0AgLBQyyzNKO3byNuoSS8x8OfwIchACH5BAkHAAAALAAAAAAYABgAAAW4ICCOJIAgZVoOBJkkpDKoo5EI43GMjNPSokXCINKJCI4HcCRIQEQvqIOhGhBHhUTDhGo4diOZyFAoKEQDxra2mAEgjghOpCgz3LTBIxJ5kgwMBShACREHZ1V4Kg1rS44pBAgMDAg/Sw0GBAQGDZGTlY+YmpyPpSQDiqYiDQoCliqZBqkGAgKIS5kEjQ21VwCyp76dBHiNvz+MR74AqSOdVwbQuo+abppo10ssjdkAnc0rf8vgl8YqIQAh+QQJBwAAACwAAAAAGAAYAAAFrCAgjiQgCGVaDgZZFCQxqKNRKGOSjMjR0qLXTyciHA7AkaLACMIAiwOC1iAxCrMToHHYjWQiA4NBEA0Q1RpWxHg4cMXxNDk4OBxNUkPAQAEXDgllKgMzQA1pSYopBgonCj9JEA8REQ8QjY+RQJOVl4ugoYssBJuMpYYjDQSliwasiQOwNakALKqsqbWvIohFm7V6rQAGP6+JQLlFg7KDQLKJrLjBKbvAor3IKiEAIfkECQcAAAAsAAAAABgAGAAABbUgII4koChlmhokw5DEoI4NQ4xFMQoJO4uuhignMiQWvxGBIQC+AJBEUyUcIRiyE6CR0CllW4HABxBURTUw4nC4FcWo5CDBRpQaCoF7VjgsyCUDYDMNZ0mHdwYEBAaGMwwHDg4HDA2KjI4qkJKUiJ6faJkiA4qAKQkRB3E0i6YpAw8RERAjA4tnBoMApCMQDhFTuySKoSKMJAq6rD4GzASiJYtgi6PUcs9Kew0xh7rNJMqIhYchACH5BAkHAAAALAAAAAAYABgAAAW0ICCOJEAQZZo2JIKQxqCOjWCMDDMqxT2LAgELkBMZCoXfyCBQiFwiRsGpku0EshNgUNAtrYPT0GQVNRBWwSKBMp98P24iISgNDAS4ipGA6JUpA2WAhDR4eWM/CAkHBwkIDYcGiTOLjY+FmZkNlCN3eUoLDmwlDW+AAwcODl5bYl8wCVYMDw5UWzBtnAANEQ8kBIM0oAAGPgcREIQnVloAChEOqARjzgAQEbczg8YkWJq8nSUhACH5BAkHAAAALAAAAAAYABgAAAWtICCOJGAYZZoOpKKQqDoORDMKwkgwtiwSBBYAJ2owGL5RgxBziQQMgkwoMkhNqAEDARPSaiMDFdDIiRSFQowMXE8Z6RdpYHWnEAWGPVkajPmARVZMPUkCBQkJBQINgwaFPoeJi4GVlQ2Qc3VJBQcLV0ptfAMJBwdcIl+FYjALQgimoGNWIhAQZA4HXSpLMQ8PIgkOSHxAQhERPw7ASTSFyCMMDqBTJL8tf3y2fCEAIfkECQcAAAAsAAAAABgAGAAABa8gII4k0DRlmg6kYZCoOg5EDBDEaAi2jLO3nEkgkMEIL4BLpBAkVy3hCTAQKGAznM0AFNFGBAbj2cA9jQixcGZAGgECBu/9HnTp+FGjjezJFAwFBQwKe2Z+KoCChHmNjVMqA21nKQwJEJRlbnUFCQlFXlpeCWcGBUACCwlrdw8RKGImBwktdyMQEQciB7oACwcIeA4RVwAODiIGvHQKERAjxyMIB5QlVSTLYLZ0sW8hACH5BAkHAAAALAAAAAAYABgAAAW0ICCOJNA0ZZoOpGGQrDoOBCoSxNgQsQzgMZyIlvOJdi+AS2SoyXrK4umWPM5wNiV0UDUIBNkdoepTfMkA7thIECiyRtUAGq8fm2O4jIBgMBA1eAZ6Knx+gHaJR4QwdCMKBxEJRggFDGgQEREPjjAMBQUKIwIRDhBDC2QNDDEKoEkDoiMHDigICGkJBS2dDA6TAAnAEAkCdQ8ORQcHTAkLcQQODLPMIgIJaCWxJMIkPIoAt3EhACH5BAkHAAAALAAAAAAYABgAAAWtICCOJNA0ZZoOpGGQrDoOBCoSxNgQsQzgMZyIlvOJdi+AS2SoyXrK4umWHM5wNiV0UN3xdLiqr+mENcWpM9TIbrsBkEck8oC0DQqBQGGIz+t3eXtob0ZTPgNrIwQJDgtGAgwCWSIMDg4HiiUIDAxFAAoODwxDBWINCEGdSTQkCQcoegADBaQ6MggHjwAFBZUFCm0HB0kJCUy9bAYHCCPGIwqmRq0jySMGmj6yRiEAIfkECQcAAAAsAAAAABgAGAAABbIgII4k0DRlmg6kYZCsOg4EKhLE2BCxDOAxnIiW84l2L4BLZKipBopW8XRLDkeCiAMyMvQAA+uON4JEIo+vqukkKQ6RhLHplVGN+LyKcXA4Dgx5DWwGDXx+gIKENnqNdzIDaiMECwcFRgQCCowiCAcHCZIlCgICVgSfCEMMnA0CXaU2YSQFoQAKUQMMqjoyAglcAAyBAAIMRUYLCUkFlybDeAYJryLNk6xGNCTQXY0juHghACH5BAkHAAAALAAAAAAYABgAAAWzICCOJNA0ZVoOAmkY5KCSSgSNBDE2hDyLjohClBMNij8RJHIQvZwEVOpIekRQJyJs5AMoHA+GMbE1lnm9EcPhOHRnhpwUl3AsknHDm5RN+v8qCAkHBwkIfw1xBAYNgoSGiIqMgJQifZUjBhAJYj95ewIJCQV7KYpzBAkLLQADCHOtOpY5PgNlAAykAEUsQ1wzCgWdCIdeArczBQVbDJ0NAqyeBb64nQAGArBTt8R8mLuyPyEAOw==" data-src="/images/article/redis-sds.png" alt="SDS结构" /></p>
+
+<h4>1.2 SDS与C字符串的区别</h4>
+
+<ol>
+<li><strong>常数复杂度获取字符串长度</strong>：由于SDS结构内维护了一个<code>len</code>属性，因此可以直接获取字符串长度；但是C字符串则要从头到尾遍历才可以获得字符串长度；获取字符串长度的时间复杂度从O(N)降低到了0(1);</li>
+<li><strong>杜绝缓冲区溢出</strong>：C字符串不记录自身长度，在执行字符串拼接操作时它假定用户已经分配好了足够的空间，但是当这个假设不成立时，拼接字符串后形成的新字符串就会溢出到当前字符串之外的空间；而SDS对字符串进行修改（拼接是修改的一种）时，则会检查<code>free</code>属性的值是否能够容纳要拼接的字符串，如果能够容纳则直接拼接，如果不够则先扩容再拼接；</li>
+<li><strong>减少修改字符串时带来的内存重分配次数</strong>：在拼接操作时，如果<code>free</code>属性指示的剩余字节空间不够，那么要先进行内存重分配操作然后再执行拼接操作；在缩短字符串时，也要通过内存重分配来释放不用的那一部分空间；对应这两种情况，分别有<strong>两种内存重分配策略</strong>：
+
+<ol>
+<li>空间预分配：针对字符串增长操作时剩余空间可能不够的情况，SDS采用空间预分配策略来保证：当SDS的API对一个SDS进行修改并且需要对SDS空间进行拓展的时候，程序不仅会为SDS分配修改所必需的空间，还会为SDS分配额外的未使用空间，交由<code>free</code>属性指示，具体的额外分配的未使用空间由以下公式决定：
+
+<ul>
+<li>如果对SDS进行修改后，SDS的长度（即<code>len</code>属性）小于1MB，那么程序分配与<code>len</code>属性同样大小的未使用空间。也就是说如果当前<code>len</code>属性为13byte，那么空间预分配后SDS的buf数组的实际长度就是<code>13byte + 13byte + 1byte</code>（额外的一个字节用于保存空字符）；</li>
+<li>如果对SDS进行修改后，SDS的长度大于等于1MB，那么程序会分配1MB的未使用空间。也就是说如果当前<code>len</code>属性值为30MB，那么空间预分配后SDS的buf数组的实际长度就是<code>30MB + 1MB + 1byte</code>（额外的一个字节用于保存空字符）。</li>
+</ul></li>
+<li>惰性空间释放：针对字符串的缩短操作：当SDS的一个API对其进行缩短操作时，程序不立即使用内存重分配来回收缩短后多出来的字节，而是使用<code>free</code>属性将这些字节记录起来，以备未来使用。</li>
+</ol></li>
+<li><strong>二进制安全</strong>：C字符串中的字符必须符合某种编码（比如ASCII码），并且除了字符串的末尾之外，字符串里面不能包含空字符（即<code>\0</code>），但是SDS的buf属性保存的实际上是二进制数据，所以可以保存任意格式的数据，因为SDS是用<code>len</code>属性的值而不是<code>\0</code>来判断字符串结尾的，之所以保留字符串末尾的<code>\0</code>是因为这样做可以兼容一部分C语言字符串函数；</li>
+<li><strong>兼容部分C字符串函数</strong>：SDS遵循C字符串以空字符结尾的惯例，可以重用部分C字符串函数。</li>
+</ol>
+
+<h2>二、链表</h2>
+
+<p>链表提供了高效的节点重排能力，以及顺序性的节点访问方式，并且可以通过增删节点来灵活地调整链表的长度。</p>
+
+<p>在Redis中，当一个列表键包含了数量比较多的元素或者列表中包含的元素都是比较长的字符串时，Redis就会使用链表作为列表键的底层实现。</p>
+
+<h4>2.1 链表与链表节点的实现</h4>
+
+<p>每个链表由一个节点构成，使用<code>adlist.h/listNode</code>结构来表示：</p>
+
+<pre><code>typedef struct listNode {
+    struct listNode *prev;
+    struct listNode *next;
+    void *value;
+} listNode;
+</code></pre>
+
+<p>各属性解释如下：</p>
+
+<ul>
+<li><code>*prev</code>：指针，指向链表中当前节点的上一个节点；</li>
+<li><code>*next</code>：指针，指向链表中当前节点的下一个节点；</li>
+<li><code>*value</code>：节点的实际数据。</li>
+</ul>
+
+<p>多个节点可以连接成一个链表，可以交由list结构来维护，使用<code>adlist.h/list</code>结构来表示，如下</p>
+
+<pre><code>typedef struct list {
+    listNode *head;
+    listNode *tail;
+    unsigned long len;
+    void *(*dup) (void *ptr);
+    void (*free) (void *ptr);
+    int (*match) (void *ptr, void *key);
+} list;
+</code></pre>
+
+<p>各属性解释如下：</p>
+
+<ul>
+<li><code>*head</code>：链表的头结点；</li>
+<li><code>*tail</code>：链表的尾结点；</li>
+<li><code>len</code>：链表的节点数目；</li>
+<li><code>*dup</code>：该函数对链表进行操作，用于复制链表节点所保存的值；</li>
+<li><code>*free</code>：该函数对链表进行操作，用于释放链表节点所保存的值；</li>
+<li><code>*match</code>：该函数对链表进行操作，用于对比链表节点所保存的值和另一个输入值是否相等。</li>
+</ul>
+
+<h4>2.2 Redis链表的特性</h4>
+
+<ul>
+<li>双端：链表节点带有prev和next指针；</li>
+<li>无环：表头节点的prev指针和表尾节点的next指针都指向NULL，对链表的访问以NULL为终点；</li>
+<li>带表头指针和表尾指针：获取链表头部节点与尾部节点的时间复杂度都是O(1)；</li>
+<li>带链表长度计数器，获取链表长度的时间复杂度为O(1)；</li>
+<li>多态：链表节点使用<code>void*</code>指针来保存节点值，并且可以通过list结构的<code>dup</code><code>free</code><code>match</code>三个属性为节点值设置类型特定函数，所以链表可以用于保存各种不同类型的值。</li>
+</ul>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">If not now, when? If not me, who?</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/interface-and-implementation-class-of-spring-ioc-container.html">Spring IoC容器的接口与实现类</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/design-of-relational-database.html">数据库范式与关系数据库设计以及简单查询和复杂查询</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

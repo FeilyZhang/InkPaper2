@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -100,23 +78,6 @@
                 </header>
                 <ul class="article-list">
                     
-                    
-                    <li class="article">
-                        <a class="title" href="/summary-of-previous-multithreading-foundations.html">对前面多线程基础的总结</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>如果多线程不涉及对共享资源的操作，那么就不存在线程安全问题，可能也不需要通信，但是如果线程间有依赖关系(比如生产者消费者问题)，那么必然需要线程间通信(调度)，通过Thread的相关API调度，一个线程阻塞另一个线程运行并相互通知，那么肯定是(本文)第三种方法更好。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1545387765"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            Java Core
-                            </span>
-                        </section>
-                    </li>
                     
                     <li class="article">
                         <a class="title" href="/capturing-thread-runtime-exception-information-and-injecting-hook-threads.html">捕获线程运行时异常信息与注入钩子线程</a>
@@ -264,6 +225,23 @@
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545124145"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            Java Core
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/analysis-of-stringbuilder-classes.html">剖析StringBuilder类</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>String类适合少量字符串的不太频繁的操作，因为String的每次的字符串操作基本上都是重新创建一个字符数组，这样性能太低，可以考虑使用StringBuilder或者StringBuffer。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1545122706"><span class="from"></span></span>
                             
                             <span class="tags">
                             Java Core

@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -90,28 +68,11 @@
                     
                         <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
                         <h1 class="tag">Redis</h1>
-                        <h2 class="tag-sub" style="font-family:KaiTi">2 篇文章</h2>
+                        <h2 class="tag-sub" style="font-family:KaiTi">1 篇文章</h2>
                     
                 </header>
                 <ul class="article-list">
                     
-                    
-                    <li class="article">
-                        <a class="title" href="/centos-7.3-install-redis-and-start-up.html">CentOS 7.3安装Redis并开启开机启动，并远程连接</a>
-                        
-                        <section class="preview content" style="font-family:KaiTi"><p>Linux CentOS 7.3下安装Redis并开启开机启动，并远程连接</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1563093409"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            Redis
-                            </span>
-                        </section>
-                    </li>
                     
                     <li class="article">
                         <a class="title" href="/redis-data-structure.html">Redis数据结构</a>

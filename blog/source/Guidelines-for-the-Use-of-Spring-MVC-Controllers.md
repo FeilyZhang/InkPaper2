@@ -1,17 +1,17 @@
-title: "SpringMVC控制器使用指南"
+title: "Spring MVC控制器使用指南"
 date: 2019-07-14 11:35:49 +0800
 update: 2019-07-14 11:35:49 +0800
 author: me
 cover: "-/images/springmvc.jpg"
 tags:
     - Spring
-preview: SpringMVC控制器使用全流程简单示例。
+preview: Spring MVC控制器使用全流程简单示例。
 
 ---
 
 注意，一定要将`library`引用的jar包放到`web-inf/lib`下，前者都很熟悉，后者放置的办法是`右键项目 -> Properties -> Deployment Assembly -> Add -> Java Build Path Entries -> 全选 -> Finish -> Apply ->Apply and Close`，否则会报错`java.lang.ClassNotFoundException: org.springframework.web. servlet.DispatcherServlet`。
 
-接下来，首先定义`web-inf/web.xml`文件，分别是定义`servlet-name`及对应的`servlet-class`，以及该`servlet-name`定义的的映射了`url`与`controller`对应关系的SpringMVC配置文件。然后通过`servlet-name`与`url-pattern`来指明所有的请求路径均由`servlet-name`指明的servlet来处理，是怎么处理的呢？就是请求先到`web.xml`文件，然后文件指明了请求由SpringMVC的配置文件来处理，于是`DispatcherServlet`读取SpringMVC的配置文件，并扫描`Controller`包，根据`RequestMapping`配置的路径来分派处理该请求的Controller。配置示例如下
+接下来，首先定义`web-inf/web.xml`文件，分别是定义`servlet-name`及对应的`servlet-class`，以及该`servlet-name`定义的的映射了`url`与`controller`对应关系的Spring MVC配置文件。然后通过`servlet-name`与`url-pattern`来指明所有的请求路径均由`servlet-name`指明的servlet来处理，是怎么处理的呢？就是请求先到`web.xml`文件，然后文件指明了请求由Spring MVC的配置文件来处理，于是`DispatcherServlet`读取Spring MVC的配置文件，并扫描`Controller`包，根据`RequestMapping`配置的路径来分派处理该请求的Controller。配置示例如下
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -43,7 +43,7 @@ preview: SpringMVC控制器使用全流程简单示例。
 </web-app>
 ```
 
-接下来必然是配置SpringMVC的配置文件，该文件位于根目录下，即`src/springmvc.xml`,该文件主要是开启SpringMVC注解的配置以及扫描路径，主要是
+接下来必然是配置Spring MVC的配置文件，该文件位于根目录下，即`src/springmvc.xml`,该文件主要是开启Spring MVC注解的配置以及扫描路径，主要是
 
 ```
 <!-- 不同于Spring的<context:annotationconfig/>标签，功能可以理解为是一样的 -->
@@ -51,7 +51,7 @@ preview: SpringMVC控制器使用全流程简单示例。
 <context:component-scan base-package="tech.feily.springmvc.controller"/>
 ```
 
-上述配置开启了SpringMVC的注解，这样`DispatcherServlet`就知道根据配置的扫描路径的包找到url对应的controller。然后还有配置视图解析的相关内容，如下
+上述配置开启了Spring MVC的注解，这样`DispatcherServlet`就知道根据配置的扫描路径的包找到url对应的controller。然后还有配置视图解析的相关内容，如下
 
 ```
 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

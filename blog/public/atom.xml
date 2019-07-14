@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-07-14T12:26:37+08:00</updated>
+  <updated>2019-07-14T13:29:49+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
   <entry>
-    <title>SpringMVC控制器使用指南</title>
+    <title>Spring MVC控制器使用详情</title>
+    <updated>2019-07-14T12:33:49+08:00</updated>
+    <id>tag:feily.tech,2019-07-14:/details-of-spring-mvc-controller-using.html</id>
+    <content type="html">&lt;p&gt;Spring MVC控制器使用详情，包括控制器请求地址映射类、控制器方法参数、控制器方法返回类型。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/details-of-spring-mvc-controller-using.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
+  <entry>
+    <title>Spring MVC控制器使用指南</title>
     <updated>2019-07-14T11:35:49+08:00</updated>
-    <id>tag:feily.tech,2019-07-14:/guidelines-for-the-use-of-springmvc-controllers.html</id>
-    <content type="html">&lt;p&gt;SpringMVC控制器使用全流程简单示例。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/guidelines-for-the-use-of-springmvc-controllers.html"></link>
+    <id>tag:feily.tech,2019-07-14:/guidelines-for-the-use-of-spring-mvc-controllers.html</id>
+    <content type="html">&lt;p&gt;Spring MVC控制器使用全流程简单示例。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/guidelines-for-the-use-of-spring-mvc-controllers.html"></link>
     <author>
       <name>林奕清</name>
     </author>
@@ -93,16 +103,6 @@
     <id>tag:feily.tech,2019-07-06:/principle-basis-of-operating-system-another.html</id>
     <content type="html">&lt;p&gt;地址重定位、存储保护与存储共享、连续存储管理（分区存储管理）、分页存储管理、分段存储管理、虚拟内存管理——请求分页存储管理。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/principle-basis-of-operating-system-another.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>深入理解计算机网络（二）</title>
-    <updated>2019-07-05T19:00:14+08:00</updated>
-    <id>tag:feily.tech,2019-07-05:/deep-understanding-of-computer-networks-another.html</id>
-    <content type="html">&lt;p&gt;传输层功能、TCP与UDP、应用层HTPP协议、DNS协议。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/deep-understanding-of-computer-networks-another.html"></link>
     <author>
       <name>林奕清</name>
     </author>

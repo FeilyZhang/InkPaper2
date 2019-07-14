@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-07-14T13:29:49+08:00</updated>
+  <updated>2019-07-14T16:55:40+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>CentOS 7.3安装Redis并开启开机启动，并远程连接</title>
+    <updated>2019-07-14T16:36:49+08:00</updated>
+    <id>tag:feily.tech,2019-07-14:/centos-7.3-install-redis-and-start-up.html</id>
+    <content type="html">&lt;p&gt;Linux CentOS 7.3下安装Redis并开启开机启动，并远程连接&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/centos-7.3-install-redis-and-start-up.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
+  <entry>
+    <title>MySQL忘记root密码解决办法</title>
+    <updated>2019-07-14T14:34:49+08:00</updated>
+    <id>tag:feily.tech,2019-07-14:/mysql-forget-root-password-solution.html</id>
+    <content type="html">&lt;p&gt;Linux下MySQL root用户找回密码。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/mysql-forget-root-password-solution.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>Spring MVC控制器使用详情</title>
     <updated>2019-07-14T12:33:49+08:00</updated>
@@ -83,26 +103,6 @@
     <id>tag:feily.tech,2019-07-06:/mysql-locking-mechanism.html</id>
     <content type="html">&lt;p&gt;乐观锁与悲观锁、MyISAM的表级锁、InnoDB行级锁。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/mysql-locking-mechanism.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>MySQL的高级特性</title>
-    <updated>2019-07-06T10:00:14+08:00</updated>
-    <id>tag:feily.tech,2019-07-06:/advanced-features-of-mysql.html</id>
-    <content type="html">&lt;p&gt;MySQL查询缓存、合并表与分区表、事务控制。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/advanced-features-of-mysql.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>计算机操作系统原理总结(二)——存储管理</title>
-    <updated>2019-07-06T08:00:14+08:00</updated>
-    <id>tag:feily.tech,2019-07-06:/principle-basis-of-operating-system-another.html</id>
-    <content type="html">&lt;p&gt;地址重定位、存储保护与存储共享、连续存储管理（分区存储管理）、分页存储管理、分段存储管理、虚拟内存管理——请求分页存储管理。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/principle-basis-of-operating-system-another.html"></link>
     <author>
       <name>林奕清</name>
     </author>

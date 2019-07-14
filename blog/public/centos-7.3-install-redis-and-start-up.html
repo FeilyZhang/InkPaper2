@@ -67,10 +67,10 @@
 </script>
 
 
-        <meta name="keywords" content="一晌贪欢,">
-        <meta name="description" content="零八零九一十一">
+        <meta name="keywords" content="Redis,">
+        <meta name="description" content="CentOS 7.3安装Redis并开启开机启动，并远程连接">
         <meta name="author" content="林奕清">
-        <title>零八零九一十一</title>
+        <title>CentOS 7.3安装Redis并开启开机启动，并远程连接</title>
     </head>
     <body>
         <article class="container">
@@ -87,26 +87,115 @@
 </header>
 
             <article class="main article">
-                <h1 class="title" style="font-family:KaiTi">零八零九一十一</h1>
+                <h1 class="title" style="font-family:KaiTi">CentOS 7.3安装Redis并开启开机启动，并远程连接</h1>
                 <section class="info" style="font-family:KaiTi">
                     <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                     <a class="name" href="/about.me.html">林奕清</a>
                     
-                    <span class="date" data-time="1483195330"><span class="from"></span></span>
+                    <span class="date" data-time="1563093409"><span class="from"></span></span>
                     
-                    <span class="tags">一晌贪欢</span>
+                    <span class="tags">Redis</span>
                 </section>
-                <article class="content" style="font-family:KaiTi"><p>一二一五六,一二一五七,一二一九二十一。</p>
+                <article class="content" style="font-family:KaiTi"><h3>一、安装Redis</h3>
 
-<p>二二二五六,二二二五七,二二二九三十一。</p>
+<p>下载并解压Redis安装包到指定目录</p>
 
-<p>三二三五六,三二三五七,三二三九四十一。</p>
+<pre><code>wget http://download.redis.io/releases/redis-4.0.9.tar.gz  
+tar -zxvf redis-4.0.9.tar.gz -C /usr/local/
+</code></pre>
 
-<p>四二四五六,四二四五七,四二四九五十一。</p>
+<p>接下来安装gcc以来，先检查有无以来，没有则继续执行下一条命令</p>
 
-<p>改编自童谣《马兰开花二十一》</p>
+<pre><code>gcc -v
+yum install -y gcc
+</code></pre>
 
-<p>农历丙申年十二月三日作于渭水</p>
+<p>然后cd到redis的解压目录下，进行编译安装</p>
+
+<pre><code>cd /usr/local/redis-4.0.9/
+make MALLOC=libc
+cd src &amp;&amp; make install
+</code></pre>
+
+<p>然后测试是否安装成功</p>
+
+<pre><code>cd /usr/local/redis-4.0.9/src/
+./redis-server
+</code></pre>
+
+<p>如果出现提示信息则说明安装成功。接下来配置开机启动</p>
+
+<h2>二、配置开机自启</h2>
+
+<p>修改<code>/usr/local/redis-4.0.9/redis.conf</code>文件中的<code>daemonize no</code>为<code>yes</code></p>
+
+<p>然后指定redis.conf文件启动：<code>./redis-server /usr/local/redis-4.0.9/redis.conf</code></p>
+
+<p>由于上面我们执行了redis进程启动，通过<code>ps -aux | grep redis</code>查看redis进程，并用<code>kill -9 进程id</code>杀死,然后执行下述操作：</p>
+
+<ul>
+<li>在/etc目录下新建redis目录，<code>mkdir /etc/redis</code>;</li>
+<li>将/usr/local/redis-4.0.9/redis.conf 文件复制一份到/etc/redis目录下，并命名为6379.conf, <code>cp /usr/local/redis-4.0.9/redis.conf /etc/redis/6379.conf</code>;</li>
+<li>将redis的启动脚本复制一份放到/etc/init.d目录下,<code>cp /usr/local/redis-4.0.9/utils/redis_init_script /etc/init.d/redisd</code>;</li>
+
+<li><p>设置redis开机自启动:</p>
+
+<ul>
+<li>先切换到/etc/init.d目录下,然后执行自启命令<code>chkconfig redisd on</code>；</li>
+
+<li><p>如果显示<code>service redisd does not support chkconfig</code>，解决方法为，使用vim编辑redisd文件，在第一行加入如下两行注释，保存退出</p>
+
+<pre><code># chkconfig:   2345 90 10
+# description:  Redis is a persistent key-value database
+</code></pre></li>
+
+<li><p>再次执行开机自启命令<code>chkconfig redisd on</code>，这个时候应该就能成功了。</p></li>
+</ul></li>
+</ul>
+
+<p>现在可以直接已服务的形式启动和关闭redis了；</p>
+
+<ul>
+<li>启动：<code>service redisd start</code>；</li>
+<li>关闭：<code>service redisd stop</code>.</li>
+</ul>
+
+<h2>三、远程连接</h2>
+
+<p>因为redis默认设置允许本地连接，所以我们要将<code>redis.conf</code>中将<code>bind 127.0.0.1</code>改为<code>bind 0.0.0.0</code>或者注释该行;</p>
+
+<p>另外，阿里云ECS有一个安全组，找到并添加规则允许6379端口访问。</p>
+
+<p>设置redis连接密码方式如下：</p>
+
+<p>在<code>redis.conf</code>中搜索<code>requirepass</code>(502行左右)这一行，然后在合适的位置添加配置<code>requirepass yourpassword</code>;</p>
+
+<p>设置完成后执行<code>/usr/local/bin/redis-server /usr/local/redis-4.0.9/redis.conf</code>更新配置。</p>
+
+<p>然后测试看能不能ping通目标IP与端口</p>
+
+<pre><code>C:\Users\Administrator
+λ tcping ip 6379
+
+Probing ip:6379/tcp - Port is open - time=138.879ms
+Probing ip:6379/tcp - Port is open - time=61.759ms
+Probing ip:6379/tcp - Port is open - time=1087.038ms
+Probing ip:6379/tcp - Port is open - time=65.800ms
+
+Ping statistics for ip:6379
+     4 probes sent.
+     4 successful, 0 failed.  (0.00% fail)
+Approximate trip times in milli-seconds:
+     Minimum = 61.759ms, Maximum = 1087.038ms, Average = 338.369ms
+</code></pre>
+
+<p>然后试一下远程连接</p>
+
+<pre><code>[root@izuf622r98ikh3c0432hejz src]# ./redis-cli -h ip -p 6379 -a pswd.
+ip:6379&gt;
+</code></pre>
+
+<p>成功！</p>
 </article>
                 <section class="author" style="font-family:NSimSun">
                     <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
@@ -115,15 +204,10 @@
                 </section>
                 <section class="recommend" style="font-family:KaiTi">
                     
-                    <section class="nav prev more">
-                        <div class="head">上篇文章</div>
-                        <a class="link" href="/preface-of-cangsheng%27s-words.html">仓圣造字序</a>
-                    </section>
                     
-                    
-                    <section class="nav next more">
+                    <section class="nav next">
                         <div class="head">下篇文章</div>
-                        <a class="link" href="/drunk-changan.html">醉长安</a>
+                        <a class="link" href="/mysql-forget-root-password-solution.html">MySQL忘记root密码解决办法</a>
                     </section>
                     
                 </section>

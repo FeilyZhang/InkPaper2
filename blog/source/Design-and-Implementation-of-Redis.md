@@ -189,3 +189,28 @@ typedef struct dict {
 Redis的哈希表采用链地址法来解决键冲突。
 
 随着操作的不断进行，哈希表保存的键值对会逐渐地增多或减少，为了让哈希表的负载因子(load factor)维持在一个合理的范围，当哈希表保存的键值对数量太多或者太少时，程序需要对哈希表的大小进行相应的扩展或者收缩。扩展和收缩的工作可以通过rehash(重新散列)操作来完成。
+
+
+## 四、跳跃表
+
+跳跃表(skiplist)是一种有序数据结构，它通过在每个节点中维持多个指向其他节点的指针，从而达到快速访问节点的目的。
+
+跳跃表支持平均O(logN)、最坏O(N)复杂度的节点查找，还可以通过顺序性操作来处理节点。在大部分情况下，跳跃表的效率可以和平衡树媲美，并且因为跳跃表的实现比平衡树更为简单，所以有不少程序都使用跳跃表来代替平衡树。
+
+Redis使用跳跃表作为有序集合的底层实现之一，如果一个有序集合包含的元素比较多，又或者有序集合中元素的成员是比较长的字符串时，Redis就会使用跳跃表来作为有序集合的底层实现。
+
+#### 4.1 跳跃表节点与跳跃表的实现
+
+跳跃表的节点实现由`redis.h/zskiplistNode`结构来定义：
+
+```
+typedef struct zskiplistNode {
+    struct zskiplistLevel {
+        struct zskiplistNode *forward;
+        unsigned int span;
+    } level[];
+    struct zskiplistNode *backward;
+    double score;
+    robj *obj;
+} zskiplistNode;
+```

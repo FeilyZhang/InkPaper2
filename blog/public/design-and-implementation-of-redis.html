@@ -44,11 +44,33 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="Redis,">
-        <meta name="description" content="Redis数据结构">
+        <meta name="description" content="Redis设计与实现">
         <meta name="author" content="林奕清">
-        <title>Redis数据结构</title>
+        <title>Redis设计与实现</title>
     </head>
     <body>
         <article class="container">
@@ -65,16 +87,18 @@
 </header>
 
             <article class="main article">
-                <h1 class="title" style="font-family:KaiTi">Redis数据结构</h1>
+                <h1 class="title" style="font-family:KaiTi">Redis设计与实现</h1>
                 <section class="info" style="font-family:KaiTi">
                     <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                     <a class="name" href="/about.me.html">林奕清</a>
                     
-                    <span class="date" data-time="1562464429"><span class="from"></span></span>
+                    <span class="date" data-time="1563264829"><span class="from"></span></span>
                     
                     <span class="tags">Redis</span>
                 </section>
-                <article class="content" style="font-family:KaiTi"><h2>一、简单动态字符串（SDS）</h2>
+                <article class="content" style="font-family:KaiTi"><h1>一、数据结构</h1>
+
+<h2>一、简单动态字符串（SDS）</h2>
 
 <p>Redis没有直接使用C语言传统的字符串表示（即以空字符<code>\0</code>结尾的字符数组），而是直接自己构建了一种称为简单动态字符串的抽象类型，并作为Redis中的默认字符串表示。</p>
 
@@ -191,6 +215,12 @@ OK
 <li>带链表长度计数器，获取链表长度的时间复杂度为O(1)；</li>
 <li>多态：链表节点使用<code>void*</code>指针来保存节点值，并且可以通过list结构的<code>dup</code><code>free</code><code>match</code>三个属性为节点值设置类型特定函数，所以链表可以用于保存各种不同类型的值。</li>
 </ul>
+
+<h2>三、字典</h2>
+
+<p>Redis数据库采用字典作为底层实现，对数据库的增删查改均是建立在对字典的操作之上。</p>
+
+<p>除了用来表示数据库之外，字典还是哈希键的底层实现之一，当一个哈希键包含的键值对比较多，又或者键值对中的元素都是比较长的字符串时，Redis就会使用字典作为哈希键的底层实现。</p>
 </article>
                 <section class="author" style="font-family:NSimSun">
                     <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
@@ -199,15 +229,10 @@ OK
                 </section>
                 <section class="recommend" style="font-family:KaiTi">
                     
-                    <section class="nav prev more">
-                        <div class="head">上篇文章</div>
-                        <a class="link" href="/interface-and-implementation-class-of-spring-ioc-container.html">Spring IoC容器的接口与实现类</a>
-                    </section>
                     
-                    
-                    <section class="nav next more">
+                    <section class="nav next">
                         <div class="head">下篇文章</div>
-                        <a class="link" href="/design-of-relational-database.html">数据库范式与关系数据库设计以及简单查询和复杂查询</a>
+                        <a class="link" href="/mysql-forget-root-password-solution.html">MySQL忘记root密码解决办法</a>
                     </section>
                     
                 </section>

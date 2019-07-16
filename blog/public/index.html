@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -78,6 +100,23 @@
                 </header>
                 <ul class="article-list">
                     
+                    
+                    <li class="article">
+                        <a class="title" href="/design-and-implementation-of-redis.html">Redis设计与实现</a>
+                        <div class="cover" style="background-image:url(/images/redis.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>数据结构与对象、单机数据库的实现。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1563264829"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            Redis
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/mysql-forget-root-password-solution.html">MySQL忘记root密码解决办法</a>
@@ -177,23 +216,6 @@
                             
                             <span class="tags">
                             Spring
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/redis-data-structure.html">Redis数据结构</a>
-                        <div class="cover" style="background-image:url(/images/redis.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>简单动态字符串(SDS的结构、SDS与C字符串的区别)、链表(链表与链表节点的实现、Redis链表的特性)。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1562464429"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            Redis
                             </span>
                         </section>
                     </li>

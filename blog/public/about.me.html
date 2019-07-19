@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="">
         <meta name="description" content="关于作者">
@@ -132,7 +110,7 @@
 <li>2017年12月，“创青春”项目“蜗牛快送”移动端APP开发，担任后端开发者，负责接口的开发，使用技术为Java Servlet与MySQL数据库；</li>
 <li>2017年3月，“互联网+”项目“聚聚”移动端WebAPP开发，担任后端开发者，负责接口的开发，使用技术为Node.js与MongoDB数据库；</li>
 <li>2018年6月，成都伟灿标识技术有限公司移动端官网开发，担任后端开发者，负责接口的开发，使用技术为Java Servlet与MySQL数据库，地址为<a href="http://m.weicanpenma.com/">http://m.weicanpenma.com/</a>；</li>
-<li>2019年1月，大创项目“U知”移动端应用开发，担任后端开发者，负责接口的开发，使用技术为SpringMVC、Hibernate以及MySQL数据库；</li>
+<li>2019年1月，大创项目“U知”移动端应用开发，担任后端开发者，负责接口的开发，使用技术为SpringMVC、Hibernate以及MySQL数据库。</li>
 </ul>
 
 <h4>实习经历</h4>
@@ -141,7 +119,7 @@
 <li>2018年7月，陕西石榴网络科技有限公司实习生，负责车载MOC芯片GPS与蓝牙模块的测试；</li>
 <li>2018年9月，北京淳中科技股份有限公司校园大使，负责宣讲会等线上线下事宜；</li>
 <li>2018年12月，北京搜狗科技发展有限公司，搜索事业部_社区搜索部远程运营实习生，负责拇指赚赚小程序的推广与运营；</li>
-<li>2018年12月，中国科学技术大学地球与空间科学学院，石头科普工作室IT部，远程开发者；</li>
+<li>2018年12月，中国科学技术大学地球与空间科学学院，石头科普工作室IT部，远程开发者。</li>
 </ul>
 
 <h4>相关荣誉</h4>
@@ -150,6 +128,7 @@
 <li>长安大学第十届“创青春”大学生创业大赛铜奖；</li>
 <li>长安大学第四届“互联网+”大学生创新创业大赛校赛主赛道铜奖；</li>
 <li>长安大学2019年大学生创新创业训练计划项目省级立项（陕西省）；</li>
+<li>长安大学第五届“互联网+”大学生创新创业大赛校赛主赛道金奖；</li>
 </ul>
 
 <h4>联系方式</h4>

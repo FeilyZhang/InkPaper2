@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-08-01T10:16:01+08:00</updated>
+  <updated>2019-08-07T23:49:21+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>C++中的预定义数据类型</title>
+    <updated>2019-08-07T23:13:42+08:00</updated>
+    <id>tag:feily.tech,2019-08-07:/predefined data types in cpp.html</id>
+    <content type="html">&lt;p&gt;C++中的预定义数据类型包括整型、浮点型、字符型、布尔型、空类型、指针类型&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/predefined data types in cpp.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>《Java并发编程的艺术》笔记(手写扫描版)</title>
     <updated>2019-07-21T23:19:49+08:00</updated>
@@ -93,16 +103,6 @@
     <id>tag:feily.tech,2019-07-06:/design-of-relational-database.html</id>
     <content type="html">&lt;p&gt;函数依赖与数据库三大范式、关系数据库的设计、简单查询、复杂查询。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/design-of-relational-database.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>MySQL锁定机制</title>
-    <updated>2019-07-06T11:00:14+08:00</updated>
-    <id>tag:feily.tech,2019-07-06:/mysql-locking-mechanism.html</id>
-    <content type="html">&lt;p&gt;乐观锁与悲观锁、MyISAM的表级锁、InnoDB行级锁。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/mysql-locking-mechanism.html"></link>
     <author>
       <name>林奕清</name>
     </author>

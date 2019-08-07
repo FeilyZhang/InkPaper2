@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://feily.tech">
+
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-itouch-icon" href="/favicon.png">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+
+        <meta name="keywords" content="C&#43;&#43;,">
+        <meta name="description" content="C&#43;&#43;中的预定义数据类型">
+        <meta name="author" content="林奕清">
+        <title>C&#43;&#43;中的预定义数据类型</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/about.me.html">关于</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">C&#43;&#43;中的预定义数据类型</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1565190822"><span class="from"></span></span>
+                    
+                    <span class="tags">C&#43;&#43;</span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><h2>一、整型</h2>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>位数</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>short</td>
+<td>至少16位</td>
+</tr>
+
+<tr>
+<td>int</td>
+<td>至少和short一样长</td>
+</tr>
+
+<tr>
+<td>long</td>
+<td>至少32位，且至少与int一样长</td>
+</tr>
+
+<tr>
+<td>long long</td>
+<td>至少64位，且至少与long一样长</td>
+</tr>
+</tbody>
+</table>
+
+<p>可见以上描述只是规定了各类型的最小长度，在不同的计算机上有不同的实现。查看本机类型的长度可以使用<code>sizeof</code>运算符，其得到的结果的单位为字节。如下所示</p>
+
+<pre><code>#include &lt;iostream&gt;
+
+void showLimits();
+
+int main() {
+    showLimits();
+    return 0;
+}
+
+void showLimits() {
+    std::cout &lt;&lt; &quot;sizeof(short) = &quot; &lt;&lt; sizeof(short) &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;sizeof(int) = &quot; &lt;&lt; sizeof(int) &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;sizeof(long) = &quot; &lt;&lt; sizeof(long) &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;sizeof(long long) = &quot; &lt;&lt; sizeof(long long) &lt;&lt; std::endl;
+    std::cin.get();
+}
+</code></pre>
+
+<p>本机输出为</p>
+
+<pre><code>sizeof(short) = 2
+sizeof(int) = 4
+sizeof(long) = 4
+sizeof(long long) = 8
+</code></pre>
+
+<p>也可以通过变量名来查看特定数据类型的长度，在这种情况下，<code>sizeof</code>运算符的括号可以忽略，如下</p>
+
+<pre><code>include &lt;iostream&gt;
+
+void showLimits();
+
+int main() {
+    showLimits();
+    return 0;
+}
+
+void showLimits() {
+    short s = 1;
+    int i = 2;
+    long l = 3;
+    long long ll = 4;
+    std::cout &lt;&lt; &quot;sizeof s  = &quot; &lt;&lt; sizeof s &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;sizeof i = &quot; &lt;&lt; sizeof i &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;sizeof l = &quot; &lt;&lt; sizeof l &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;sizeof ll = &quot; &lt;&lt; sizeof ll &lt;&lt; std::endl;
+    std::cin.get();
+}
+</code></pre>
+
+<p>其次，头文件<code>climits</code>中包含了关于整型的限制信息，<code>climits</code>中的符号常量如下表所示</p>
+
+<table>
+<thead>
+<tr>
+<th>符号常量</th>
+<th>表示</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>CHAR_BIT</td>
+<td>char的位数</td>
+</tr>
+
+<tr>
+<td>CHAR_MAX</td>
+<td>char的最大值</td>
+</tr>
+
+<tr>
+<td>CHAR_MIN</td>
+<td>char的最小值</td>
+</tr>
+
+<tr>
+<td>SCHAR_MAX</td>
+<td>signed char的最大值</td>
+</tr>
+
+<tr>
+<td>SCHAR_MIN</td>
+<td>signed char的最小值</td>
+</tr>
+
+<tr>
+<td>UCHAR_MAX</td>
+<td>unsigned char的最大值</td>
+</tr>
+
+<tr>
+<td>SHRT_MAX</td>
+<td>short的最大值</td>
+</tr>
+
+<tr>
+<td>SHRT_MIN</td>
+<td>short的最小值</td>
+</tr>
+
+<tr>
+<td>USHRT_MAX</td>
+<td>unsigned short的最大值</td>
+</tr>
+
+<tr>
+<td>INT_MAX</td>
+<td>int的最大值</td>
+</tr>
+
+<tr>
+<td>INT_MIN</td>
+<td>int的最小值</td>
+</tr>
+
+<tr>
+<td>UNIT_MAX</td>
+<td>unsigned int的最大值</td>
+</tr>
+
+<tr>
+<td>LONG_MAX</td>
+<td>long的最大值</td>
+</tr>
+
+<tr>
+<td>LONG_MIN</td>
+<td>long的最小值</td>
+</tr>
+
+<tr>
+<td>ULONG_MAX</td>
+<td>unsigned long的最大值</td>
+</tr>
+
+<tr>
+<td>LLONG_MAX</td>
+<td>long long的最大值</td>
+</tr>
+
+<tr>
+<td>LLONG_MIN</td>
+<td>long long的最小值</td>
+</tr>
+
+<tr>
+<td>ULLONG_MAX</td>
+<td>unsigned long的最大值</td>
+</tr>
+</tbody>
+</table>
+
+<p>部分示例程序如下</p>
+
+<pre><code>#include &lt;iostream&gt;
+#include &lt;climits&gt;
+
+void showClimits();
+
+int main() {
+    showClimits();
+    return 0;
+}
+
+void showClimits() {
+    std::cout &lt;&lt; &quot;SHRT_MAX = &quot; &lt;&lt; SHRT_MAX &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;SHRT_MIN = &quot; &lt;&lt; SHRT_MIN &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;INT_MAX = &quot; &lt;&lt; INT_MAX &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;INT_MIN = &quot; &lt;&lt; INT_MIN &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;LONG_MAX = &quot; &lt;&lt; LONG_MAX &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;LONG_MIN = &quot; &lt;&lt; LONG_MIN &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;LLONG_MAX = &quot; &lt;&lt; LLONG_MAX &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;LLONG_MIN = &quot; &lt;&lt; LLONG_MIN &lt;&lt; std::endl;
+    std::cin.get();
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>SHRT_MAX = 32767
+SHRT_MIN = -32768
+INT_MAX = 2147483647
+INT_MIN = -2147483648
+LONG_MAX = 2147483647
+LONG_MIN = -2147483648
+LLONG_MAX = 9223372036854775807
+LLONG_MIN = -9223372036854775808
+</code></pre>
+
+<p>对于无符号数而言，可以增大相应数据类型能够表示的最大值，这是通过牺牲掉负数实现的。对于有符号数和无符号数而言，一旦超出它所能表示的最大范围，就会发生溢出，具体溢出行为如下所示</p>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">If not now, when? If not me, who?</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    
+                    <section class="nav next">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/art-of-java-concurrent-programming.html">《Java并发编程的艺术》笔记(手写扫描版)</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

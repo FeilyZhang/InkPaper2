@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-08-07T23:49:21+08:00</updated>
+  <updated>2019-08-08T12:35:19+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
@@ -11,7 +11,7 @@
     <title>C++中的预定义数据类型</title>
     <updated>2019-08-07T23:13:42+08:00</updated>
     <id>tag:feily.tech,2019-08-07:/predefined data types in cpp.html</id>
-    <content type="html">&lt;p&gt;C++中的预定义数据类型包括整型、浮点型、字符型、布尔型、空类型、指针类型&lt;/p&gt;&#xA;</content>
+    <content type="html">&lt;p&gt;C++中的预定义数据类型包括整型、浮点型、字符型、布尔型、空类型、指针类型。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/predefined data types in cpp.html"></link>
     <author>
       <name>林奕清</name>

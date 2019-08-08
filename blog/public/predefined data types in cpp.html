@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="C&#43;&#43;,">
         <meta name="description" content="C&#43;&#43;中的预定义数据类型">
@@ -300,6 +322,165 @@ LLONG_MIN = -9223372036854775808
 </code></pre>
 
 <p>对于无符号数而言，可以增大相应数据类型能够表示的最大值，这是通过牺牲掉负数实现的。对于有符号数和无符号数而言，一旦超出它所能表示的最大范围，就会发生溢出，具体溢出行为如下所示</p>
+
+<h2>二、浮点型</h2>
+
+<p>浮点数有两种表示方法，分别是标准小数点表示法和E表示法。E表示法适合表示非常大的数和非常小的数。浮点数类型如下</p>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>位数</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>float</td>
+<td>至少32位</td>
+</tr>
+
+<tr>
+<td>double</td>
+<td>至少48位，且不少于float</td>
+</tr>
+
+<tr>
+<td>long double</td>
+<td>至少和double一样多</td>
+</tr>
+</tbody>
+</table>
+
+<p>C++中浮点数的默认类型为double，如果希望存储float类型，那么为小数加上f或F后缀，对于long double类型，需要加上l或L后缀。</p>
+
+<p>浮点数的优点在于可以表示整数之间的值；表示的范围比较大；但是运算速度慢于整数，且精度会降低。</p>
+
+<h2>三、字符型</h2>
+
+<p>char用于处理字符，但也可以将它用作比short更短的整型，因为其底层存储的依旧是字符的编码，所以由于char是一种整型，那么也可以进行加法运算，这样就代表的是以原始编码为基址，以加数为偏移的字符编码。但是程序仍然会输出字符而不是编码这是由于cout与cin会完成转换工作，要查看其编码，可以将char强制转换为整型即可。char占8位。示例程序如下</p>
+
+<pre><code>#include &lt;iostream&gt;
+
+int main() {
+    char c = 'M';
+    std::cout &lt;&lt; &quot;c is &quot; &lt;&lt; c &lt;&lt; &quot; and c's code is &quot; &lt;&lt; (int)c &lt;&lt; std::endl;
+    c += 1;
+    std::cout &lt;&lt; &quot;now c is &quot; &lt;&lt; c &lt;&lt; &quot; and c's code is &quot; &lt;&lt; (int)c &lt;&lt; std::endl;
+    return 0;
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>c is M and c's code is 77
+now c is N and c's code is 78
+</code></pre>
+
+<p>char存储的是ANSI字符，那么对于字符数超过256个的字符集而言，就显得无能为力。</p>
+
+<p><code>wchar_t</code>表示的是宽字符，存储的是Unicode字符编码，用法为<code>wchar_t c = L'P'</code>,即要加上L前缀，占16位。</p>
+
+<p>C++11新增了两种类型，为<code>char16_t</code>和<code>char32_t</code>，均为无符号类型，前者长16位，后者长12位，前者字面量要加上前缀小写u，后者要加上前缀大写U。</p>
+
+<h2>四、布尔型</h2>
+
+<p>这种很简单，关键字为<code>bool</code>。</p>
+
+<h2>五、空类型</h2>
+
+<p>关键字<code>void</code>定义的类型，不能用于普通变量的声明和操作，只能用于指针型变量，函数返回值和函数参数。</p>
+
+<h2>六、指针类型</h2>
+
+<p>指针是一种类型，该类型指向特定数据类型内存区的地址，即指针类型存放的是某一内存区的地址。</p>
+
+<h3>6.1 指针的声明</h3>
+
+<p><code>typeName * pointerName</code></p>
+
+<p>指针的类型是什么，就代表该类型的指针指向的是什么类型的内存区。</p>
+
+<h3>6.2 指针的赋值</h3>
+
+<p>给指针赋值，方法有以下几种，分别是</p>
+
+<ul>
+<li>对于预定义类型而言，直接利用取址运算符&amp;即可拿到特定类型的内存区地址，然后给指针变量即可；</li>
+<li>对于自定义类型而言，以数组为例，由于数组名代表的是数组的首元素的地址，所以直接将数组名赋给指针变量即可；</li>
+<li>上述两种情况是自动分配内存的且内存区具有代表该内存区的变量名，也可以使用new运算符为指针赋予特定类型内存区的匿名地址，要显式的通过<code>delete</code>来释放空间。</li>
+</ul>
+
+<p>示例如下</p>
+
+<pre><code>int nights = 1001;
+int * pt = &amp;nights;    // 第一种方法, 或者如下一行
+pt = &amp;nights;
+double wage[3] = {10000.0, 20000.0, 30000.0};
+double * ptW = wage;    // 第二种方法，或者如下一行
+double * ptN = &amp;wage[0];    // 可见，指针要的只是数组首元素的地址
+int * ps = new int;    // 第三种方法，创建int型的连续内存区域并将地址返回给指针
+int * psome = new int[10];    // 第三种方法，创建int型的连续内存区域的数组，并将数组首元素的地址返回给指针
+delete ps;    // 第三种方法，释放内存
+delete [] psome;    // 第三种方法，释放内存
+</code></pre>
+
+<h3>6.3 对指针解除引用</h3>
+
+<p>对指针解除引用意味着获取指针所指向内存区域的值。方法是通过*取值运算符，如下</p>
+
+<pre><code>cout &lt;&lt; *pointerName
+</code></pre>
+
+<p>另外，指针中对数组的访问仍然可以使用数组下标的方式，即以下等式恒成立</p>
+
+<pre><code>arr[i] = *(ar + i);    // 数组访问方式中第i个元素的值为arr[i], 指针访问方式中第i个元素的地址为ar + i，那么值就是*(ar + i)
+&amp;arr[i] = ar + i;    // 数组访问方式中第i的元素的地址为&amp;arr[i],指针访问方式中第i个元素的地址为ar + i。
+</code></pre>
+
+<h3>6.4 区分指针和指针所指向的值</h3>
+
+<p>如果pt是指向int的指针，那么<code>*pt</code>不是指向int的指针，而是代表int型内存区域的值，也就是说效力等同于int型内存区域的变量名。只有pt才是指针，才代表的是某类型的地址，加上取值运算符<code>*</code>就成为了该地址的值。 示例如下</p>
+
+<pre><code>int * pt = new int;    // 开辟int大小的内存区域，并将地址给pt指针
+*pt = 5；    // pt代表的值地址，那么*pt代表的就是值，这句代码就是将5存入pt地址处
+</code></pre>
+
+<h3>6.5 指针算术</h3>
+
+<p>C++允许指针和整数相加，加1代表指向连续内存区域的下一个地址空间，减法也是同样的道理，所以可以通过<code>*(ar + i)</code>的形式访问数组，等同于<code>arr[i]</code>。</p>
+
+<h3>6.6 数组的动态联编和静态联编</h3>
+
+<p>使用数组声明来创建数组时，将采用静态联编，即数组的长度在编译时设置，如</p>
+
+<pre><code>int tacos[10];
+</code></pre>
+
+<p>使用<code>new</code>运算符创建数组时，将采用动态联编，即将在运行时为数组分配空间，其长度也将在运行时设置。这种情况下，应该通过<code>delete []</code>运算符显式释放内存。</p>
+
+<h3>6.7 指针和字符串</h3>
+
+<p>一般来说（比如以上），如果给cout提供的是指针，那么将打印地址，但是如果指针的类型为<code>char *</code>,那么cout打印指针指向的字符串。如果非要显式字符串的地址，那么需要将其强制转型为(int *)。如下所示</p>
+
+<pre><code>#include &lt;iostream&gt;
+
+int main() {
+    const char* pt = &quot;wren&quot;;
+    std::cout &lt;&lt; pt &lt;&lt; std::endl;
+    std::cout &lt;&lt; (int *)pt &lt;&lt; std::endl;
+    return 0;
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>wren
+002F9FCC
+</code></pre>
+
+<p>由于字符串字面值是常量，所以被声明为<code>const</code>。</p>
 </article>
                 <section class="author" style="font-family:NSimSun">
                     <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>

@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-08-09T19:54:04+08:00</updated>
+  <updated>2019-08-09T21:33:34+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>C++自定义数据类型</title>
+    <updated>2019-08-09T20:29:42+08:00</updated>
+    <id>tag:feily.tech,2019-08-09:/cpp-custom-data-type.html</id>
+    <content type="html">&lt;p&gt;C++自定义数据类型包括数组、结构体、共用体、枚举。写C/C++不用指针是没有灵魂的！&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/cpp-custom-data-type.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>C++中的预定义数据类型</title>
     <updated>2019-08-07T23:13:42+08:00</updated>
@@ -93,16 +103,6 @@
     <id>tag:feily.tech,2019-07-13:/interface-and-implementation-class-of-spring-ioc-container.html</id>
     <content type="html">&lt;p&gt;Spring通过IoC(控制反转)来管理对象间的依赖关系。Spring的IoC容器是一个轻量级容器，没有侵入性，不需要依赖容器的API，也不需要实现一些特殊的接口。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/interface-and-implementation-class-of-spring-ioc-container.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>数据库范式与关系数据库设计以及简单查询和复杂查询</title>
-    <updated>2019-07-06T15:50:14+08:00</updated>
-    <id>tag:feily.tech,2019-07-06:/design-of-relational-database.html</id>
-    <content type="html">&lt;p&gt;函数依赖与数据库三大范式、关系数据库的设计、简单查询、复杂查询。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/design-of-relational-database.html"></link>
     <author>
       <name>林奕清</name>
     </author>

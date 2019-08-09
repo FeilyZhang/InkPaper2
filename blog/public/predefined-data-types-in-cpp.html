@@ -481,6 +481,62 @@ int main() {
 </code></pre>
 
 <p>由于字符串字面值是常量，所以被声明为<code>const</code>。</p>
+
+<p>对于字符串的复制，不能简单粗暴的直接将字符串赋给指针，因为这样指针指向的依旧是以前的字符串，对指针的操作仍然会反映到字符串上，可行的办法就是通过<code>strcpy()</code>函数来实现，该函数接收两个参数，一个是目标地址，另一个是源地址。</p>
+
+<h2>七、自动存储、静态存储和动态存储</h2>
+
+<p>根据用于内存分配的方法，C++有三种管理数据内存的方式：自动存储、静态存储、动态存储。</p>
+
+<h3>7.1 自动存储</h3>
+
+<p>在函数内部定义的常规变量使用自动存储空间，被称为自动变量，这就意味着它们在所属的函数被调用时自动产生，在该函数结束时消亡。也就是说，自动变量是一个局部变量，其作用于仅为包含它的代码块。</p>
+
+<p>自动变量通常存储在栈中，也就意味着执行代码块时，其中的变量将依次加载到栈中，而在离开代码块时，将按照相反的顺序释放这些变量。在程序执行过程中，栈将不断的增大或者缩小。</p>
+
+<h3>7.2 静态存储</h3>
+
+<p>静态存储是整个程序执行期间都存在的存储方式。使变量称为静态的方式有两种，分别是：</p>
+
+<ul>
+<li>一种是在函数外面定义它；</li>
+<li>另一种是在声明变量时使用关键字<code>static</code>修饰。</li>
+</ul>
+
+<p>自动存储和静态存储的关键在于：这些方法严格地限制了变量的寿命。变量可能存在于程序的整个生命周期（静态变量），也可能只是在特定的函数被执行时存在（自动变量）。</p>
+
+<h3>7.3 动态存储</h3>
+
+<p><code>new</code>和<code>delete</code>运算符提供了一种比自动变量和静态变量更为灵活的方法，它们管理一个内存池，这在C++中被称为自由存储空间(free store)或堆(heap)。<code>new</code>和<code>delete</code>运算符让你能够在一个函数中分配内存，在另一个函数中释放内存，因此，数据的生命周期不完全手程序或者函数的生存时间限制。示例如下</p>
+
+<pre><code>#include &lt;iostream&gt;
+
+char* getName();
+
+int main() {
+    char* p = getName();
+    std::cout &lt;&lt; std::endl&lt;&lt; &quot;Your name is &quot; &lt;&lt; p &lt;&lt; &quot; and memory address is &quot; &lt;&lt; (int *)p;
+    std::cin.get();
+    delete[] p;
+    return 0;
+}
+
+char* getName() {
+    char temp[80];
+    std::cout &lt;&lt; &quot;Enter your name: &quot;;
+    std::cin &gt;&gt; temp;
+    char* pn = new char[strlen(temp) + 1];
+    strcpy(pn, temp);
+    return pn;
+}
+</code></pre>
+
+<p>运行结果为</p>
+
+<pre><code>Enter your name: Feily Zhang
+
+Your name is Feily and memory address is 00B2D3D8
+</code></pre>
 </article>
                 <section class="author" style="font-family:NSimSun">
                     <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>

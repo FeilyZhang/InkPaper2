@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-08-10T19:33:58+08:00</updated>
+  <updated>2019-08-10T21:07:40+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>函数关于指针</title>
+    <updated>2019-08-10T19:48:42+08:00</updated>
+    <id>tag:feily.tech,2019-08-10:/function-about-pointer.html</id>
+    <content type="html">&lt;p&gt;C++自定义数据类型包括数组、结构体、共用体、枚举。写C/C++不用指针是没有灵魂的！&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/function-about-pointer.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>C++自定义数据类型</title>
     <updated>2019-08-09T20:29:42+08:00</updated>
@@ -93,16 +103,6 @@
     <id>tag:feily.tech,2019-07-13:/implementation-of-spring- dependency-injection.html</id>
     <content type="html">&lt;p&gt;依赖注入简单说就是为类的属性赋值。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/implementation-of-spring- dependency-injection.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>Spring IoC容器的接口与实现类</title>
-    <updated>2019-07-13T14:43:49+08:00</updated>
-    <id>tag:feily.tech,2019-07-13:/interface-and-implementation-class-of-spring-ioc-container.html</id>
-    <content type="html">&lt;p&gt;Spring通过IoC(控制反转)来管理对象间的依赖关系。Spring的IoC容器是一个轻量级容器，没有侵入性，不需要依赖容器的API，也不需要实现一些特殊的接口。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/interface-and-implementation-class-of-spring-ioc-container.html"></link>
     <author>
       <name>林奕清</name>
     </author>

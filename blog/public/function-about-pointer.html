@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://feily.tech">
+
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-itouch-icon" href="/favicon.png">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
+
+        <meta name="keywords" content="C&#43;&#43;,">
+        <meta name="description" content="函数关于指针">
+        <meta name="author" content="林奕清">
+        <title>函数关于指针</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/about.me.html">关于</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">函数关于指针</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1565437722"><span class="from"></span></span>
+                    
+                    <span class="tags">C&#43;&#43;</span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><h2>一、函数和一维数组</h2>
+
+<p>有如下函数</p>
+
+<pre><code>int sum_arr(int arr[], int n);
+
+int sum_arr(int arr[], int n) {
+    int total = 0;
+    for (int i = 0; i &lt; n; i ++) {
+        total += arr[i];
+    }
+    return total;
+}
+</code></pre>
+
+<p>其中函数<code>sum_arr(int arr[], int n)</code>接受一个数组，由于数组名代表的是数组首元素地址，也就是说这个函数实质上接受的是一个指针，正确的函数头应该是<code>int sum_arr(int * arr, int n)</code>，那么正确的函数定义就是</p>
+
+<pre><code>
+int sum_arr(int * arr, int n);
+
+int sum_arr(int* arr, int n) {
+    int total = 0;
+    for (int i = 0; i &lt; n; i ++) {
+        total += arr[i];
+    }
+    return total;
+}
+</code></pre>
+
+<p>指向数组的指针访问数组元素仍然可以使用下标方式，指针方式也是适用的，如下</p>
+
+<pre><code>int sum_arr(int * arr, int n);
+
+int sum_arr(int* arr, int n) {
+    int total = 0;
+    for (int i = 0; i &lt; n; i ++) {
+        total += *(arr + i);
+    }
+    return total;
+}
+</code></pre>
+
+<p>调用该函数直接将数组传入即可，因为归根结底依旧是传入地址，如下</p>
+
+<pre><code>int sum_arr(int * arr, int n);
+
+int main() {
+    using namespace std;
+    int arr[] {5, 4, 3, 2, 1};
+    int len = sizeof arr / sizeof arr[0];
+    cout &lt;&lt; &quot;array's sum is &quot; &lt;&lt; sum_arr(arr, len);
+    return 0;
+}
+
+int sum_arr(int* arr, int n) {
+    int total = 0;
+    for (int i = 0; i &lt; n; i ++) {
+        total += *(arr + i);
+    }
+    return total;
+}
+</code></pre>
+
+<h2>二、函数与二维数组</h2>
+
+<p>依旧传的是地址，由于之前解释过二维数组指针，所以此处不赘述，直接上代码，如下</p>
+
+<pre><code>#include &lt;iostream&gt;
+
+int sum_arr(int (*arr)[4], int n);
+
+int main() {
+    using namespace std;
+    int arr[2][4] {{4, 3, 2, 1}, {1, 2, 3, 4}};
+    int len = sizeof arr / sizeof arr[0];
+    cout &lt;&lt; &quot;array's sum is &quot; &lt;&lt; sum_arr(arr, len);
+    return 0;
+}
+
+int sum_arr(int(*arr)[4], int n) {
+    int total = 0;
+    for (int i = 0; i &lt; n; i ++) {
+        for (int j = 0; j &lt; 4; j++) {
+            total += *(*(arr + i) + j);
+        }
+    }
+    return total;
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>array's sum is 20
+</code></pre>
+
+<h2>三、函数与指针</h2>
+
+<p>上述函数依旧可以获取地址然后交给一个指针，这样就可以通过指针来引用该函数。</p>
+
+<h3>3.1 函数指针的声明</h3>
+
+<p>函数指针的声明同函数的声明一样，必须指定返回值类型和参数列表，，只不过把函数名变成了指向函数的指针，也就是<code>*XXX</code>的形式，如下声明一个函数和与函数同类型的指针，只不过是还没有指向该函数</p>
+
+<pre><code>int sum_arr(int (*arr)[4], int n);
+
+int (*p) (int(*arr)[4], int n)
+</code></pre>
+
+<p>可见，只不过是函数名换成了指针，通过获取函数的地址将其赋给指针就实现了指针向该函数的指向。</p>
+
+<h3>3.2 获取函数地址并赋值给指针并调用函数</h3>
+
+<p>函数名就代表函数的地址，注意仅仅是函数名，不包括参数列表，赋值如下</p>
+
+<pre><code>int (*p) (int(*arr)[4], int n) = sum_arr;
+</code></pre>
+
+<p>这样，指针p就指向了函数，也就可以通过指针p来调用函数。</p>
+
+<p>由于函数名就是地址，那么每次函数调用也就是通过函数地址来调用函数的，可以理解为该地址就是函数的入口地址，只需要将参数列表传入即可。那么现在指针p指向函数地址，也就是指针内存中存储的就是函数的入口地址，那么通过<code>*</code>取值就可以得到函数的地址，也就意味着，通过指针调用函数就是如下形式</p>
+
+<pre><code>(*p)(arr, len)
+</code></pre>
+
+<p>等同于</p>
+
+<pre><code>sum_arr(arr, len)
+</code></pre>
+
+<p>很明显，指针p的取值也就是指针p内存空间中存储的就是函数地址，也就是(*p)就是sum_arr。完整的示例如下</p>
+
+<pre><code>#include &lt;iostream&gt;
+
+int sum_arr(int (*arr)[4], int n);
+
+int main() {
+    using namespace std;
+    int arr[2][4]{ {4, 3, 2, 1}, {1, 2, 3, 4}};
+    int len = sizeof arr / sizeof arr[0];
+    int (*p) (int(*arr)[4], int n) = sum_arr;
+    cout &lt;&lt; &quot;array's sum is &quot; &lt;&lt; (*p)(arr, len);
+    return 0;
+}
+
+int sum_arr(int(*arr)[4], int n) {
+    int total = 0;
+    for (int i = 0; i &lt; n; i ++) {
+        for (int j = 0; j &lt; 4; j++) {
+            total += *(*(arr + i) + j);
+        }
+    }
+    return total;
+}
+</code></pre>
+
+<h3>3.3 auto关键字</h3>
+
+<p>也可以使用C++11的新特性，auto关键字来自动推导类型，那么下述两条语句是等价的</p>
+
+<pre><code>int (*p) (int(*arr)[4], int n) = sum_arr;
+auto p2 = sum_arr;
+</code></pre>
+
+<p>也就是p2中存放的还是sum_arr的地址，自然而言，对p2取值就可以获取sum_arr的地址也就意味着可以调用函数sum_arr，如下依旧等价</p>
+
+<pre><code>cout &lt;&lt; &quot;array's sum is &quot; &lt;&lt; (*p)(arr, len);
+cout &lt;&lt; &quot;array's sum is &quot; &lt;&lt; (*p2)(arr, len);
+</code></pre>
+
+<p>可见，auto关键字在这里不过是让声明指向函数的指针变的简单而优雅了许多。</p>
+
+<h3>3.4 typedef关键字</h3>
+
+<p>typedef关键字可以定义类型的别名，如下</p>
+
+<pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+typedef struct s_h {
+    int id;
+    std::string name;
+} stu;
+
+int main() {
+    using namespace std;
+    typedef double dou;
+    dou d = 100.0;
+    stu student = { 1, &quot;Feily Zhang&quot; };
+    cout &lt;&lt; &quot;d = &quot; &lt;&lt; d &lt;&lt; endl;
+    cout &lt;&lt; &quot;student = &quot; &lt;&lt; student.id &lt;&lt; &quot;  &quot; &lt;&lt; student.name &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">If not now, when? If not me, who?</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    
+                    <section class="nav next">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/cpp-custom-data-type.html">C&#43;&#43;自定义数据类型</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

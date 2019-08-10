@@ -236,6 +236,352 @@ for (int i = 0; i &lt; 5; i++) {
 <p>为什么？不能是<code>int * ar2[4]</code>吗？</p>
 
 <p>不行，因为<code>int * ar2[4]</code>代表的是组织了4个int型指针的数组，其本质是int型指针，而不是数组，数组只是将其组织了起来而已。而<code>int(*pArrt)[4]</code>则代表的是二维数组的一行，这一行由4个int型元素组成，其本质是数组，指针是指向该一维数组（就是二维数组的行）的首元素地址，即指向由4个int组成的数组的指针。</p>
+
+<h2>二、结构体</h2>
+
+<p>C++中结构体的定义如下所示</p>
+
+<pre><code>struct s_h {
+    int id;
+    char name[12];
+    char sex[4];
+};
+</code></pre>
+
+<p>结构体本身就是一种数据类型，因此上述定义算是一种数据类型的定义，那么声明该种数据类型的变量如下</p>
+
+<pre><code>s_h stu;
+</code></pre>
+
+<p>对其初始化的方式为</p>
+
+<pre><code>stu = { 0, &quot;Feily Zhang&quot;, &quot;man&quot; };
+</code></pre>
+
+<p>当然也可以直接声明的时候就初始化</p>
+
+<pre><code>s_h stu = { 0, &quot;Feily Zhang&quot;, &quot;man&quot; };
+</code></pre>
+
+<p>而C++11中支持将列表初始化用于结构，这种方式下等号是可选的，即</p>
+
+<pre><code>s_h stu { 0, &quot;Feily Zhang&quot;, &quot;man&quot; };
+</code></pre>
+
+<p>当然，定义结构体的时候直接声明变量也是可以的，如下</p>
+
+<pre><code>struct s_h {
+    int id;
+    char name[12];
+    char sex[4];
+} stu;
+</code></pre>
+
+<p>在上述基础之上直接初始化也是可以的，如下</p>
+
+<pre><code>struct s_h {
+    int id;
+    char name[12];
+    char sex[4];
+} stu { 0, &quot;Feily Zhang&quot;, &quot;man&quot; };
+</code></pre>
+
+<p>当然，也可以定义结构体数组，如下</p>
+
+<pre><code>s_h stu[3]{
+    {0, &quot;Feily Zhang&quot;, &quot;man&quot;},
+    {1, &quot;Itsing Lin&quot;, &quot;man&quot;},
+    {2, &quot;Me&quot;, &quot;man&quot;}
+};
+for (int i = 0; i &lt; 3; i++) {
+    std::cout &lt;&lt; stu[i].id &lt;&lt; &quot;\t&quot; &lt;&lt; stu[i].name &lt;&lt; &quot;\t&quot; &lt;&lt; stu[i].sex &lt;&lt; std::endl;
+}
+</code></pre>
+
+<p><strong>指针对结构体的操作如下</strong></p>
+
+<p>需要注意的是指针无法对结构体中的char数组赋值，char数组作为字符串来使用是可以定义的时候直接赋值的，但是单独无法赋值，只能一个一个字符赋值，也很容易理解，Java中数组也不可能直接赋值给数组名，解决办法之一是使用string替代char数组，如下</p>
+
+<pre><code>
+struct s_h {
+    int id;
+    std::string name;
+    std::string sex;
+};
+
+void say() {
+    using namespace std;
+    std::cout &lt;&lt; &quot;hello, world!&quot; &lt;&lt; endl;
+    s_h* pt = new s_h;
+    pt-&gt;id = 0;
+    pt-&gt;name = &quot;Feily Zhang&quot;;
+    pt-&gt;sex = &quot;man&quot;;
+    std:cout &lt;&lt; pt-&gt;id &lt;&lt; &quot;\t&quot; &lt;&lt; pt-&gt;name &lt;&lt; &quot;\t&quot; &lt;&lt; pt-&gt;sex;
+    delete pt;
+    std::cin.get();
+}
+</code></pre>
+
+<p>另一种解决办法就是使用<code>strcpy()</code>函数将字符串复制到char数组的地址上，如下</p>
+
+<pre><code>struct s_h {
+    int id;
+    char name[20];
+    char sex[4];
+};
+
+void say() {
+    using namespace std;
+    std::cout &lt;&lt; &quot;hello, world!&quot; &lt;&lt; endl;
+    s_h* pt = new s_h;
+    pt-&gt;id = 0;
+    strcpy(pt-&gt;name, &quot;Feily Zhang&quot;);
+    strcpy(pt-&gt;sex, &quot;man&quot;);
+    std:cout &lt;&lt; pt-&gt;id &lt;&lt; &quot;\t&quot; &lt;&lt; pt-&gt;name &lt;&lt; &quot;\t&quot; &lt;&lt; pt-&gt;sex;
+    delete pt;
+    std::cin.get();
+}
+</code></pre>
+
+<p>对于结构体数组仍然可以声明指针，此处不再赘述。</p>
+
+<h2>三、共用体</h2>
+
+<p>共用体中的诸数据成员共用一块数据空间。需要注意的是</p>
+
+<ol>
+<li>共用体中不能使用构造函数，即string等是无法使用的；</li>
+<li>不能对共用体变量名赋值，也不能在定义一个共用体变量名的时候对其赋值，也就意味着只能单独对内部成员赋值；</li>
+<li>不能把共用体当做函数参数也不能作为返回值返回，但是可以使用指向共用体变量的指针；</li>
+<li>共用体可以在结构体中定义，也可以定义共用体指针。</li>
+</ol>
+
+<pre><code>de &lt;iostream&gt;
+
+union id {
+    int id_num;
+    int name_num;
+};
+
+int main() {
+    id id1;
+    id1.id_num = 4311;
+    id1.name_num = 4312;
+    id* pt = &amp;id1;
+    std::cout &lt;&lt; pt-&gt;id_num &lt;&lt; &quot;\t&quot; &lt;&lt; id1.name_num;
+    std::cin.get();
+    return 0;
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>4312    4312
+</code></pre>
+
+<p>可见，不同的数据成员的值是一样的，也就证明了数据成员使用一块内存空间。</p>
+
+<h2>四、枚举</h2>
+
+<p>枚举是一种创建符号常量的方式，这种方式可以替代const。其通用声明格式如下</p>
+
+<pre><code>enum enumName {};
+</code></pre>
+
+<p>其中<code>{}</code>中为该枚举类型的所有可能的取值范围，为符号常量，并且编译器会其该符号常量指定一个整数值，缺省状态下从0开始，依次递增，当然也可以通过<code>=</code>修改。示例如下</p>
+
+<pre><code>&lt;iostream&gt;
+ 
+enum spe {red, orange, yellow, green, blue};
+
+int main() {
+    spe s1, s2, s3;
+    s1 = spe(2);
+    s2 = red;
+    s3 = s1;
+    spe* s4;
+    s4 = &amp;s1;
+    std::cout &lt;&lt; (s1 == s2) &lt;&lt; &quot;\t&quot; &lt;&lt; (s1 == s3) &lt;&lt; &quot;\t&quot; &lt;&lt; *s4;
+    std::cin.get();
+    return 0;
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>0       1       2
+</code></pre>
+
+<h2>五、string类</h2>
+
+<p>与Java中String类没什么区别，string对象的声明、初始化、赋值以及拼接操作如下所示</p>
+
+<pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main() {
+    using namespace std;
+    string s1 = &quot;hello, world&quot;;
+    cout &lt;&lt; s1 &lt;&lt; &quot;\t&quot; &lt;&lt; s1.size() &lt;&lt; endl;
+    string s2 = s1;
+    s2 += &quot;, this is s2 not s1&quot;;
+    cout &lt;&lt; s2 &lt;&lt; &quot;\t&quot; &lt;&lt; s2.size() &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>hello, world    12
+hello, world, this is s2 not s1 31
+</code></pre>
+
+<p>在C++新增string类之前，想要完成对字符串（或者说对于C风格的字符串）的赋值工作，必须借助于C语言库函数来完成，比如<code>strcpy(char[], char[])</code>和<code>strcat(char[], char[])</code>，但是在新增string类之后就不必了，很容易通过面向对象的方式来实现。</p>
+
+<p>对比如下:</p>
+
+<pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main() {
+    using namespace std;
+    char c1[20];
+    char c2[20] {&quot;jaguar&quot;};
+    strcpy(c1, c2);
+    cout &lt;&lt; &quot;now c1 is &quot; &lt;&lt; c1 &lt;&lt; &quot; and length is &quot; &lt;&lt; strlen(c1) &lt;&lt; endl;
+    strcat(strcat(c1, c2), &quot;c1 + c2&quot;);
+    cout &lt;&lt; &quot;now c1 is &quot; &lt;&lt; c1 &lt;&lt; &quot; and length is &quot; &lt;&lt; strlen(c1) &lt;&lt; endl;
+    string s1 = &quot;hello, world&quot;;
+    cout &lt;&lt; s1 &lt;&lt; &quot;\t&quot; &lt;&lt; s1.size() &lt;&lt; endl;
+    string s2 = s1;
+    s2 += &quot;, this is s2 not s1&quot;;
+    cout &lt;&lt; s2 &lt;&lt; &quot;\t&quot; &lt;&lt; s2.size() &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>now c1 is jaguar and length is 6
+now c1 is jaguarjaguarc1 + c2 and length is 19
+hello, world    12
+hello, world, this is s2 not s1 31
+</code></pre>
+
+<p>利用C语言库函数的缺点在于不安全，如果目标字符数组的大小不够，那么必然会产生数据错误，但是string类具有自动调整大小的功能，更加的安全。</p>
+
+<h2>六、模板类vector与array</h2>
+
+<p>模板类vector类似于string，也是一种动态数组，可以在运行阶段设置vector对象的长度，也可以在末尾和中间插入数据。基本上，它是利用new创建动态数组的替代品（前文的<code>getName()</code>函数），实际上，vector类确实使用new和delete来管理内存。</p>
+
+<p>对于vector的使用，第一其包含在std命名空间中；第二，在声明时要指出数据类型。如下</p>
+
+<pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+int main() {
+    using namespace std;
+    vector&lt;string&gt; v1;
+    v1.resize(2);
+    v1[0] = &quot;Feily Zhang&quot;;
+    v1[1] = &quot;Itsing Lin&quot;;
+    /*
+    v1.push_back(&quot;Feily Zhang&quot;);
+    v1.push_back(&quot;Itsing Lin&quot;);*/
+    for (int i = 0; i &lt; v1.size(); i++) {
+        cout &lt;&lt; v1[i] &lt;&lt; endl;
+    }
+
+    vector&lt;string&gt; v2(2);
+    v2[0] = &quot;Feily Zhang&quot;;
+    v2[1] = &quot;Itsing Lin&quot;;
+    for (int i = 0; i &lt; v2.size(); i++) {
+        cout &lt;&lt; v2[i] &lt;&lt; endl;
+    }
+    return 0;
+}
+</code></pre>
+
+<p>有两种使用方式，第一种是直接指明长度，另一种是通过<code>.resize()</code>方法来指明长度，vector调整长度也是通过这个方法，如下</p>
+
+<pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+int main() {
+    using namespace std;
+    vector&lt;string&gt; v1;
+    v1.resize(2);
+    v1[0] = &quot;Feily Zhang&quot;;
+    v1[1] = &quot;Itsing Lin&quot;;
+    /*
+    v1.push_back(&quot;Feily Zhang&quot;);
+    v1.push_back(&quot;Itsing Lin&quot;);*/
+    for (int i = 0; i &lt; v1.size(); i++) {
+        cout &lt;&lt; v1[i] &lt;&lt; endl;
+    }
+
+    vector&lt;string&gt; v2(2);
+    v2[0] = &quot;Feily Zhang&quot;;
+    v2[1] = &quot;Itsing Lin&quot;;
+    for (int i = 0; i &lt; v2.size(); i++) {
+        cout &lt;&lt; v2[i] &lt;&lt; endl;
+    }
+
+    v1.resize(4);
+    for (int i = 0; i &lt; v1.size(); i++) {
+        cout &lt;&lt; i &lt;&lt; &quot; = &quot; &lt;&lt; v1[i] &lt;&lt; endl;
+    }
+    return 0;
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>Feily Zhang
+Itsing Lin
+Feily Zhang
+Itsing Lin
+0 = Feily Zhang
+1 = Itsing Lin
+2 =
+3 =
+</code></pre>
+
+<p>另外，也可以使用<code>.push_back()</code>方法来添加元素。</p>
+
+<p>vector的功能比数组强大，比如说可以动态扩容，但是付出的代价是效率稍低。如果需要的是固定长度的数组，使用数组无疑是最方便且高效的，但是却并不安全。C++11新增的模板类array，其对象长度固定，也使用栈（静态内存分配）而不是自由存储区，因此效率与数组相同，且更加安全.</p>
+
+<p>array同样位于std命名空间，使用时需要指明长度和数据类型，用法如下</p>
+
+<pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;array&gt;
+
+int main() {
+    using namespace std;
+    array&lt;string, 2&gt; a1 {&quot;Feily Zhang&quot;, &quot;Itsing Lin&quot;};
+    for (int i = 0; i &lt; a1.size(); i++) {
+        cout &lt;&lt; i &lt;&lt; &quot; = &quot; &lt;&lt; a1[i] &lt;&lt; endl;
+    }
+    array&lt;string, 2&gt; a2;
+    a2[0] = &quot;hello, world&quot;;
+    a2[1] = &quot;world, hello&quot;;
+    for (int i = 0; i &lt; a2.size(); i++) {
+        cout &lt;&lt; i &lt;&lt; &quot; = &quot; &lt;&lt; a2[i] &lt;&lt; endl;
+    }
+    return 0;
+}
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>0 = Feily Zhang
+1 = Itsing Lin
+0 = hello, world
+1 = world, hello
+</code></pre>
 </article>
                 <section class="author" style="font-family:NSimSun">
                     <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>

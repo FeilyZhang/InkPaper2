@@ -5,7 +5,7 @@ author: me
 cover: "-/images/c++.jpg"
 tags:
     - C++
-preview: C++自定义数据类型包括数组、结构体、共用体、枚举。写C/C++不用指针是没有灵魂的！
+preview: 指针在函数中的应用。
 
 ---
 

@@ -5,7 +5,7 @@ author: me
 cover: "-/images/c++.jpg"
 tags:
     - C++
-preview: 指针在函数中的应用。
+preview: C++内联函数、引用变量、默认参数、函数重载、函数模板。
 
 ---
 
@@ -118,33 +118,114 @@ i's address is 0032FA74, j's address is 0032FA74
 在引用变量中，如果想让引用对变量的修改操作不生效，即只读，那么用`const`修饰即可。
 
 
-### 2.3 函数返回引用变量
+## 三、默认参数
+
+C++可以为函数提供默认参数，方法是在函数原型上为参数直接赋值，需要注意的是，如果一个参数被赋默认值，那么该参数右边的所有形参都要提供默认值，如下
 
 ```
 #include <iostream>
 
-int& add(int& i, int& j);
+int addNum(int i, int j = 10);
 
 int main() {
-	int i = 1, j = 2;
-	int& temp = add(i, j);
-	std::cout << "temp's address is " << &temp << ", temp = " << temp << "\n";
+	std::cout << addNum(10, 1) << "\n" << addNum(10);
 	return 0;
 }
 
-int& add(int& i, int& j) {
-	int& result = i;
-	result = i + j;
-	std::cout << "result's address is " << &result << ", result = " << result << "\n";
-	return result;
+int addNum(int i, int j) {
+	return i + j;
+}
+```
+
+结果为
+
+```
+11
+20
+```
+
+## 四、函数重载
+
+函数重载即同样的函数名不同类型或者不同个数的参数列表，如果调用函数时函数参数不完全匹配，就会进行强制类型转换后再匹配，示例如下
+
+```
+#include <iostream>
+
+int addNum(int i, int j);
+int addNum(int i, int j, int k);
+int addNum(int i, double j);
+
+int main() {
+	std::cout << addNum(10, 1) << "\n" << addNum(10, 2.0) << "\n" << addNum(10, 1, 3);
+	return 0;
+}
+
+int addNum(int i, int j) {
+	return i + j;
+}
+
+int addNum(int i, int j, int k) {
+	return i + j + k;
+}
+
+int addNum(int i, double j) {
+	return i + j;
 }
 ```
 
 输出为
 
 ```
-result's address is 0037FA08, result = 3
-temp's address is 0037FA08, temp = 3
+11
+12
+14
 ```
 
-这种情况下，其实质就是函数中将运算结果保存在一个内存空间中，然后将该内存地址返回给调用者，从而调用者持有该内存地址的引用，自然而然的与原有的变量地址相同，值自然也相同。
+## 五、函数模板
+
+函数模板其实就是函数参数化类型，函数的参数类型是在定义函数原型是提供的。使用方式为在定义函数原型和实体的上面定义模板，如下
+
+```
+template <class t>
+```
+
+或者
+
+```
+template <typename t>
+```
+
+示例如下
+
+```
+#include <iostream>
+
+template <class t>
+void swap(t& i, t& j);
+
+int main() {
+	int i = 10, j = 11;
+	swap(i, j);
+	std::cout << "i = " << i << ", j = " << j << "\n";
+	float k = 11.0f, l = 51.1f;
+	swap(k, l);
+	std::cout << "k = " << k << ", l = " << l << "\n";
+	return 0;
+}
+
+template <class t>
+void swap(t& i, t& j) {
+	i = i + j;
+	j = i - j;
+	i = i - j;
+}
+```
+
+上述程序实现两个数字的交换，运行结果为
+
+```
+i = 11, j = 10
+k = 51.1, l = 11
+```
+
+由于函数存在重载行为，那么模板函数也必然可以重载，不过是为每个重载的函数定义模板即可，不再赘述。

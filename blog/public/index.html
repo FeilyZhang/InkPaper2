@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -78,6 +100,23 @@
                 </header>
                 <ul class="article-list">
                     
+                    
+                    <li class="article">
+                        <a class="title" href="/cpp-inline-function.html">深入C&#43;&#43;函数</a>
+                        <div class="cover" style="background-image:url(/images/c&#43;&#43;.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>指针在函数中的应用。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1565598462"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            C&#43;&#43;
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/function-about-pointer.html">函数关于指针</a>
@@ -225,23 +264,6 @@
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1563015349"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            Spring
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/implementation-of-spring-%20dependency-injection.html">Spring依赖注入的实现方式</a>
-                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>依赖注入简单说就是为类的属性赋值。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1563004789"><span class="from"></span></span>
                             
                             <span class="tags">
                             Spring

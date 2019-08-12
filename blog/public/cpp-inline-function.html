@@ -67,10 +67,10 @@
 </script>
 
 
-        <meta name="keywords" content="Java Core,">
-        <meta name="description" content="Arrays类的相关用法">
+        <meta name="keywords" content="C&#43;&#43;,">
+        <meta name="description" content="深入C&#43;&#43;函数">
         <meta name="author" content="林奕清">
-        <title>Arrays类的相关用法</title>
+        <title>深入C&#43;&#43;函数</title>
     </head>
     <body>
         <article class="container">
@@ -87,104 +87,149 @@
 </header>
 
             <article class="main article">
-                <h1 class="title" style="font-family:KaiTi">Arrays类的相关用法</h1>
+                <h1 class="title" style="font-family:KaiTi">深入C&#43;&#43;函数</h1>
                 <section class="info" style="font-family:KaiTi">
                     <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
                     <a class="name" href="/about.me.html">林奕清</a>
                     
-                    <span class="date" data-time="1545124145"><span class="from"></span></span>
+                    <span class="date" data-time="1565598462"><span class="from"></span></span>
                     
-                    <span class="tags">Java Core</span>
+                    <span class="tags">C&#43;&#43;</span>
                 </section>
-                <article class="content" style="font-family:KaiTi"><p>数组的Arrays类有很多有用的功能，看一下</p>
+                <article class="content" style="font-family:KaiTi"><h2>一、C++内联函数</h2>
 
-<h2>toString方法</h2>
+<p>对常规函数的调用对应着跳转到标记函数起点的内存单元，然后执行函数代码，执行完毕后跳回到地址被保存的指令处。来回跳跃并记录跳跃位置是需要一定开销的。</p>
 
-<p>如果我们想直接输出整个数组，如果我们像下面这样的话得到的只是数组的内存地址，而Arrays.toString()方法得到的就是预期结果</p>
+<p>C++提供的内联函数与常规函数不同，内联函数在编译阶段就将函数代码与调用者内联起来了，也就是使用函数代码替换了函数的调用，从而实现较快的执行速度，但是代价是需要额外的存储空间。使用方式为</p>
 
-<pre><code>import java.util.Arrays;
+<ul>
+<li>在函数声明前加上关键字<code>inline</code>;</li>
+<li>在函数定以前加上关键字<code>inline</code>。</li>
+</ul>
 
-public class ArraysTest {
+<pre><code>#include &lt;iostream&gt;
 
-    public static void main(String[] args) {
-        int[] array = {2， 3， 1};
-        System.out.println(array);  //[I@15db9742
-        System.out.println(Arrays.toString(array)); //[1, 2, 3]
-    }
+inline void sayHello();
 
+int main() {
+    sayHello();
+    return 0;
+}
+
+inline void sayHello() {
+    std::cout &lt;&lt; &quot;hello, world!&quot;;
 }
 </code></pre>
 
-<h2>sort方法</h2>
+<p>通常的做法是省略函数原型，将整个定义放在本应提供原型的地方，如下</p>
 
-<p>对于除boolean类型外的数组，Arrays均提供了排序方法</p>
+<pre><code>#include &lt;iostream&gt;
 
-<p>int型数组从小到大排序为</p>
+inline void sayHello() { std::cout &lt;&lt; &quot;hello, world!&quot;; }
 
-<pre><code>import java.util.Arrays;
-
-public class ArraysTest {
-
-    public static void main(String[] args) {
-        int[] array = {1, 2, 3};
-        Arrays.sort(array);
-        System.out.println(Arrays.toString(array)); //[1, 2, 3]
-    }
-
+int main() {
+    sayHello();
+    return 0;
 }
 </code></pre>
 
-<p>String型数组的排序为</p>
+<h2>二、引用变量</h2>
 
-<pre><code>import java.util.Arrays;
+<p>引用变量常用于函数的参数传递中，由于对于简单类型，C++采用的是值传递的方式，也就是函数体中的操作并不会影响被传入的参数的实际值，如果想实现简单类型的引用传递要么使用指针，要么使用引用变量。二者是有区别的，如下</p>
 
-public class ArraysTest {
+<ul>
+<li>指针中<code>&amp;</code>符号代表的是取址，而引用变量中<code>&amp;</code>符号代表的是声明指向某具体类型的引用；</li>
+<li>指针中可以先声明然后赋值，但是引用变量只能创建是就要进行初始化；</li>
+<li>指针可以重复赋值，即改变指针单元的内存地址，但是引用变量一旦绑定就不可变了，但是并不意味着无法赋值，只是内存地址不变，赋值仍然会改变地址空间的值。</li>
+</ul>
 
-    public static void main(String[] args) {
-        String[] str = {&quot;Feily&quot;, &quot;Zhang&quot;, &quot;Haoyue&quot;, &quot;Li&quot;, &quot;hello&quot;, &quot;world&quot;};
-        Arrays.sort(str);
-        System.out.println(Arrays.toString(str)); //[Feily, Haoyue, Li, Zhang, hello, world]
-    }
+<h3>2.1 引用变量作为函数参数</h3>
 
+<p>用法如下</p>
+
+<pre><code>#include &lt;iostream&gt;
+
+void show(int&amp; i);
+
+int main() {
+    int i = 0;
+    show(i);
+    std::cout &lt;&lt; &quot;now i = &quot; &lt;&lt; i;
+    return 0;
+}
+
+void show(int&amp; i) {
+    std::cout &lt;&lt; &quot;enter function i = &quot; &lt;&lt; i &lt;&lt; &quot;\n&quot;;
+    std::cout &lt;&lt; &quot;exiting function i = &quot; &lt;&lt; ++i &lt;&lt; &quot;\n&quot;;
 }
 </code></pre>
 
-<p>是按照首字母的ASCII码int值排序的，由于大些字母的ASCII码小于小写，所以在前面，如果排序像忽略大小写，那么如下</p>
+<p>输出为</p>
 
-<pre><code>import java.util.Arrays;
+<pre><code>enter function i = 0
+exiting function i = 1
+now i = 1
+</code></pre>
 
-public class ArraysTest {
+<p>可见，函数中对于引用变量的使用只是函数形参定义方式不同，其余均没什么变化。</p>
 
-    public static void main(String[] args) {
-        String[] str = {&quot;Feily&quot;, &quot;Zhang&quot;, &quot;Haoyue&quot;, &quot;Li&quot;, &quot;hello&quot;, &quot;world&quot;};
-        Arrays.sort(str, String.CASE_INSENSITIVE_ORDER);
-        System.out.println(Arrays.toString(str)); //[Feily, Haoyue, hello, Li, world, Zhang]
-    }
+<h3>2.2 引用变量的可变性与不可变性</h3>
 
+<p>以下程序作为对引用变量引用的验证</p>
+
+<pre><code>#include &lt;iostream&gt;
+
+int main() {
+    int i = 0;
+    int&amp; j = i;
+    std::cout &lt;&lt; &quot;i = &quot; &lt;&lt; i &lt;&lt; &quot; j = &quot; &lt;&lt; j &lt;&lt; &quot;\n&quot;;
+    std::cout &lt;&lt; &quot;i's address is &quot; &lt;&lt; &amp;i &lt;&lt; &quot;, j's address is &quot; &lt;&lt; &amp;j &lt;&lt; &quot;\n&quot;;
+    int temp = 100;
+    j = temp;
+    std::cout &lt;&lt; &quot;i = &quot; &lt;&lt; i &lt;&lt; &quot; j = &quot; &lt;&lt; j &lt;&lt; &quot;\n&quot;;
+    std::cout &lt;&lt; &quot;i's address is &quot; &lt;&lt; &amp;i &lt;&lt; &quot;, j's address is &quot; &lt;&lt; &amp;j;
+    return 0;
 }
 </code></pre>
 
-<h2>binarySearch()方法</h2>
+<p>输出为</p>
 
-<pre><code>import java.util.Arrays;
+<pre><code>i = 0 j = 0
+i's address is 0032FA74, j's address is 0032FA74
+i = 100 j = 100
+i's address is 0032FA74, j's address is 0032FA74
+</code></pre>
 
-public class ArraysTest {
+<p>在引用变量中，如果想让引用对变量的修改操作不生效，即只读，那么用<code>const</code>修饰即可。</p>
 
-    public static void main(String[] args) {
-        int[] arr = {5, 3, 1, 4, 2};
-        String[] str = {&quot;Feily&quot;, &quot;Zhang&quot;, &quot;Haoyue&quot;, &quot;Li&quot;, &quot;hello&quot;, &quot;world&quot;};
-        System.out.println(Arrays.binarySearch(str, &quot;Li&quot;)); //3
-        Arrays.sort(arr);
-        System.out.println(Arrays.binarySearch(str, &quot;hello&quot;)); //4
-        System.out.println(Arrays.binarySearch(arr, 5));    //-6
-        Arrays.sort(arr);
-        System.out.println(Arrays.binarySearch(arr, 5));    //4
-    }
+<h3>2.3 函数返回引用变量</h3>
 
+<pre><code>#include &lt;iostream&gt;
+
+int&amp; add(int&amp; i, int&amp; j);
+
+int main() {
+    int i = 1, j = 2;
+    int&amp; temp = add(i, j);
+    std::cout &lt;&lt; &quot;temp's address is &quot; &lt;&lt; &amp;temp &lt;&lt; &quot;, temp = &quot; &lt;&lt; temp &lt;&lt; &quot;\n&quot;;
+    return 0;
+}
+
+int&amp; add(int&amp; i, int&amp; j) {
+    int&amp; result = i;
+    result = i + j;
+    std::cout &lt;&lt; &quot;result's address is &quot; &lt;&lt; &amp;result &lt;&lt; &quot;, result = &quot; &lt;&lt; result &lt;&lt; &quot;\n&quot;;
+    return result;
 }
 </code></pre>
 
-<p>在二分查找整形数组时一定要保证元素有序，否则不会达到预期效果，字符串数组的话应该都可以。如果找不到指定的元素，那么就会返回负数，负数等于插入点+1，插入点指的是在这个位置插入没找到的元素仍然可以保证数组有序。</p>
+<p>输出为</p>
+
+<pre><code>result's address is 0037FA08, result = 3
+temp's address is 0037FA08, temp = 3
+</code></pre>
+
+<p>这种情况下，其实质就是函数中将运算结果保存在一个内存空间中，然后将该内存地址返回给调用者，从而调用者持有该内存地址的引用，自然而然的与原有的变量地址相同，值自然也相同。</p>
 </article>
                 <section class="author" style="font-family:NSimSun">
                     <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
@@ -193,15 +238,10 @@ public class ArraysTest {
                 </section>
                 <section class="recommend" style="font-family:KaiTi">
                     
-                    <section class="nav prev more">
-                        <div class="head">上篇文章</div>
-                        <a class="link" href="/review-the-creation-and-life-cycle-of-java-threads.html">复习Java线程的创建与其生命周期</a>
-                    </section>
                     
-                    
-                    <section class="nav next more">
+                    <section class="nav next">
                         <div class="head">下篇文章</div>
-                        <a class="link" href="/analysis-of-stringbuilder-classes.html">剖析StringBuilder类</a>
+                        <a class="link" href="/function-about-pointer.html">函数关于指针</a>
                     </section>
                     
                 </section>

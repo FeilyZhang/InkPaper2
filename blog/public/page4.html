@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -78,6 +100,23 @@
                 </header>
                 <ul class="article-list">
                     
+                    
+                    <li class="article">
+                        <a class="title" href="/mysql-permissions-and-security.html">MySQL权限与安全</a>
+                        <div class="cover" style="background-image:url(/images/mysql-logo.png);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>MySQL服务器通过权限表来控制用户对数据库的访问，权限表存放在mysql数据库中，由mysql_install_db脚本初始化。存储账户权限信息表主要有:user、db、host、tables_priv、columns_priv和procs_priv。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1555426190"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            MySQL
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/mysql-architecture.html">MySQL架构</a>
@@ -225,23 +264,6 @@
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1550123766"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            Prolog
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/introducing-prolog-recursion-from-ancestor-relations.html">由祖先关系引入Prolog递归</a>
-                        <div class="cover" style="background-image:url(/images/swipl.png);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>声明式编程语言通常是用一种称为“尾递归优化”的技术来解决递归调用引起栈溢出的问题。也就是说如果你将一个递归的子目标放到递归规则的末尾，Prolog会通过丢弃调用栈来优化这次调用，并保持内存占用不变。所以我们的ancestor(Z, Y)递归子目标是放在递归规则的末尾的。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1549249386"><span class="from"></span></span>
                             
                             <span class="tags">
                             Prolog

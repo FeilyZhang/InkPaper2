@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -78,6 +100,23 @@
                 </header>
                 <ul class="article-list">
                     
+                    
+                    <li class="article">
+                        <a class="title" href="/deep-understanding-of-thread-class-constructors.html">深入理解Thread类构造函数</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>由于线程有自己的程序计数器、局部变量表和操作数栈，那么也就意味着每实例化一个继承了Thread的类或者实现了Runnable接口的类，就意味着创建了一个对象，这些都是线程私有的，也就无法对变量实现共享。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1545208153"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            Java Core
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/sharing-variables-and-synchronized-keyword-among-threads-to-solve-thread-insecurity.html">线程间共享变量与synchronized关键字解决线程不安全问题</a>
@@ -228,23 +267,6 @@
                             
                             <span class="tags">
                             Java Core
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/analysis-of-aspect-oriented-programming.html">面向切面编程(Aspect Oriented Programming)浅析</a>
-                        <div class="cover" style="background-image:url(/images/Spring-Framework.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>把通用性非功能性代码的实现方式就叫做面向切面编程，切面是贯穿于业务代码的，这就是AOP。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1544705390"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            Spring Framework
                             </span>
                         </section>
                     </li>

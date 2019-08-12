@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-08-10T21:13:06+08:00</updated>
+  <updated>2019-08-12T16:41:42+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>深入C++函数</title>
+    <updated>2019-08-12T16:27:42+08:00</updated>
+    <id>tag:feily.tech,2019-08-12:/cpp-inline-function.html</id>
+    <content type="html">&lt;p&gt;指针在函数中的应用。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/cpp-inline-function.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>函数关于指针</title>
     <updated>2019-08-10T19:48:42+08:00</updated>
@@ -93,16 +103,6 @@
     <id>tag:feily.tech,2019-07-13:/xml-implementation-of-spring-aop.html</id>
     <content type="html">&lt;p&gt;Spring AOP的XML实现方式代码示例。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/xml-implementation-of-spring-aop.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>Spring依赖注入的实现方式</title>
-    <updated>2019-07-13T15:59:49+08:00</updated>
-    <id>tag:feily.tech,2019-07-13:/implementation-of-spring- dependency-injection.html</id>
-    <content type="html">&lt;p&gt;依赖注入简单说就是为类的属性赋值。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/implementation-of-spring- dependency-injection.html"></link>
     <author>
       <name>林奕清</name>
     </author>

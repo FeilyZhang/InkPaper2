@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://feily.tech">
+
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-itouch-icon" href="/favicon.png">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
+
+        <meta name="keywords" content="Linux,">
+        <meta name="description" content="Linux内核源码分析：从开机加电到磁盘引导程序的执行">
+        <meta name="author" content="林奕清">
+        <title>Linux内核源码分析：从开机加电到磁盘引导程序的执行</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/about.me.html">关于</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">Linux内核源码分析：从开机加电到磁盘引导程序的执行</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1568361665"><span class="from"></span></span>
+                    
+                    <span class="tags">Linux</span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><h2>引言</h2>
+
+<p>我们知道，计算机的运行主要是以RAM为对象的CPU运算，即程序执行的前提是被调入RAM当中。操作系统作为底层软件，理所当然地需要被加载至RAM中通过CPU运算构建整个操作系统体系以接管、分配和调度系统资源。</p>
+
+<p>由于CPU无法直接与外设进行数据交互，那么位于软盘/硬盘中的操作系统程序就必须首先调入RAM中。但是现在RAM中空空如也，既没有数据，也没有指令，那么是谁通过CPU将操作系统程序调入RAM中的呢？</p>
+
+<p>答案是<code>BIOS</code>！</p>
+
+<h2>一、BIOS的启动原理</h2>
+
+<p>既然是BIOS将操作系统程序调入RAM当中，那么问题来了，BIOS又是如何启动的？</p>
+
+<p>答案是<code>0xFFFF0</code>！</p>
+
+<p>PC机加电伊始，基于80x86结构的CPU将会自动进入实模式(实模式下CPU的地址总线为16根，其寻址能力为2<sup>16</sup>)，并且CPU将会强制将CS寄存器的值设置为<code>0xF000</code>、IP寄存器的值设置为<code>0xFFF0</code>，即CPU将会指向<code>0xFFFF0</code>地址处，这个地址通常是ROM-BIOS的入口地址(并不是BIOS程序的始址)，即BIOS程序的第一条指令就在这个位置。等等，不是说RAM中没有任何数据和指令吗？那么CPU指向这个位置不也是空的吗？有什么意义？要注意的是CPU此时指向的是由主存地址空间(RAM)、显存地址空间(RAM)、显卡BIOS地址空间(ROM)、网卡BIOS地址空间(ROM)、系统BIOS地址空间(ROM)等物理存储器编址而成的逻辑存储器，被称为内存地址空间(以下简称内存)。所以CPU此时指向的地址是装有系统BIOS程序的构成内存地址空间的ROM地址空间，而非空无一物的主存地址空间。BIOS程序被固化在ROM芯片上，由于ROM的非易失性使得其内部并非空无一物。</p>
+
+<p>那么此刻CPU已经指向<code>0xFFFF0</code>的位置，意味着BIOS开始启动，紧接着将是BIOS程序在CPU中执行，屏幕上会显示出显卡信息、内存信息等，这说明CPU在进行自检，期间一项非常重要的工作就是BIOS在内存中构建中断向量表和中断处理程序。BIOS会在内存(主存RAM)的开始位置(<code>0x00000</code>)用1KB的内存空间(<code>0x00000</code> ～ <code>0x003FF</code>)构建BIOS中断向量表，在紧挨着它的位置用256字节分内存空间构建BIOS数据区(<code>0x00400</code> ～ <code>0x004FF</code>)，并在大约57KB以后的位置(<code>0x0E05B</code>)加载大约8KB的与中断向量表对应的若干中断处理程序。如下图所示</p>
+
+<p><img src="data:image/gif;base64,R0lGODlhGAAYAPQAAP///wAAAM7Ozvr6+uDg4LCwsOjo6I6OjsjIyJycnNjY2KioqMDAwPLy8nd3d4aGhri4uGlpaQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkHAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAGAAYAAAFriAgjiQAQWVaDgr5POSgkoTDjFE0NoQ8iw8HQZQTDQjDn4jhSABhAAOhoTqSDg7qSUQwxEaEwwFhXHhHgzOA1xshxAnfTzotGRaHglJqkJcaVEqCgyoCBQkJBQKDDXQGDYaIioyOgYSXA36XIgYMBWRzXZoKBQUMmil0lgalLSIClgBpO0g+s26nUWddXyoEDIsACq5SsTMMDIECwUdJPw0Mzsu0qHYkw72bBmozIQAh+QQJBwAAACwAAAAAGAAYAAAFsCAgjiTAMGVaDgR5HKQwqKNxIKPjjFCk0KNXC6ATKSI7oAhxWIhezwhENTCQEoeGCdWIPEgzESGxEIgGBWstEW4QCGGAIJEoxGmGt5ZkgCRQQHkGd2CESoeIIwoMBQUMP4cNeQQGDYuNj4iSb5WJnmeGng0CDGaBlIQEJziHk3sABidDAHBgagButSKvAAoyuHuUYHgCkAZqebw0AgLBQyyzNKO3byNuoSS8x8OfwIchACH5BAkHAAAALAAAAAAYABgAAAW4ICCOJIAgZVoOBJkkpDKoo5EI43GMjNPSokXCINKJCI4HcCRIQEQvqIOhGhBHhUTDhGo4diOZyFAoKEQDxra2mAEgjghOpCgz3LTBIxJ5kgwMBShACREHZ1V4Kg1rS44pBAgMDAg/Sw0GBAQGDZGTlY+YmpyPpSQDiqYiDQoCliqZBqkGAgKIS5kEjQ21VwCyp76dBHiNvz+MR74AqSOdVwbQuo+abppo10ssjdkAnc0rf8vgl8YqIQAh+QQJBwAAACwAAAAAGAAYAAAFrCAgjiQgCGVaDgZZFCQxqKNRKGOSjMjR0qLXTyciHA7AkaLACMIAiwOC1iAxCrMToHHYjWQiA4NBEA0Q1RpWxHg4cMXxNDk4OBxNUkPAQAEXDgllKgMzQA1pSYopBgonCj9JEA8REQ8QjY+RQJOVl4ugoYssBJuMpYYjDQSliwasiQOwNakALKqsqbWvIohFm7V6rQAGP6+JQLlFg7KDQLKJrLjBKbvAor3IKiEAIfkECQcAAAAsAAAAABgAGAAABbUgII4koChlmhokw5DEoI4NQ4xFMQoJO4uuhignMiQWvxGBIQC+AJBEUyUcIRiyE6CR0CllW4HABxBURTUw4nC4FcWo5CDBRpQaCoF7VjgsyCUDYDMNZ0mHdwYEBAaGMwwHDg4HDA2KjI4qkJKUiJ6faJkiA4qAKQkRB3E0i6YpAw8RERAjA4tnBoMApCMQDhFTuySKoSKMJAq6rD4GzASiJYtgi6PUcs9Kew0xh7rNJMqIhYchACH5BAkHAAAALAAAAAAYABgAAAW0ICCOJEAQZZo2JIKQxqCOjWCMDDMqxT2LAgELkBMZCoXfyCBQiFwiRsGpku0EshNgUNAtrYPT0GQVNRBWwSKBMp98P24iISgNDAS4ipGA6JUpA2WAhDR4eWM/CAkHBwkIDYcGiTOLjY+FmZkNlCN3eUoLDmwlDW+AAwcODl5bYl8wCVYMDw5UWzBtnAANEQ8kBIM0oAAGPgcREIQnVloAChEOqARjzgAQEbczg8YkWJq8nSUhACH5BAkHAAAALAAAAAAYABgAAAWtICCOJGAYZZoOpKKQqDoORDMKwkgwtiwSBBYAJ2owGL5RgxBziQQMgkwoMkhNqAEDARPSaiMDFdDIiRSFQowMXE8Z6RdpYHWnEAWGPVkajPmARVZMPUkCBQkJBQINgwaFPoeJi4GVlQ2Qc3VJBQcLV0ptfAMJBwdcIl+FYjALQgimoGNWIhAQZA4HXSpLMQ8PIgkOSHxAQhERPw7ASTSFyCMMDqBTJL8tf3y2fCEAIfkECQcAAAAsAAAAABgAGAAABa8gII4k0DRlmg6kYZCoOg5EDBDEaAi2jLO3nEkgkMEIL4BLpBAkVy3hCTAQKGAznM0AFNFGBAbj2cA9jQixcGZAGgECBu/9HnTp+FGjjezJFAwFBQwKe2Z+KoCChHmNjVMqA21nKQwJEJRlbnUFCQlFXlpeCWcGBUACCwlrdw8RKGImBwktdyMQEQciB7oACwcIeA4RVwAODiIGvHQKERAjxyMIB5QlVSTLYLZ0sW8hACH5BAkHAAAALAAAAAAYABgAAAW0ICCOJNA0ZZoOpGGQrDoOBCoSxNgQsQzgMZyIlvOJdi+AS2SoyXrK4umWPM5wNiV0UDUIBNkdoepTfMkA7thIECiyRtUAGq8fm2O4jIBgMBA1eAZ6Knx+gHaJR4QwdCMKBxEJRggFDGgQEREPjjAMBQUKIwIRDhBDC2QNDDEKoEkDoiMHDigICGkJBS2dDA6TAAnAEAkCdQ8ORQcHTAkLcQQODLPMIgIJaCWxJMIkPIoAt3EhACH5BAkHAAAALAAAAAAYABgAAAWtICCOJNA0ZZoOpGGQrDoOBCoSxNgQsQzgMZyIlvOJdi+AS2SoyXrK4umWHM5wNiV0UN3xdLiqr+mENcWpM9TIbrsBkEck8oC0DQqBQGGIz+t3eXtob0ZTPgNrIwQJDgtGAgwCWSIMDg4HiiUIDAxFAAoODwxDBWINCEGdSTQkCQcoegADBaQ6MggHjwAFBZUFCm0HB0kJCUy9bAYHCCPGIwqmRq0jySMGmj6yRiEAIfkECQcAAAAsAAAAABgAGAAABbIgII4k0DRlmg6kYZCsOg4EKhLE2BCxDOAxnIiW84l2L4BLZKipBopW8XRLDkeCiAMyMvQAA+uON4JEIo+vqukkKQ6RhLHplVGN+LyKcXA4Dgx5DWwGDXx+gIKENnqNdzIDaiMECwcFRgQCCowiCAcHCZIlCgICVgSfCEMMnA0CXaU2YSQFoQAKUQMMqjoyAglcAAyBAAIMRUYLCUkFlybDeAYJryLNk6xGNCTQXY0juHghACH5BAkHAAAALAAAAAAYABgAAAWzICCOJNA0ZVoOAmkY5KCSSgSNBDE2hDyLjohClBMNij8RJHIQvZwEVOpIekRQJyJs5AMoHA+GMbE1lnm9EcPhOHRnhpwUl3AsknHDm5RN+v8qCAkHBwkIfw1xBAYNgoSGiIqMgJQifZUjBhAJYj95ewIJCQV7KYpzBAkLLQADCHOtOpY5PgNlAAykAEUsQ1wzCgWdCIdeArczBQVbDJ0NAqyeBb64nQAGArBTt8R8mLuyPyEAOw==" data-src="/images/article/ram-bios.png" alt="构建BIOS之后的内存布局" /></p>
+
+<p>中断向量表中有256个中断向量，每个中断向量占4字节，刚好是1KB(256 × 4Byte = 1KB)。其中两个字节是该中断向量对应的处理程序的CS的值，剩下的两个字节是对应IP的值。</p>
+
+<p>BIOS构建完中断服务体系之后，CPU会接收到一个<code>int 0x19</code>中断(该中断的作用是把可启动设备的第一个扇区的程序加载至内存的指定位置)，然后CPU在中断向量表中查找该中断对应的中断处理程序地址，随后执行该中断的中断处理程序将启动设备(这里是软盘)的第一个扇区中的程序加载到内存的<code>0x07C00</code>(31KB)处。</p>
+
+<p>那么软盘第一个扇区中的程序是什么呢？就是Linux的磁盘引导程序<code>bootsect</code>。</p>
+
+<h2>二、bootsect对内存的规划</h2>
+
+<p>bootsect是完全用汇编语言写成的，其首先要对实模式下可寻址(最大范围1KB,即0x00000 ～ 0xFFFFF)的内存进行规划。代码如下所示</p>
+
+<p>反映到实模式下的内存上，如下图所示</p>
+
+<p>接下来bootsect将会按照上述内存布局进行相应的操作。</p>
+
+<h2>三、bootsect对自身的复制</h2>
+
+<p>bootsect先将自身的全部内容从内存0x07C00(BOOTSEG)处复制到内存0x90000(INITSEG)处,对应的汇编代码如下</p>
+
+<pre><code>...
+SYSSIZE = 0x3000
+...
+SETUPLEN = 4                    ! nr of setup-sectors
+BOOTSEG  = 0x07c0               ! original address of boot-sector
+INITSEG  = 0x9000               ! we move boot here - out of the way
+SETUPSEG = 0x9020               ! setup starts here
+SYSSEG   = 0x1000               ! system loaded at 0x10000 (65536).
+ENDSEG   = SYSSEG + SYSSIZE     ! where to stop loading
+</code></pre>
+
+<p>其中<code>SYSSIZE</code>是system模块的节数，由于16字节为1节，所以system模块共<code>0x30000Byte</code>(对应的十进制为<code>196608Byte</code>)，即<code>192KB (196608 / 1024)</code>。</p>
+
+<p><code>SETUPLEN</code>为setup程序的扇区数，即4个扇区，由于bootsect为第1扇区，那么setup必然就是第2扇区到第5扇区。</p>
+
+<p><code>BOOTSEG</code>为bootsect程序段的初始位置，也就是BIOS加在到内存中的位置，即<code>0x07c0</code>。</p>
+
+<p><code>INITSEG</code>为bootsect将要移动的新位置，为<code>0x9000</code>。</p>
+
+<p><code>SETUPSEG</code>为setup程序的始址，由于bootsect大小为1个扇区，且新始址为<code>0x9000</code>，也就是在<code>576KB</code>处(<code>0x9000</code>节，即<code>0x90000Byte</code>，转化为十进制为<code>589824Byte</code>，即<code>589824 / 1024 = 576KB</code>),由于第一扇区大小为<code>512Byte</code>,即<code>0.5KB</code>，那么bootsect的末端就在<code>576.5KB</code>处，即十进制<code>590336Byte</code>处，对应的十六进制为<code>0x90200Byte</code>，也就是<code>0x9020</code>(节)处，也就是setup程序紧跟着bootsect，可见Linus对内存的精妙控制。</p>
+
+<p><code>SYSSEG</code>为system模块的始址，即地址<code>0x10000</code>处，也就是64KB(对应十进制<code>65536KB / 1024</code>)处。</p>
+
+<p><code>ENDSEG</code>自然为system模块的地址末端。</p>
+
+<p>BIOS已经将bootsect加载到内存的0x07C00处了，接下来就轮到bootsect执行了</p>
+
+<p>虚拟地址空间，编址</p>
+
+<p>Intel 80x86系列的CPU均可在16位实模式和32位保护模式下运行。为了向后兼容，Intel将所有80x86系列的CPU都设计为加电后自动进入16位实模式状态运行。</p>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">If not now, when? If not me, who?</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    
+                    <section class="nav next">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/intro-september.html">依题源组卷工具September使用极简指南</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

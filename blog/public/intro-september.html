@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<meta property="og:url" content="https://feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://feily.techhttps://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png">
+
+<link rel="canonical" href="https://feily.tech">
+
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-itouch-icon" href="/favicon.png">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
+
+        <meta name="keywords" content="C&#43;&#43;,">
+        <meta name="description" content="依题源组卷工具September使用极简指南">
+        <meta name="author" content="林奕清">
+        <title>依题源组卷工具September使用极简指南</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:NSimSun">
+  <a class="index" href="/">
+    <img class="logo" src="https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/about.me.html">关于</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:KaiTi">依题源组卷工具September使用极简指南</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1567865802"><span class="from"></span></span>
+                    
+                    <span class="tags">C&#43;&#43;</span>
+                </section>
+                <article class="content" style="font-family:KaiTi"><h2>一、September是什么？</h2>
+
+<p>September是一款依题源组卷工具，基于题源随机组卷，理论上只要样本容量足够大，可以生成互不重复的试题。</p>
+
+<p>为什么叫September？好吧，这个名字很随意，原因就是这个工具是我在九月份写出来的！！！姑且这样吧。</p>
+
+<h2>二、使用方式</h2>
+
+<p>该工具运行需要Java运行时环境，因此，需要确保你的PC机安装了<code>JRE</code>，需要根据你的PC机的位数下载合适的<code>JRE</code>，并配置<code>环境变量</code>，这个网上有很多，此处跳过。</p>
+
+<p>前往<a href="http://ibiur610399.java.jkj.wang/September.rar">此处</a> 下载rar压缩包并解压至某个位置，接下来你有三种方式使用该工具，这里只介绍两种：</p>
+
+<ul>
+<li>第一种方法是，直接点击<code>September.BAT</code>批处理程序，即可；</li>
+<li>第二种方法是，将解压的文件夹加入到windows环境变量，具体操作方式如下：计算机 <span>-&gt;</span> 属性 <span>-&gt;</span> 高级系统设置 <span>-&gt;</span> 高级 <span>-&gt;</span> 环境变量 <span>-&gt;</span> 找到系统变量的path变量插入本文件夹路径即可。然后在<code>cmd</code>中输入命令<code>september</code>即可进入幻境。</li>
+</ul>
+
+<h2>三、文件结构</h2>
+
+<p>示例如下</p>
+
+<pre><code>!5
+2 C++类声明与定义，析构函数与this指针
+4 深入C++函数
+6 函数关于指针
+5 C++自定义数据类型
+3 C++中的预定义数据类型
+7 Redis设计与实现
+9 MySQL忘记root密码解决办法
+2 Spring MVC控制器使用详情
+1 Spring MVC控制器使用指南
+5 Spring AOP的XML实现方式
+7 Spring依赖注入的实现方式
+5 懒惰学习——K最近邻学习算法
+4 物以类聚——K均值聚类学习算法
+2 转导推理——支持向量机
+6 黑箱方法——人工神经网络
+2 分而治之——决策树学习算法
+5 地图着色问题
+</code></pre>
+
+<p>第一行为一个英文感叹号，其后直接跟一个数字，该数字为题目的行数偏移量。</p>
+
+<p>暂时写这么多，要睡觉了&hellip;&hellip;</p>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(https://cdn.nlark.com/yuque/0/2019/png/257195/1562157551682-avatar/dce920e8-dc39-4157-9c42-99d23f827fc4.png?x-oss-process=image/resize,m_fill,w_192,h_192/format,png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">If not now, when? If not me, who?</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/from-boot-up-to-disk-boot-program-execution.html">Linux内核源码分析：从开机加电到磁盘引导程序的执行</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/cpp-class-declaration-and-definition-destructor-and-this-pointer.html">C&#43;&#43;类声明与定义，析构函数与this指针</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:NSimSun">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

@@ -5,9 +5,11 @@ author: me
 cover: "-/images/os.jpg"
 tags:
     - Linux
-preview: 常量与变量、常用数据类型。
+preview: 本系列文章基于Linux 0.11内核源代码，共计14000+行左右，基本上都是Linux系统的精髓；而最新版Linux内核已经发展到了5.2.14已上千万行，是不利于学习Linux内核的。
 
 ---
+
+本系列文章基于Linux 0.11内核源代码，共计14000+行左右，基本上都是Linux系统的精髓；而最新版Linux内核已经发展到了5.2.14已上千万行，是不利于学习Linux内核的。
 
 ## 引言
 
@@ -25,7 +27,7 @@ preview: 常量与变量、常用数据类型。
 
 PC机加电伊始，基于80x86结构的CPU将会自动进入实模式(实模式下CPU的地址总线为16根，其寻址能力为2<sup>16</sup>)，并且CPU将会强制将CS寄存器的值设置为`0xF000`、IP寄存器的值设置为`0xFFF0`，即CPU将会指向`0xFFFF0`地址处，这个地址通常是ROM-BIOS的入口地址(并不是BIOS程序的始址)，即BIOS程序的第一条指令就在这个位置。等等，不是说RAM中没有任何数据和指令吗？那么CPU指向这个位置不也是空的吗？有什么意义？要注意的是CPU此时指向的是由主存地址空间(RAM)、显存地址空间(RAM)、显卡BIOS地址空间(ROM)、网卡BIOS地址空间(ROM)、系统BIOS地址空间(ROM)等物理存储器编址而成的逻辑存储器，被称为内存地址空间(以下简称内存)。所以CPU此时指向的地址是装有系统BIOS程序的构成内存地址空间的ROM地址空间，而非空无一物的主存地址空间。BIOS程序被固化在ROM芯片上，由于ROM的非易失性使得其内部并非空无一物。80x86 PC机内存地址空间图示如下
 
-![内存地址空间示例](-/images/article/memory-address-space.jpg)
+![80x86PC机内存地址空间示例](-/images/article/memory-address-space.png)
 
 言归正传，那么此刻CPU已经指向`0xFFFF0`的位置，意味着BIOS开始启动，紧接着将是BIOS程序在CPU中执行，屏幕上会显示出显卡信息、内存信息等，这说明CPU在进行自检，期间一项非常重要的工作就是BIOS在内存中构建中断向量表和中断处理程序。BIOS会在内存(主存RAM)的开始位置(`0x00000`)用1KB的内存空间(`0x00000` ～ `0x003FF`)构建BIOS中断向量表，在紧挨着它的位置用256字节分内存空间构建BIOS数据区(`0x00400` ～ `0x004FF`)，并在大约57KB以后的位置(`0x0E05B`)加载大约8KB的与中断向量表对应的若干中断处理程序。如下图所示
 
@@ -80,9 +82,173 @@ _start:
     movw
 ```
 
-BIOS已经将bootsect加载到内存的`0x07C00`处了，接下来就轮到bootsect执行了
+数据段寄存器ds与源变址寄存器si构成bootsect的源地址`0x07c00`，即`ds:si = 0x07c0:0x0000`;而附加段寄存器es与目的变址寄存器di构成了bootsect的目的地址`0x9000`，即`es:di = 0x9000:0x0000`。通过计数寄存器cx寄存器控制循环的次数，这里`cx = 256`,由于cx为16位寄存器，即这里代表256个字，也就是`512Byte`，刚好是一个扇区的数目。然后通过`rep movw`循环进行复制操作。
 
+这段代码执行完毕后，整个内存空间将含有两段bootsect的数据，即以BOOTSEG开始的`512Byte`数据和以INITSEG开始的`512Byte`数据。接下来通过执行段间跳转指令跳转到INITSEG段的go代码块处继续执行bootsect，如下
 
-虚拟地址空间，编址
+```
+	jmpi	go,INITSEG
+```
 
-Intel 80x86系列的CPU均可在16位实模式和32位保护模式下运行。为了向后兼容，Intel将所有80x86系列的CPU都设计为加电后自动进入16位实模式状态运行。
+## 四、设置段寄存器ds、es、ss
+
+进入go代码块中，要设置ds、es、ss寄存器，代码如下
+
+```
+go:	mov	ax,cs
+	mov	ds,ax
+	mov	es,ax
+! put stack at 0x9ff00.
+	mov	ss,ax
+	mov	sp,#0xFF00		! arbitrary value >>512
+```
+
+由于cs此时指向的是bootsect的段地址，即0x9000，那么上述代码就是将数据段寄存器ds、附加段寄存器es以及栈基址寄存器ss设置成与代码段寄存器cs相同的位置，然后将栈顶指针sp指向偏移地址`0xFF00`处。其内存映像如下所示
+
+![对ds、es、ss、sp的设置](-/images/article/memory-bootsect-ds-es-ss-sp.png)
+
+至此，由于对ss、sp寄存器的设置，此后程序便可以基于栈进行复杂数据运算了。
+
+## 五、加载setup程序
+
+接下来bootsect需要将setup程序加载至SETUPSEG处，setup位于软盘/磁盘第2扇区到第5扇区连续四个扇区，共`2KB(512Byte * 4 = 2048Byte = 2KB)`,代码如下
+
+```
+! load the setup-sectors directly after the bootblock.
+! Note that 'es' is already set up.
+
+load_setup:
+	mov	dx,#0x0000		! drive 0, head 0
+	mov	cx,#0x0002		! sector 2, track 0
+	mov	bx,#0x0200		! address = 512, in INITSEG
+	mov	ax,#0x0200+SETUPLEN	! service 2, nr of sectors
+	int	0x13			! read it
+	jnc	ok_load_setup		! ok - continue
+	mov	dx,#0x0000
+	mov	ax,#0x0000		! reset the diskette
+	int	0x13
+	j	load_setup
+```
+
+与BIOS加载bootsect不同的是，bootsect加载setup用的是`0x13`中断而不是`0x19`中断，系统通过几个通用寄存器来给BIOS中断处理程序传参，含义如下
+
++ dx寄存器中，高8位dh为磁头号，低8位dl为驱动器号；
++ cx寄存器中，高8位ch为磁道(柱面)号的低8位，低8位cl为开始扇区；
++ bx寄存器，配合es段寄存器指向内存缓冲区，即SETUPSEG的位置；
++ ax寄存器中，高8位`ah = 0x02`代表的是读磁盘扇区到内存中；低8位al代表要读出的扇区数量。
+
+根据上述解释，这段程序指明通过驱动器0(dl)的0号磁头(dh)对应盘面的0磁道(ch)第2扇区(cl)开始的连续4个扇区(al)读到内存中(ah)`es:bx`指向的位置`0x9000:0200`，即`0x90200`处。
+
+BIOS对文件、磁盘、IO操作的操作是通过检测CF位来判断是否成功的，若`CF = 0`表示成功，`jnc`指令通过判断`CF = 0`来实现跳转，即读取成功则跳转至`ok_load_setup`处继续执行。代码如下
+
+```
+ok_load_setup:
+
+! Get disk drive parameters, specifically nr of sectors/track
+
+	mov	dl,#0x00
+	mov	ax,#0x0800		! AH=8 is get drive parameters
+	int	0x13
+    seg cs
+	mov	sectors,cx
+	mov	ax,#INITSEG
+	mov	es,ax
+...
+sectors:
+	.word 0
+```
+
+加载setup成功之后，获取磁盘驱动器的参数，特别是每道扇区数量。
+
+仍然是通过`0x13`中断实现的，其中dl代表驱动器号，这里是0号，ax的高8位`ah = 8`代表获取驱动器参数(上面`ah = 2`代表读磁盘扇区到内存)，然后调用`0x13`中断的处理程序获取数据，这里会返回ah = 0, al = 0, bl = 驱动器类型(AT/PS2),ch = 最大磁道号的低8位,cl = 每磁道最大扇区数(第0到第5位)最大磁道号高2位(第6到第7位),dh = 最大磁头数,dl = 驱动器数量。如果读取出错，则CF位置为1，同时ah为状态码。而`es:di`指向软驱磁盘参数表。
+
+然后将获取到的每磁道扇区数保存起来，供确认根设备号时使用，即`mov	sectors,cx`。由于上述`es:di`指向了软驱磁盘参数表，因此这里需要将es复位，即`mov es,ax`。
+
+若setup加载失败，即`CF = 1`,那么不断重试！
+
+加载成功后执行到ok_load_setup获取磁盘参数表之后，就要为加载system模块做准备了。
+
+## 六、加载system模块
+
+由于system模块多达240扇区，因此加载起来需要一定的时间，为了提示用户并没有死机所以需要打印一些字符串，代码如下
+
+```
+! Print some inane message
+
+	mov	ah,#0x03		! read cursor pos
+	xor	bh,bh
+	int	0x10
+	
+	mov	cx,#24
+	mov	bx,#0x0007		! page 0, attribute 7 (normal)
+	mov	bp,#msg1
+	mov	ax,#0x1301		! write string, move cursor
+	int	0x10
+...
+msg1:
+	.byte 13,10
+	.ascii "Loading system ..."
+	.byte 13,10,13,10
+```
+
+先看msg1段，可以算出来刚好是24个字符。
+
+通过`0x10`中断的3号子功能(ah = 0x03)先获取光标位置，以下参数将传递给`0x10`中断的13号子功能，如下
+
++ cx寄存器指明共24个字符即循环24次
++ bh指明页码，`bh = 0`，即第0页；bl为属性值，这里bl = 7；
++ `es:bp`指向要打印的字符串，即msg1。由于msg1在bootsect中，因此段地址es适用，bp为msg1的段内偏移。
+
+然后调用`0x10`中断的13号子功能打印字符串。
+
+已经提示用户正在加载系统了，那么接下来就是正式加载system模块，如下
+
+```
+! ok, we've written the message, now
+! we want to load the system (at 0x10000)
+
+	mov	ax,#SYSSEG
+	mov	es,ax		! segment of 0x010000
+	call	read_it
+...
+```
+
+bootsect加载system模块是通过read_it子程序来完成的，子程序的输入参数为es，即`es = SYSSEG`。read_it仍然是通过`0x13`中断来加载system模块的。为第6扇区开始的连续约240个扇区。
+
+system加载完成之后，整个操作系统的内核代码都已经进入内存了，最后要做的一件事情就是再次确定一下根设备号。
+
+## 七、确定根设备号
+
+首先查看根设备号是否已经定义，如果已经定义(即!=0)那么将检查过的根设备号保存起来，即`mov root_dev,ax`;否则根据BIOS报告的每磁道扇区数来确定使用`/dev/PS0(2,28)`还是`/dev/at0(2,8)`。这里两个设备文件的含义为，在Linux中软驱的主设备号是2，次设备号 = type × 4 + nr，其中nr为0 - 3，分别对应软驱A、B、C或D；type是软驱的类型，1.2MB的驱动器为2,1.44MB的驱动器为7。所以1.2MB的A驱动器的次设备号为2 × 4 + 0 = 8，所以`/dev/at0(2,8)`指的是1.2MB A驱动器；而1044MB A驱动器的次设备号为7 × 4 + 0 = 28，所以`/dev/PS0(2,28)`指的是1.44MB A驱动器。
+
+其次，设备号的计算公式为：设备号 = 主设备号 × 256 + 次设备号。那么1.44MB A驱动器的设备号就是2 × 256 + 28 = 540，对应的16进制就是0x021c；同理计算1.2MB A驱动器的设备号为0x0208。
+
+```
+! After that we check which root-device to use. If the device is
+! defined (!= 0), nothing is done and the given device is used.
+! Otherwise, either /dev/PS0 (2,28) or /dev/at0 (2,8), depending
+! on the number of sectors that the BIOS reports currently.
+
+	seg cs
+	mov	ax,root_dev
+	cmp	ax,#0
+	jne	root_defined
+	seg cs
+	mov	bx,sectors
+	mov	ax,#0x0208		! /dev/ps0 - 1.2Mb
+	cmp	bx,#15
+	je	root_defined
+	mov	ax,#0x021c		! /dev/PS0 - 1.44Mb
+	cmp	bx,#18
+	je	root_defined
+undef_root:
+	jmp undef_root
+root_defined:
+	seg cs
+	mov	root_dev,ax
+...
+root_dev:
+	.word ROOT_DEV
+```
+
+先将上述获取到的每磁道扇区数传送给通用寄存器bx，如果`bx = 15`，即每磁道扇区数为15(),那么说明就是1.2MB的驱动器,如果为18，那么就是1.44MB的软驱，然后跳转到`root_defined`中将通用寄存器ax中定义的根设备号保存起来。如果获取到的每道磁盘扇区数即不为15也不为18那么就会跳过`je`指令直接进入`undef_root`段中，进入死循环。

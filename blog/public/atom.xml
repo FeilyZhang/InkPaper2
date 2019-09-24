@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-09-14T17:13:41+08:00</updated>
+  <updated>2019-09-15T12:31:47+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
   <entry>
-    <title>Linux内核源码分析：从开机加电到磁盘引导程序的执行</title>
+    <title>Linux内核源码分析：从加电启动到磁盘引导程序执行</title>
     <updated>2019-09-13T16:01:05+08:00</updated>
     <id>tag:feily.tech,2019-09-13:/from-boot-up-to-disk-boot-program-execution.html</id>
     <content type="html">&lt;p&gt;本系列文章基于Linux 0.11内核源代码，共计14000+行左右，基本上都是Linux系统的精髓；而最新版Linux内核已经发展到了5.2.14已上千万行，是不利于学习Linux内核的。&lt;/p&gt;&#xA;</content>

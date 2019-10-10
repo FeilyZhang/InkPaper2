@@ -252,3 +252,17 @@ root_dev:
 ```
 
 先将上述获取到的每磁道扇区数传送给通用寄存器bx，如果`bx = 15`，即每磁道扇区数为15,那么说明就是1.2MB的驱动器,如果为18，那么就是1.44MB的软驱，然后跳转到`root_defined`中将通用寄存器ax中定义的根设备号保存起来。如果获取到的每道磁盘扇区数既不为15也不为18那么就会跳过`je`指令直接进入`undef_root`段中，进入死循环。
+
+## 八.跳转至setup
+
+以上bootsect的任务几乎全部完成了，最后需要执行的指令就是
+
+```
+! after that (everyting loaded), we jump to
+! the setup-routine loaded directly after
+! the bootblock:
+
+	jmpi	0,SETUPSEG
+```
+
+即跳转到setup程序段的偏移地址为0处(也就是setup段首)继续执行，至此bootsect完成了CPU控制权的交接！

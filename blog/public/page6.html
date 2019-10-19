@@ -80,6 +80,23 @@
                     
                     
                     <li class="article">
+                        <a class="title" href="/capturing-thread-runtime-exception-information-and-injecting-hook-threads.html">捕获线程运行时异常信息与注入钩子线程</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>线程在运行时是不允许抛出checked异常的，而且线程运行在自己的上下文中，派生它的线程无法直接获得它运行时出现的异常信息。但是，Java提供了UncaughtExceptionHandler接口，当线程在运行过程中出现异常时，会回掉UncaughtExceptionHandler接口，从而就可以知道哪个线程在运行时出错了以及出现了什么样的错误。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1545380198"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            Java Core
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
                         <a class="title" href="/threadgroup-detailed-explanation.html">ThreadGroup详解</a>
                         <div class="cover" style="background-image:url(/images/java.jpg);"></div>
                         <section class="preview content" style="font-family:KaiTi"><p>每个线程都会有ThreadGroup，如果在启动的时候没有在构造方法Thread显式的指明ThreadGroup，那么该线程就会自动的被加入与父线程相同的ThreadGroup当中，启动该线程的线程就是该线程的父线程。</p>
@@ -225,23 +242,6 @@
                             <a class="name" href="/about.me.html">林奕清</a>
                             
                             <span class="date" data-time="1545122706"><span class="from"></span></span>
-                            
-                            <span class="tags">
-                            Java Core
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/analysis-of-string-classes.html">剖析String类</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>String类基于char数组，String对字符串的操作并不是在字符串或者字符数组本身进行操作，而是创建一个新的char数组然后把内容复制进去再操作。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1545120968"><span class="from"></span></span>
                             
                             <span class="tags">
                             Java Core

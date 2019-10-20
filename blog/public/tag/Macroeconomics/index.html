@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -68,11 +90,28 @@
                     
                         <img class="logo" src="/images/mylogo.png" />
                         <h1 class="tag">Macroeconomics</h1>
-                        <h2 class="tag-sub" style="font-family:KaiTi">1 篇文章</h2>
+                        <h2 class="tag-sub" style="font-family:KaiTi">2 篇文章</h2>
                     
                 </header>
                 <ul class="article-list">
                     
+                    
+                    <li class="article">
+                        <a class="title" href="/derivation-slope-and-translation-of-lm-curve.html">有关LM曲线的推导、斜率及平移</a>
+                        
+                        <section class="preview content" style="font-family:KaiTi"><p>LM曲线由什么决定？如何决定？LM曲线走向由什么决定？如何决定？LM曲线斜率由什么决定？如何决定？</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1571560985"><span class="from"></span></span>
+                            
+                            <span class="tags">
+                            Macroeconomics
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/derivation-slope-and-translation-of-is-curve.html">有关IS曲线的推导、斜率及平移</a>

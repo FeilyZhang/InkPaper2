@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-10-20T16:53:45+08:00</updated>
+  <updated>2019-10-20T21:19:01+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>IS－LM模型：凯恩斯理论的循环推论与解决方案</title>
+    <updated>2019-10-20T21:08:05+08:00</updated>
+    <id>tag:feily.tech,2019-10-20:/is-lm-model-circula-inference-and-solution-of-keynesian-theory.html</id>
+    <content type="html">&lt;p&gt;凯恩斯理论的循环推论与解决方案IS－LM模型，IS－LM模型非均衡的四个区域的含义及实现均衡的过程。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/is-lm-model-circula-inference-and-solution-of-keynesian-theory.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>有关LM曲线的推导、斜率及平移</title>
     <updated>2019-10-20T16:43:05+08:00</updated>
@@ -93,16 +103,6 @@
     <id>tag:feily.tech,2019-08-09:/cpp-custom-data-type.html</id>
     <content type="html">&lt;p&gt;C++自定义数据类型包括数组、结构体、共用体、枚举。写C/C++不用指针是没有灵魂的！&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/cpp-custom-data-type.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>C++中的预定义数据类型</title>
-    <updated>2019-08-07T23:13:42+08:00</updated>
-    <id>tag:feily.tech,2019-08-07:/predefined-data-types-in-cpp.html</id>
-    <content type="html">&lt;p&gt;C++中的预定义数据类型包括整型、浮点型、字符型、布尔型、空类型、指针类型, 自动存储、静态存储和动态存储。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/predefined-data-types-in-cpp.html"></link>
     <author>
       <name>林奕清</name>
     </author>

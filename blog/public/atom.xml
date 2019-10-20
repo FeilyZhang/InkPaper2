@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-10-20T16:50:33+08:00</updated>
+  <updated>2019-10-20T16:53:45+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
@@ -21,7 +21,7 @@
     <title>有关IS曲线的推导、斜率及平移</title>
     <updated>2019-10-19T17:41:05+08:00</updated>
     <id>tag:feily.tech,2019-10-19:/derivation-slope-and-translation-of-is-curve.html</id>
-    <content type="html">&lt;p&gt;1IS曲线由什么决定？如何决定？IS曲线走向由什么决定？如何决定？IS曲线斜率由什么决定？如何决定？&lt;/p&gt;&#xA;</content>
+    <content type="html">&lt;p&gt;IS曲线由什么决定？如何决定？IS曲线走向由什么决定？如何决定？IS曲线斜率由什么决定？如何决定？&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/derivation-slope-and-translation-of-is-curve.html"></link>
     <author>
       <name>林奕清</name>

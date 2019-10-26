@@ -11,7 +11,7 @@
         <article class="container">
             {{template "header" .}}
             <article class="main article">
-                <h1 class="title" style="font-family:KaiTi">{{.Title}}</h1>
+                <h1 class="title" style="font-family:Simsun">{{.Title}}</h1>
                 <section class="info" style="font-family:KaiTi">
                     {{if .Author.Avatar}}<span class="avatar" style="background-image: url({{.Author.Avatar}});"></span>{{end}}
                     {{if .Author.Name}}<a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>{{end}}
@@ -22,7 +22,7 @@
                     {{end}}
                     <span class="tags">{{range .Tags}}<!--<a class="tag" href="{{$.Site.Root}}/tag/{{.}}/index.html">-->{{.}}<!--</a>-->{{end}}</span>
                 </section>
-                <article class="content" style="font-family:KaiTi">{{.Content}}</article>
+                <article class="content" style="font-family:Kaiti">{{.Content}}</article>
                 <section class="author" style="font-family:NSimSun">
                     {{if .Author.Avatar}}<div class="avatar" style="background-image: url({{.Author.Avatar}});"></div>{{end}}
                     <a class="name" href="{{.Site.Root}}/about.{{.Author.Id}}.html">{{.Author.Name}}</a>

@@ -10,24 +10,24 @@
     <body>
         <article class="container">
             {{template "header" .}}
-            <article class="main archive" style="font-family:KaiTi">
+            <article class="main archive">
                 <header class="site">
-                    <h1 class="title">{{.Site.Title}}</h1>
+                    <h1 class="title" style="font-family:Consolas">{{.Site.Title}}</h1>
                     <h2 class="subtitle" style="font-family:KaiTi">{{.Site.Subtitle}}</h2>
                 </header>
-                <header class="header">
+                <header class="header" style="font-family:KaiTi">
                     <span class="title">{{i18n "archive"}} -</span>
                     <span class="subtitle">{{.Total}} {{i18n "articles"}}</span>
                 </header>
                 <ul class="archive-list">
                     {{range .Archive}}
                     <li class="archive-item">
-                        <div class="archive-year">{{.Year}}</div>
+                        <div class="archive-year"  style="font-family:Consolas">{{.Year}}</div>
                         <ul class="article-list">
                             {{range .Articles}}
                             <li class="article-item">
-                                <span class="date">{{.Date}}</span>
-                                <a href="{{.Link}}">{{.Title}}</a>
+                                <span class="date"  style="font-family:Consolas">{{.Date}}</span>
+                                <a href="{{.Link}}" style="font-family:KaiTi">{{.Title}}</a>
                             </li>
                             {{end}}
                         </ul>

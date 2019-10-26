@@ -74,7 +74,7 @@
     </head>
     <body>
         <article class="container">
-            <header class="header-wrap" style="font-family:NSimSun">
+            <header class="header-wrap" style="font-family:Simsun">
   <a class="index" href="/">
     <img class="logo" src="/images/mylogo.png" />
     Feily Zhang
@@ -87,7 +87,7 @@
 </header>
 
             <article class="main article">
-                <h1 class="title" style="font-family:KaiTi">Spring MVC控制器使用指南</h1>
+                <h1 class="title" style="font-family:Simsun">Spring MVC控制器使用指南</h1>
                 <section class="info" style="font-family:KaiTi">
                     <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
                     <a class="name" href="/about.me.html">林奕清</a>
@@ -96,7 +96,7 @@
                     
                     <span class="tags">Spring</span>
                 </section>
-                <article class="content" style="font-family:KaiTi"><p>注意，一定要将<code>library</code>引用的jar包放到<code>web-inf/lib</code>下，前者都很熟悉，后者放置的办法是<code>右键项目 -&gt; Properties -&gt; Deployment Assembly -&gt; Add -&gt; Java Build Path Entries -&gt; 全选 -&gt; Finish -&gt; Apply -&gt;Apply and Close</code>，否则会报错<code>java.lang.ClassNotFoundException: org.springframework.web. servlet.DispatcherServlet</code>。</p>
+                <article class="content" style="font-family:Kaiti"><p>注意，一定要将<code>library</code>引用的jar包放到<code>web-inf/lib</code>下，前者都很熟悉，后者放置的办法是<code>右键项目 -&gt; Properties -&gt; Deployment Assembly -&gt; Add -&gt; Java Build Path Entries -&gt; 全选 -&gt; Finish -&gt; Apply -&gt;Apply and Close</code>，否则会报错<code>java.lang.ClassNotFoundException: org.springframework.web. servlet.DispatcherServlet</code>。</p>
 
 <p>接下来，首先定义<code>web-inf/web.xml</code>文件，分别是定义<code>servlet-name</code>及对应的<code>servlet-class</code>，以及该<code>servlet-name</code>定义的的映射了<code>url</code>与<code>controller</code>对应关系的Spring MVC配置文件。然后通过<code>servlet-name</code>与<code>url-pattern</code>来指明所有的请求路径均由<code>servlet-name</code>指明的servlet来处理，是怎么处理的呢？就是请求先到<code>web.xml</code>文件，然后文件指明了请求由Spring MVC的配置文件来处理，于是<code>DispatcherServlet</code>读取Spring MVC的配置文件，并扫描<code>Controller</code>包，根据<code>RequestMapping</code>配置的路径来分派处理该请求的Controller。配置示例如下</p>
 
@@ -220,7 +220,7 @@ hello, world
                 
             </article>
         </article>
-        <footer class="footer" style="font-family:NSimSun">
+        <footer class="footer" style="font-family:Consolas">
     <span class="copyright">
         Feily Zhang ©
         <script type="text/javascript">

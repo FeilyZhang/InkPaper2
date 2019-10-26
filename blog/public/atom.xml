@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-10-20T21:19:01+08:00</updated>
+  <updated>2019-10-26T11:01:11+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>开放经济下蒙代尔-弗莱明模型</title>
+    <updated>2019-10-26T10:26:05+08:00</updated>
+    <id>tag:feily.tech,2019-10-26:/mundell-fleming-model-in-open-economy.html</id>
+    <content type="html">&lt;p&gt;汇率的标价与汇率制度、名义汇率与实际汇率、净出口与资本净流出、开放经济的蒙代尔-弗莱明模型的两个假设、开放经济的蒙代尔-弗莱明模型的IS*曲线及移动、开放经济的蒙代尔-弗莱明模型的LM*曲线及移动、蒙代尔-弗莱明模型、浮动汇率制下蒙代尔-弗莱明模型的财政政策和货币政策效果、固定汇率制下蒙代尔-弗莱明模型的财政政策和货币政策效果、对开放经济下蒙代尔-弗莱明模型的政策效应的总结。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/mundell-fleming-model-in-open-economy.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>IS－LM模型：凯恩斯理论的循环推论与解决方案</title>
     <updated>2019-10-20T21:08:05+08:00</updated>
@@ -93,16 +103,6 @@
     <id>tag:feily.tech,2019-08-10:/function-about-pointer.html</id>
     <content type="html">&lt;p&gt;指针在函数中的应用。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/function-about-pointer.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>C++自定义数据类型</title>
-    <updated>2019-08-09T20:29:42+08:00</updated>
-    <id>tag:feily.tech,2019-08-09:/cpp-custom-data-type.html</id>
-    <content type="html">&lt;p&gt;C++自定义数据类型包括数组、结构体、共用体、枚举。写C/C++不用指针是没有灵魂的！&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/cpp-custom-data-type.html"></link>
     <author>
       <name>林奕清</name>
     </author>

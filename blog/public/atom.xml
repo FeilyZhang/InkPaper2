@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-10-27T08:24:49+08:00</updated>
+  <updated>2019-10-27T08:50:01+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>解释经济增长的经济增长模型</title>
+    <updated>2019-10-27T08:49:05+08:00</updated>
+    <id>tag:feily.tech,2019-10-27:/economic-growth-model.html</id>
+    <content type="html">&lt;p&gt;经济增长的决定因素、新古典经济增长模型、没有技术进步的新古典增长模型、具有技术进步的新古典增长模型、新古典增长模型的稳态及其条件、应用新古典增长模型解释收入差异和增长率差异、内生增长理论模型。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/economic-growth-model.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>解释经济周期的乘数-加速数模型</title>
     <updated>2019-10-27T08:22:05+08:00</updated>
@@ -93,16 +103,6 @@
     <id>tag:feily.tech,2019-09-07:/intro-september.html</id>
     <content type="html">&lt;p&gt;依题源组卷工具September使用指南.&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/intro-september.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>C++类声明与定义，析构函数与this指针</title>
-    <updated>2019-08-16T19:23:42+08:00</updated>
-    <id>tag:feily.tech,2019-08-16:/cpp-class-declaration-and-definition-destructor-and-this-pointer.html</id>
-    <content type="html">&lt;p&gt;C++类的声明与定义、构造函数、析构函数以及this指针。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/cpp-class-declaration-and-definition-destructor-and-this-pointer.html"></link>
     <author>
       <name>林奕清</name>
     </author>

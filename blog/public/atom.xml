@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2019-10-27T08:50:01+08:00</updated>
+  <updated>2019-10-27T11:15:50+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>财政政策效果和货币政策效果的IS-LM分析</title>
+    <updated>2019-10-27T11:15:05+08:00</updated>
+    <id>tag:feily.tech,2019-10-27:/is-lm-analysis-of-the-effect-of-fiscal-policy-and-monetary-policy.html</id>
+    <content type="html">&lt;p&gt;财政政策效果的IS-LM分析、货币政策效果的IS-LM分析、对LM曲线斜率影响的补充说明(重要)。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/is-lm-analysis-of-the-effect-of-fiscal-policy-and-monetary-policy.html"></link>
+    <author>
+      <name>林奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>解释经济增长的经济增长模型</title>
     <updated>2019-10-27T08:49:05+08:00</updated>
@@ -93,16 +103,6 @@
     <id>tag:feily.tech,2019-09-13:/from-boot-up-to-disk-boot-program-execution.html</id>
     <content type="html">&lt;p&gt;本系列文章基于Linux 0.11内核源代码，共计14000+行左右，基本上都是Linux系统的精髓；而最新版Linux内核已经发展到了5.2.14已上千万行，是不利于学习Linux内核的。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/from-boot-up-to-disk-boot-program-execution.html"></link>
-    <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>依题源组卷工具September使用极简指南</title>
-    <updated>2019-09-07T22:16:42+08:00</updated>
-    <id>tag:feily.tech,2019-09-07:/intro-september.html</id>
-    <content type="html">&lt;p&gt;依题源组卷工具September使用指南.&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/intro-september.html"></link>
     <author>
       <name>林奕清</name>
     </author>

@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="">
         <meta name="description" content="关于作者">
@@ -154,16 +132,17 @@
 <li>长安大学第十届“创青春”大学生创业大赛铜奖;</li>
 <li>长安大学第四届“互联网+”大学生创新创业大赛校赛主赛道铜奖;</li>
 <li>长安大学2019年大学生创新创业训练计划项目省级立项(陕西省);</li>
-<li>长安大学第五届“互联网+”大学生创新创业大赛校赛主赛道金奖;</li>
+<li>长安大学第五届“互联网+”大学生创新创业大赛校赛主赛道金奖.</li>
 </ul>
 
 <h2 style="font-family:Consolas">Contact information</h2>
 
 <ul>
-<li>Blog：<a href="https://feily.tech/">https://feily.tech/</a>;</li>
-<li>E-Mail：fei#feily.tech（#替换为@）或者 <a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&amp;email=IUdESBUWExcTFGFHTllMQEhND0JOTA">点击这里给我留言</a>;</li>
-<li>Github：<a href="https://github.com/FeilyZhang">https://github.com/FeilyZhang</a>;</li>
-<li>Twitter：<a href="https://twitter.com/FeilyZhang">https://twitter.com/FeilyZhang</a>.</li>
+<li>Blog: <a href="https://feily.tech/">https://feily.tech/</a>;</li>
+<li>Weibo: <a href="https://weibo.com/FeilyZhang">https://weibo.com/FeilyZhang</a>;</li>
+<li>E-Mail: fei#feily.tech（#替换为@）或者 <a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&amp;email=IUdESBUWExcTFGFHTllMQEhND0JOTA">点击这里给我留言</a>;</li>
+<li>Github: <a href="https://github.com/FeilyZhang">https://github.com/FeilyZhang</a>;</li>
+<li>Twitter: <a href="https://twitter.com/FeilyZhang">https://twitter.com/FeilyZhang</a>.</li>
 </ul>
 </article>
                 <section class="author" style="font-family:NSimSun">

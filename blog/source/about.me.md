@@ -51,11 +51,12 @@ author: me
 + 长安大学第十届“创青春”大学生创业大赛铜奖;
 + 长安大学第四届“互联网+”大学生创新创业大赛校赛主赛道铜奖;
 + 长安大学2019年大学生创新创业训练计划项目省级立项(陕西省);
-+ 长安大学第五届“互联网+”大学生创新创业大赛校赛主赛道金奖;
++ 长安大学第五届“互联网+”大学生创新创业大赛校赛主赛道金奖.
 
 <h2 style="font-family:Consolas">Contact information</h2>
 
-+ Blog：[https://feily.tech/](https://feily.tech/);
-+ E-Mail：fei#feily.tech（#替换为@）或者 [点击这里给我留言](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=IUdESBUWExcTFGFHTllMQEhND0JOTA);
-+ Github：[https://github.com/FeilyZhang](https://github.com/FeilyZhang);
-+ Twitter：[https://twitter.com/FeilyZhang](https://twitter.com/FeilyZhang).
++ Blog: [https://feily.tech/](https://feily.tech/);
++ Weibo: [https://weibo.com/FeilyZhang](https://weibo.com/FeilyZhang);
++ E-Mail: fei#feily.tech（#替换为@）或者 [点击这里给我留言](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=IUdESBUWExcTFGFHTllMQEhND0JOTA);
++ Github: [https://github.com/FeilyZhang](https://github.com/FeilyZhang);
++ Twitter: [https://twitter.com/FeilyZhang](https://twitter.com/FeilyZhang).

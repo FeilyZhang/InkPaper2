@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -78,6 +100,22 @@
                 </header>
                 <ul class="article-list">
                     
+                    
+                    <li class="article">
+                        <a class="title" href="/from-16-bit-real-mode-to-32-bit-protection-mode.html">Linux内核源码分析：转变！从16位实模式到32位保护模式</a>
+                        <div class="cover" style="background-image:url(/images/os.jpg);"></div>
+                        
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">林奕清</a>
+                            
+                            <span class="date" data-time="1577444165"><span class="from"></span></span>
+                            
+                            <span class="tags" style="font-family:Consolas">
+                            Linux
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/is-lm-analysis-of-the-effect-of-fiscal-policy-and-monetary-policy.html">财政政策效果和货币政策效果的IS-LM分析</a>
@@ -211,22 +249,6 @@
                             
                             <span class="tags" style="font-family:Consolas">
                             Macroeconomics
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/from-16-bit-real-mode-to-32-bit-protection-mode.html">Linux内核源码分析：转变！从16位实模式到32位保护模式</a>
-                        <div class="cover" style="background-image:url(/images/os.jpg);"></div>
-                        
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
-                            <a class="name" href="/about.me.html">林奕清</a>
-                            
-                            <span class="date" data-time="1570948205"><span class="from"></span></span>
-                            
-                            <span class="tags" style="font-family:Consolas">
-                            Linux
                             </span>
                         </section>
                     </li>

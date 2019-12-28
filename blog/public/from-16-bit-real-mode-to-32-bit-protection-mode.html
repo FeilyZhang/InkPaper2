@@ -255,7 +255,7 @@ no_disk1:
     cli         ! no interrupts allowed !
 </code></pre>
 
-<p><code>cli</code>指令将CPU标志寄存器中中断允许标志IF置零，即不允许中断。关中断是16位实模式进入32位保护模式的标志性动作，这意味着接下来就可以废除16位实模式下的中断向量表，并初步打开32位寻址空间、建立保护模式下的中断响应机制等，这些都是与32位保护模式相配套的。</p>
+<p><code>cli</code>指令将CPU标志寄存器中中断允许标志<code>IF</code>置零，即不允许中断。关中断是16位实模式进入32位保护模式的标志性动作，这意味着接下来就可以废除16位实模式下的中断向量表，并初步打开32位寻址空间、建立保护模式下的中断响应机制等，这些都是与32位保护模式相配套的。</p>
 
 <p>作为转变的开始，已经关闭了中断，那么接下来系统将不会响应中断，以便一心一意向保护模式转变。现在开始将system移动至内存始址处，代码如下</p>
 
@@ -296,6 +296,7 @@ while truees = ax
     while cx != 0x0000
       ds:si to es:di, one word at a time, i.e. movsw
         cx -= 0x0001
+
 The second cycle is as follows:
   es = 0x1000, ax = 0x2000, ds = 0x2000, di = 0x0, si = 0x0, cx = 0x8000
     while cx != 0x0000
@@ -319,7 +320,97 @@ while truees = ax
         break
 </code></pre>
 
-<p>至此，就完成了对system模块的移动。</p>
+<p>至此，就完成了对system模块的移动。对system模块的移动起到了如下的效果</p>
+
+<ul>
+<li>废除了BIOS中断向量表，等同于废除了BIOS所提供的实模式下的中断服务程序；</li>
+<li>回收已经无用的内存空间，因为要向保护模式转变，BIOS中断向量表所占空间自然无用，应当回收；</li>
+<li>让system模块占据内存物理地址最天然、有利的位置。</li>
+</ul>
+
+<h2>三、设置IDT与GDT</h2>
+
+<p>与实模式不同的是，保护模式下的段寻址是通过GDT(Global Descriptor Table, 全局描述符表)完成的，GDT中存放的是段寄存器内容，其数据结构为数组。GDT在操作系统进程切换中意义重大，其中存放了每个任务的LDT(Local Descriptor Table, 局部描述符表)地址和TSS(Task Structure Segment, 任务状态段)地址，以完成进程中各段的寻址、现场保护与现场恢复。</p>
+
+<p>GDT的初始内容已经写在了setup程序中，如下</p>
+
+<pre><code>gdt:
+    .word   0,0,0,0     ! dummy
+
+    .word   0x07FF      ! 8Mb - limit=2047 (2048*4096=8Mb)
+    .word   0x0000      ! base address=0
+    .word   0x9A00      ! code read/exec
+    .word   0x00C0      ! granularity=4096, 386
+
+    .word   0x07FF      ! 8Mb - limit=2047 (2048*4096=8Mb)
+    .word   0x0000      ! base address=0
+    .word   0x9200      ! data read/write
+    .word   0x00C0      ! granularity=4096, 386
+</code></pre>
+
+<p>可以整理为如下一张表</p>
+
+<pre><code> index |    GDT
+------------------
+   2   | 00C0 9200
+       | 0000 07FF
+------------------
+   1   | 00C0 9A00
+       | 0000 07FF
+------------------
+   0   | 0000 0000
+       | 0000 0000
+</code></pre>
+
+<p>其中每个GDT表项共64位，即8字节，结构如下</p>
+
+<pre><code>31------------------------------16-15-----------------------0
+             Base 0:15            |         Limit 0:15
+63--------56-55---52-51---------48-47---------40-39--------32
+ Base 24:31 | Flags | Limit 16:19 | Access Byte | Base 16:23
+</code></pre>
+
+<p>Access Byte的结构如下</p>
+
+<pre><code>8---7-------5---4----3----2----1---0
+ Pr | Privl | 1 | Ex | Dc | RW | Ac
+</code></pre>
+
+<p>Flags的结构如下</p>
+
+<pre><code>8---7----6---5--4
+ Gr | Sz | 0 | 0
+</code></pre>
+
+<p>特别说明的<code>Privl</code>为特权级，如果为<code>00</code>表示内核特权级，如果为<code>11</code>，则表明用户特权级；<code>Gr</code>标志位为颗粒度标志，如果为1，那么段限长的单位为4KB，如果为0，那么就是1B。可见，GDT将段基址与段限长拆分保存在不连续的bit位中。这是为了兼容286架构。那么现在GDT表项就很容易理解了。</p>
+
+<p>以第一项GDT为例，其内容为</p>
+
+<pre><code>00C0 9A00
+0000 07FF
+</code></pre>
+
+<p>第<code>0-15bit</code>与<code>48-51bit</code>构成段限长，内容为</p>
+
+<pre><code>007FF
+</code></pre>
+
+<p>将其转换为10进制就是2047bit，即2KB；再看一下颗粒度标志，其包含在最后一个字节，即</p>
+
+<pre><code>00C0    // 00000000 11000000
+</code></pre>
+
+<p>可见，颗粒度标志位的值为1，那么也就意味着段限长实际上为<code>0x007FF * 4KB = 8MB</code>。确定了段限长，我们再确定一下段基址，<code>16-31bit</code>, <code>32-39bit</code>, <code>56-63bit</code>构成了段基址，那么合起来就是</p>
+
+<pre><code>0x0000000
+</code></pre>
+
+<p>即内存始址。</p>
+
+<p>现在我们知道了GDT的内容与含义，那么设置GDT就是将GDT表的始址保存在GDTR(Global Descriptor Table Register, GDT基地址寄存器)中，通过下述指令完成</p>
+
+<pre><code>lidt    idt_48      ! load idt with 0,0
+</code></pre>
 </article>
                 <section class="author" style="font-family:NSimSun">
                     <div class="avatar" style="background-image: url(/images/mylogo.png);"></div>

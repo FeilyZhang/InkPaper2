@@ -1,6 +1,6 @@
 title: "Linux内核源码分析：转变！从16位实模式到32位保护模式"
 date: 2019-12-27 18:56:05 +0800
-update: 2019-12-27 18:56:05 +0800
+update: 2019-12-28 17:25:05 +0800
 author: me
 cover: "-/images/os.jpg"
 tags:
@@ -151,9 +151,9 @@ no_disk1:
     stosb
 ```
 
-这个过程通过调用中断`0x13`的`0x15`号功能来实现。入口参数为`dl=驱动器号`，其中`0x8X`表示硬盘、`0x80`表示第一个硬盘、`0x81`表示第二个硬盘，那么自然这里必然是`0x81`。其出口参数为`ah=类型码`，`00`表示不存在此盘，并将`CF`置位；`01`表示软驱，没有`change-line`支持；`02`表示软驱或其它可移动设备，有`change-line`支持；`03`表示硬盘。
+这个过程通过调用中断`0x13`的`0x15`号功能来实现。入口参数为`dl=驱动器号`，其中`0x8X`表示硬盘：`0x80`表示第一个硬盘、`0x81`表示第二个硬盘，那么自然这里必然是`0x81`。其出口参数为`ah=类型码`，`00`表示不存在此盘，并将`CF`置位；`01`表示软驱，没有`change-line`支持；`02`表示软驱或其它可移动设备，有`change-line`支持；`03`表示硬盘。
 
-通过`jc`指令检查`CF`是否置位，如果置位即不存在第二个硬盘，那么就跳转至`no_disk1`处清零第二个参数表。如果存在第二个硬盘，那么`jc`指令自然不满足则执行`cmp`指令判断设备是否为硬盘，如果是则将标志寄存器ZF置位(即`ah == 03`)。再通过`je`指令判断`ZF`是否置位，如果置位那么代表设备为硬盘，那么就跳转至`is_disk1`处继续执行。即
+通过`jc`指令检查`CF`是否置位，如果置位即不存在第二个硬盘，那么就跳转至`no_disk1`处清零第二个参数表。如果存在第二个硬盘，那么`jc`指令自然不满足则执行`cmp`指令判断设备是否为硬盘，如果是则将标志寄存器`ZF`置位(即`ah == 03`)。再通过`je`指令判断`ZF`是否置位，如果置位那么代表设备为硬盘，那么就跳转至`is_disk1`处继续执行。即
 
 ```
 is_disk1:
@@ -161,7 +161,7 @@ is_disk1:
 
 ## 二、关中断！并将system移动至0x00000处
 
-is_disk1第一句代码就是关中断，如下
+`is_disk1`第一句代码就是关中断，如下
 
 ```
 is_disk1:
@@ -215,13 +215,13 @@ The first cycle is as follows:
   es = 0x0000, ax = 0x1000, ds = 0x1000, di = 0x0, si = 0x0, cx = 0x8000
     while cx != 0x0000
       ds:si to es:di, one word at a time, i.e. movsw
-        cx -= 0x0001
+      cx -= 0x0001
 
 The second cycle is as follows:
   es = 0x1000, ax = 0x2000, ds = 0x2000, di = 0x0, si = 0x0, cx = 0x8000
     while cx != 0x0000
       ds:si to es:di, one word at a time, i.e. movsw
-        cx -= 0x0001
+      cx -= 0x0001
 ...
 ```
 
@@ -248,6 +248,29 @@ while truees = ax
 + 让system模块占据内存物理地址最天然、有利的位置。
 
 ## 三、设置IDT与GDT
+
+IDT，即中断描述符表(Interrupt Descriptor Table)，其保存的是所有中断服务程序的入口地址，就类似于实模式下的中断向量表，这也是构建保护模式下中断机制的开始。实模式下终端向量表的始址在`0x00000`处，这个位置是固定的，而保护模式下IDT的位置是不固定的，可以在任何位置，那么为了找到IDT就要将IDT的入口地址保存在一个寄存器当中，这个寄存器就是IDTR(Interrupt Descriptor Table Register, IDT基址寄存器)，该寄存器共48位，即3个字长，第一个字是限长，剩余的两个字是基地址，结构如下
+
+```
+47----15-----0
+ base | limit 
+```
+
+将IDT入口地址传递给IDTR的过程就是设置IDTR，代码如下
+
+```
+    lidt    idt_48      ! load idt with 0,0
+```
+
+那么这里标号`idt_48`对应的就是IDT的入口地址，`idt_48`的内容如下
+
+```
+idt_48:
+    .word	0           ! idt limit=0
+    .word	0,0         ! idt base=0L
+```
+
+按照上面的解释，这就很容易理解了。第一个字为限长，这里为0，剩余两个字为基址，也是0，即基址就是`0x00000`处。这里基址用两个字描述的初衷在于第三个字是段基址，第二个字就是偏移，那么整个地址`0x00000`就是`0x00000 = 0x0000 * 16 + 0x0000`。即这里的IDT依旧是放在内存开始处。下面的GDTR结构的解读也是同理。
 
 与实模式不同的是，保护模式下的段寻址是通过GDT(Global Descriptor Table, 全局描述符表)完成的，GDT中存放的是段寄存器内容，其数据结构为数组。GDT在操作系统进程切换中意义重大，其中存放了每个任务的LDT(Local Descriptor Table, 局部描述符表)地址和TSS(Task Structure Segment, 任务状态段)地址，以完成进程中各段的寻址、现场保护与现场恢复。
 
@@ -283,7 +306,7 @@ gdt:
        | 0000 0000
 ```
 
-其中每个GDT表项共64位，即8字节，结构如下
+其中每个GDT表项共64位，即8字节/4字，结构如下
 
 ```
 31------------------------------16-15-----------------------0
@@ -306,7 +329,9 @@ Flags的结构如下
  Gr | Sz | 0 | 0
 ```
 
-特别说明的`Privl`为特权级，如果为`00`表示内核特权级，如果为`11`，则表明用户特权级；`Gr`标志位为颗粒度标志，如果为1，那么段限长的单位为4KB，如果为0，那么就是1B。可见，GDT将段基址与段限长拆分保存在不连续的bit位中。这是为了兼容286架构。那么现在GDT表项就很容易理解了。
+特别说明的`Privl`为特权级，如果为`00`表示内核特权级，如果为`11`，则表明用户特权级；`Gr`标志位为颗粒度标志，如果为1，那么段限长的单位为4KB，如果为0，那么就是1B。
+
+显而易见，GDT将段基址与段限长拆分保存在不连续的bit位中。这是为了兼容286架构。那么现在GDT表项就很容易理解了。
 
 以第一项GDT为例，其内容为
 
@@ -327,7 +352,7 @@ Flags的结构如下
 00C0    // 00000000 11000000
 ```
 
-可见，颗粒度标志位的值为1，那么也就意味着段限长实际上为`0x007FF * 4KB = 8MB`。确定了段限长，我们再确定一下段基址，`16-31bit`, `32-39bit`, `56-63bit`构成了段基址，那么合起来就是
+可见，颗粒度标志位的值为1，那么也就意味着段限长实际上为`0x007FF * 4KB = 8MB`。确定了段限长，我们再确定一下段基址，`16-31bit`、`32-39bit`、`56-63bit`构成了段基址，那么合起来就是
 
 ```
 0x0000000
@@ -338,5 +363,119 @@ Flags的结构如下
 现在我们知道了GDT的内容与含义，那么设置GDT就是将GDT表的始址保存在GDTR(Global Descriptor Table Register, GDT基地址寄存器)中，通过下述指令完成
 
 ```
-lidt    idt_48      ! load idt with 0,0
+    lgdt    gdt_48      ! load gdt with whatever appropriate
 ```
+
+也就是GDT的始址信息保存在`gdt_48`标号处，其内容为
+
+```
+gdt_48:
+    .word   0x800       ! gdt limit=2048, 256 GDT entries
+    .word   512+gdt,0x9 ! gdt base = 0X9xxxx
+```
+
+GDTR与IDTR的结构一致，那么也就是说第一个字`0x800`为限长，即十进制`2048bit 或 2KB`，由于每`8Byte`构成一个段描述符，所以GDT中共有256项；第三个字也就是GDT的基地址，即`0x9000`；第二个字当中，`512`为一扇区，也就是`0x00200`，`gdt`为setup程序中`GDT`表的偏移，那么`512+gdt`实际上就是指向了`0x9000`段中偏移为`gdt`的位置处。所以整个地址就可以计算为`0x9000 * 16 + (512 + gdt)`。
+
+综上，总结一下，IDTR与GDTR分别说明了IDT与GDT的入口地址在哪(base)，也说明了IDT和GDT中最多有多少个表项(limit)。
+
+## 四、打开A20，实现32位寻址
+
+这是进入保护模式的关键，因为保护模式下必须突破16位寻址以实现32位寻址，就是通过打开A20地址线实现的。
+
+IBM公司最初的PC机使用的是Intel 8088处理器。该微机中地址线只有20根(`A0-A19`)，当是RAM只有几百KB不到1MB，这20根地址线是完全够用的，所能寻址的最高地址为`0xffff:0xffff`，即1MB处(`0xfffff = 0xffff * 16 + 0xffff`)，那么对于超过1MB的寻址地址将环绕到内存始址处(注意这个细节，可以利用这个特点来检测A20地址线是否打开)。当1985年引入AT机时使用的Intel 80286处理器具有24根地址线，最高寻址16MB，并且有一个与8088完全兼容的实模式运行方式，但是，在寻址值超过1MB时，80286却无法像8088那样实现地址寻址环绕。为了完全实现兼容，IBM最终使用了一个被称之为A20的信号，当A20为0时，那么比特20及以上的地址线都会被清除，从而实现兼容。
+
+机器启动时，A20是默认关闭的，所以只能实现实模式下1MB寻址，那么要进入保护模式就需要打开A20，实现32位寻址。代码如下
+
+```
+! that was painless, now we enable A20
+
+    call  empty_8042
+    mov   al,#0xD1      ! command write
+    out   #0x64,al
+    call  empty_8042
+    mov   al,#0xDF      ! A20 on
+    out   #0x60,al
+    call  empty_8042
+```
+
+选通A20之后，Linux 0.11就可以实现32位寻址，其线性寻址空间就是4GB!
+
+## 五、对8259A中断控制器进行重编程
+
+由于CPU在保护模式下，`int 0x00 - int 0x1F`被Intel保留为内部不可屏蔽中断和异常中断。如果不对8259A进行重新编程的话，那么也就意味着`int 0x00 - int 0x1F`会被保护模式下的Intel保留中断所覆盖掉，因此，必须重新编程，其本质就是重新建立映射关系。代码如下
+
+```
+! well, that went ok, I hope. Now we have to reprogram the interrupts :-(
+! we put them right after the intel-reserved hardware interrupts, at
+! int 0x20-0x2F. There they won't mess up anything. Sadly IBM really
+! messed this up with the original PC, and they haven't been able to
+! rectify it afterwards. Thus the bios puts interrupts at 0x08-0x0f,
+! which is used for the internal hardware interrupts as well. We just
+! have to reprogram the 8259's, and it isn't fun.
+
+    mov al,#0x11        ! initialization sequence
+    out	#0x20,al        ! send it to 8259A-1
+    .word   0x00eb,0x00eb       ! jmp $+2, jmp $+2
+    out	#0xA0,al        ! and to 8259A-2
+    .word   0x00eb,0x00eb
+    mov	al,#0x20        ! start of hardware int's (0x20)
+    out	#0x21,al
+    .word   0x00eb,0x00eb
+    mov	al,#0x28        ! start of hardware int's 2 (0x28)
+    out	#0xA1,al
+    .word   0x00eb,0x00eb
+    mov	al,#0x04        ! 8259-1 is master
+    out	#0x21,al
+    .word   0x00eb,0x00eb
+    mov	al,#0x02        ! 8259-2 is slave
+    out	#0xA1,al
+    .word   0x00eb,0x00eb
+    mov	al,#0x01        ! 8086 mode for both
+    out	#0x21,al
+    .word   0x00eb,0x00eb
+    out	#0xA1,al
+    .word   0x00eb,0x00eb
+    mov	al,#0xFF        ! mask off all interrupts for now
+    out	#0x21,al
+    .word   0x00eb,0x00eb
+    out	#0xA1,al
+```
+
+重新编程前后的中断请求号与中断号之间的对应关系如下
+
+```
+    before       |        after
+-----------------------------------
+IRQ0  -> 0X00    |    IRQ0  -> 0X20
+IRQ1  -> 0X01    |    IRQ1  -> 0X21
+...
+IRQ14 -> 0X0E    |    IRQ14 -> 0X2E
+IRQ15 -> 0X0F    |    IRQ15 -> 0X2F
+```
+
+## 六、进入32位保护模式
+
+setup执行以来，从关中断到对8259A重编程，都是在为进入保护模式做准备，下面两行代码直接设置CPU进入32位保护模式运行。
+
+```
+    mov	ax,#0x0001  ! protected mode (PE) bit
+    lmsw    ax      ! This is it!
+```
+
+`lmsw`指令的作用是加载机器状态字，即load Machine Status Word，也称之为控制寄存器`CR0`，共32位，存放系统控制标志，其第0位为`PE(Protected Mode)`，若为1则表明设置处理器工作方式为保护模式。
+
+`#0x0001`就是总共16位，最低位为1，上述代码加在`CR0`之后就可以通过ax寄存器将`PE`位置1，自此，CPU正式进入保护模式。
+
+## 七、跳转！进入system执行head.s
+
+CPU进入保护模式工作后，最明显的特征就是要根据GDT决定后续执行程序所在段(即，要执行的程序在哪)。setup向head.s跳转也是同理，如下
+
+```
+    jmpi    0,8     ! jmp offset 0 of segment 8 (cs)
+```
+
+通过段间跳转指令`jmpi`跳转至`8:0`处执行，这里的8如何理解呢？
+
+如果将8转为二进制就容易了，即`1000`，这里的每个比特位都有含义，第一第二位表示内核特权级，前面说过，`00`表示GDT表项为内核特权级，`11`则为用户特权级；第三位用于区分GDT和LDT，若为`0`则表示GDT，`1`表示LDT；第四位`1`表示GDT的第二项，即索引为1的那一项，我们前面刚好分析过这一项。那么上述代码就是跳转到以第二项GDT的base为段地址，以0位偏移的内存处。上面分析过，第二项GDT的base为`0x0000000`，即内存始址，那么再加上偏移0还是内存始址，这里是什么呢？就是system模块的head.s程序。
+
+本文完！

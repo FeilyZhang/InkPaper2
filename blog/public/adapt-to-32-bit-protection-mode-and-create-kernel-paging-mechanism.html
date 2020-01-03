@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://feily.tech/images/mylogo.png">
+
+<meta property="og:url" content="https://feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://feily.tech/images/mylogo.png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://feily.tech/images/mylogo.png">
+
+<link rel="canonical" href="https://feily.tech">
+
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-itouch-icon" href="/favicon.png">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
+
+        <meta name="keywords" content="Linux,">
+        <meta name="description" content="Linux内核源码分析：适应32位保护模式并创建内核分页机制">
+        <meta name="author" content="林奕清">
+        <title>Linux内核源码分析：适应32位保护模式并创建内核分页机制</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:Simsun">
+  <a class="index" href="/">
+    <img class="logo" src="/images/mylogo.png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/about.me.html">关于</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:Simsun">Linux内核源码分析：适应32位保护模式并创建内核分页机制</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    
+                    <span class="date" data-time="1578041645"><span class="from"></span></span>
+                    
+                    <span class="tags">Linux</span>
+                </section>
+                <article class="content" style="font-family:Kaiti"><h2>回顾</h2>
+
+<p>上文中，setup.s通过段间跳转指令<code>jmpi</code>跳转至<code>8:0</code>处执行，即开始执行system模块的head.s程序。由于setup.s将system模块移动到了内存始址处，而head.s程序在被编译后，会被连接成system模块的最前面开始部分，即head.s程序就是位于内存始址处。</p>
+
+<p>head.s汇编程序与之前的汇编程序不同，其采用AT&amp;T的汇编语言格式，并且使用GNU的gas和gld进行编译连接，最明显的特征是操作数的结合方向是自左向右，与Intel汇编更好相反。</p>
+
+<h2>一、设置数据段与栈段寄存器</h2>
+
+<p>head.s的开始要设置数据段寄存器，其本质是将数据段寄存器从实模式转向保护模式。实模式下代码段寄存器(cs)与数据段寄存器(ds、es、fs、gs)保存的就是代码段或数据段的基址，而保护模式下保存的则是代码段或数据段的选择符。cs寄存器在setup.s中已经完成了转变，因此这里需要对数据段寄存器进行设置，以使其适应32位保护模式。代码如下</p>
+
+<pre><code>startup_32:
+    movl $0x10,%eax
+    mov %ax,%ds
+    mov %ax,%es
+    mov %ax,%fs
+    mov %ax,%gs
+</code></pre>
+
+<p>对于GNU汇编来说，每个直接数要以<code>$</code>开始，否则表示的是地址，而每个寄存器名都要以<code>%</code>开头，eax表示的是32位的ax寄存器。</p>
+
+<p>这里的直接数<code>$0x10</code>依然要转化为二进制来看待，即<code>00010000</code>，那么第一第二位表示内核特权级，第三位表示的是GDT，第四和第五位为二进制<code>10</code>也就是十进制2，即GDT索引为2的那一项。这里使用的GDT依旧是定义在setup.s中的GDT，即上文中解释过的GDT项。也从侧面说明了ds、es、fs、gs的段基址、段限长、特权级都是相同的，段基址就是GDT索引为2的那一项指明的基址，即内存始址<code>0x0000000</code>(参见上文)，段限长为8MB，特权级为内核特权级。</p>
+
+<p>上述通过eax寄存器设置了数据段寄存器，那么接下来设置栈段寄存器，代码如下</p>
+
+<pre><code>    lss _stack_start,%esp
+</code></pre>
+
+<p><code>lss</code>指令，即Load Stack Segment Register，是80386及以后的CPU才有的指令，其指令格式如下</p>
+
+<pre><code>lss Mem, Reg
+</code></pre>
+
+<p>若<code>Reg</code>为16位寄存器，则<code>Mem</code>必须是32位指针(地址)；若<code>Reg</code>是32位寄存器，则<code>Mem</code>必须是48位指针，其低32位给指令中指定的寄存器，高16位给指令中的段寄存器。</p>
+
+<p>stack_start定义在kernel/sched.c中，为</p>
+
+<pre><code>stack_start = { &amp; user_stack[PAGE_SIZE&gt;&gt;2], 0x10}
+</code></pre>
+
+<p>上述代码将栈顶指针指向<code>user_stack</code>数据结构的最末位置，该数据结构定义在kernel/sched.c中，为</p>
+
+<pre><code>long user_stack [ PAGE_SIZE&gt;&gt;2 ]
+</code></pre>
+
+<p>大概位于<code>0x1E25C</code>处。这里的<code>0x10</code>将ss设置为与前面4个段选择符相同的值，即段基址都是<code>0x0000000</code>，段限长都是8MB，特权级都是内核特权级，其后的压栈动作就要在这里进行。</p>
+
+<p>经过上述设置，代码段基址、数据段基址以及栈段基址都位于内存始址(<code>0x00000</code>处)。而栈顶指针则指向<code>0x1E25C</code>的位置，如下图所示</p>
+
+<p><img src="data:image/gif;base64,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" data-src="/images/article/202001031656.png" alt="代码段基址、数据段基址以及栈段基址,栈顶内存映像" /></p>
+
+<h2>二、重新设置IDT与GDT</h2>
+
+<p>接下来要设置IDT，之前在setup.s中设置过IDT，但是只是将IDT的基地址传递给了IDTR，而IDT本身则没有设置，这里则进行设置，代码如下</p>
+
+<pre><code>    call setup_idt
+</code></pre>
+
+<p>通过<code>call</code>指令调用了<code>setup_idt</code>子程序，该子程序为</p>
+
+<pre><code>setup_idt:
+    lea ignore_int,%edx
+    movl $0x00080000,%eax
+    movw %dx,%ax        /* selector = 0x0008 = cs */
+    movw $0x8E00,%dx    /* interrupt gate - dpl=0, present */
+
+    lea _idt,%edi
+    mov $256,%ecx
+rp_sidt:
+    movl %eax,(%edi)
+    movl %edx,4(%edi)
+    addl $8,%edi
+    dec %ecx
+    jne rp_sidt
+    lidt idt_descr
+    ret
+</code></pre>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(/images/mylogo.png);"></div>
+                    <a class="name" href="/about.me.html">林奕清</a>
+                    <div class="intro" style="font-family:KaiTi">If not now, when? If not me, who?</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    
+                    <section class="nav next">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/from-16-bit-real-mode-to-32-bit-protection-mode.html">Linux内核源码分析：转变！从16位实模式到32位保护模式</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:Consolas">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

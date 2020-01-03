@@ -5,7 +5,7 @@ author: me
 cover: "-/images/os.jpg"
 tags:
     - Linux
-preview: 
+preview: 从实模式到保护模式。
 
 ---
 

@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2020-01-12T18:09:56+08:00</updated>
+  <updated>2020-01-12T19:29:38+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>Second- and third-order determinants</title>
+    <updated>2020-01-12T18:51:50+08:00</updated>
+    <id>tag:feily.tech,2020-01-12:/second-and-third-order-determinants.html</id>
+    <content type="html">&lt;p&gt;Second-order determinant and Third-order determinant.&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/second-and-third-order-determinants.html"></link>
+    <author>
+      <name>奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>Linux内核源码分析：适应32位保护模式并创建内核分页机制</title>
     <updated>2020-01-03T16:54:05+08:00</updated>
@@ -14,7 +24,7 @@
     <content type="html"></content>
     <link href="https://feily.tech/adapt-to-32-bit-protection-mode-and-create-kernel-paging-mechanism.html"></link>
     <author>
-      <name>林奕清</name>
+      <name>奕清</name>
     </author>
   </entry>
   <entry>
@@ -24,7 +34,7 @@
     <content type="html">&lt;p&gt;从实模式到保护模式。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/from-16-bit-real-mode-to-32-bit-protection-mode.html"></link>
     <author>
-      <name>林奕清</name>
+      <name>奕清</name>
     </author>
   </entry>
   <entry>
@@ -34,7 +44,7 @@
     <content type="html">&lt;p&gt;财政政策效果的IS-LM分析、货币政策效果的IS-LM分析、对LM曲线斜率影响的补充说明(重要)。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/is-lm-analysis-of-the-effect-of-fiscal-policy-and-monetary-policy.html"></link>
     <author>
-      <name>林奕清</name>
+      <name>奕清</name>
     </author>
   </entry>
   <entry>
@@ -44,7 +54,7 @@
     <content type="html">&lt;p&gt;经济增长的决定因素、新古典经济增长模型、没有技术进步的新古典增长模型、具有技术进步的新古典增长模型、新古典增长模型的稳态及其条件、应用新古典增长模型解释收入差异和增长率差异、内生增长理论模型。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/economic-growth-model.html"></link>
     <author>
-      <name>林奕清</name>
+      <name>奕清</name>
     </author>
   </entry>
   <entry>
@@ -54,7 +64,7 @@
     <content type="html">&lt;p&gt;乘数原理与加速数原理、乘数-加速数下经济周期的描述方程、乘数-加速数对经济周期的解释。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/multiplier-accelerator-model.html"></link>
     <author>
-      <name>林奕清</name>
+      <name>奕清</name>
     </author>
   </entry>
   <entry>
@@ -64,7 +74,7 @@
     <content type="html">&lt;p&gt;AD曲线的推导与移动、AS曲线的推导与移动、古典总供给曲线与凯恩斯总供给曲线、AD-AS模型：总供给曲线的不同特征的经济含义、AD-AS模型对经济波动的解释。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/analysis-of-total-supply-and-total-demand.html"></link>
     <author>
-      <name>林奕清</name>
+      <name>奕清</name>
     </author>
   </entry>
   <entry>
@@ -74,7 +84,7 @@
     <content type="html">&lt;p&gt;汇率的标价与汇率制度、名义汇率与实际汇率、净出口与资本净流出、开放经济的蒙代尔-弗莱明模型的两个假设、开放经济的蒙代尔-弗莱明模型的IS*曲线及移动、开放经济的蒙代尔-弗莱明模型的LM*曲线及移动、蒙代尔-弗莱明模型、浮动汇率制下蒙代尔-弗莱明模型的财政政策和货币政策效果、固定汇率制下蒙代尔-弗莱明模型的财政政策和货币政策效果、对开放经济下蒙代尔-弗莱明模型的政策效应的总结。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/mundell-fleming-model-in-open-economy.html"></link>
     <author>
-      <name>林奕清</name>
+      <name>奕清</name>
     </author>
   </entry>
   <entry>
@@ -84,7 +94,7 @@
     <content type="html">&lt;p&gt;凯恩斯理论的循环推论与解决方案IS－LM模型，IS－LM模型非均衡的四个区域的含义及实现均衡的过程。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/is-lm-model-circula-inference-and-solution-of-keynesian-theory.html"></link>
     <author>
-      <name>林奕清</name>
+      <name>奕清</name>
     </author>
   </entry>
   <entry>
@@ -94,17 +104,7 @@
     <content type="html">&lt;p&gt;LM曲线由什么决定？如何决定？LM曲线走向由什么决定？如何决定？LM曲线斜率由什么决定？如何决定？&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/derivation-slope-and-translation-of-lm-curve.html"></link>
     <author>
-      <name>林奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>有关IS曲线的推导、斜率及平移</title>
-    <updated>2019-10-19T17:41:05+08:00</updated>
-    <id>tag:feily.tech,2019-10-19:/derivation-slope-and-translation-of-is-curve.html</id>
-    <content type="html">&lt;p&gt;IS曲线由什么决定？如何决定？IS曲线走向由什么决定？如何决定？IS曲线斜率由什么决定？如何决定？&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/derivation-slope-and-translation-of-is-curve.html"></link>
-    <author>
-      <name>林奕清</name>
+      <name>奕清</name>
     </author>
   </entry>
 </feed>

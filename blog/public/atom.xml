@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2020-01-12T19:29:38+08:00</updated>
+  <updated>2020-01-20T20:49:45+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
   <entry>
-    <title>Second- and third-order determinants</title>
-    <updated>2020-01-12T18:51:50+08:00</updated>
-    <id>tag:feily.tech,2020-01-12:/second-and-third-order-determinants.html</id>
-    <content type="html">&lt;p&gt;Second-order determinant and Third-order determinant.&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/second-and-third-order-determinants.html"></link>
+    <title>计算机网络和因特网</title>
+    <updated>2020-01-20T20:19:14+08:00</updated>
+    <id>tag:feily.tech,2020-01-20:/computer-network-and-internet.html</id>
+    <content type="html">&lt;p&gt;什么是因特网？什么是协议？从网络边缘到网络核心, 网络性能测度：时延、丢包、吞吐。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/computer-network-and-internet.html"></link>
     <author>
       <name>奕清</name>
     </author>

@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2020-01-21T19:27:51+08:00</updated>
+  <updated>2020-01-21T21:55:17+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>计算机网络应用层</title>
+    <updated>2020-01-21T21:49:14+08:00</updated>
+    <id>tag:feily.tech,2020-01-21:/computer-network-application-layer.html</id>
+    <content type="html">&lt;p&gt;HTTP协议，即超文本传输协议(HyperText Transfer Protocol, HTTP)，是Web的核心，可以理解为是客户端与服务器在应用层数据传输上达成的共识，其规定了HTTP请求报文与响应报文的格式，从而服务器能够正确解析HTTP请求，客户端也可以正确解析HTTP响应。&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/computer-network-application-layer.html"></link>
+    <author>
+      <name>奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>计算机网络和因特网</title>
     <updated>2020-01-20T20:19:14+08:00</updated>
@@ -93,16 +103,6 @@
     <id>tag:feily.tech,2019-10-20:/is-lm-model-circula-inference-and-solution-of-keynesian-theory.html</id>
     <content type="html">&lt;p&gt;凯恩斯理论的循环推论与解决方案IS－LM模型，IS－LM模型非均衡的四个区域的含义及实现均衡的过程。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/is-lm-model-circula-inference-and-solution-of-keynesian-theory.html"></link>
-    <author>
-      <name>奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>有关LM曲线的推导、斜率及平移</title>
-    <updated>2019-10-20T16:43:05+08:00</updated>
-    <id>tag:feily.tech,2019-10-20:/derivation-slope-and-translation-of-lm-curve.html</id>
-    <content type="html">&lt;p&gt;LM曲线由什么决定？如何决定？LM曲线走向由什么决定？如何决定？LM曲线斜率由什么决定？如何决定？&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/derivation-slope-and-translation-of-lm-curve.html"></link>
     <author>
       <name>奕清</name>
     </author>

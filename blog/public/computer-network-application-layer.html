@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Feily Zhang">
+<meta name="twitter:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta name="twitter:image:src" content="https://feily.tech/images/mylogo.png">
+
+<meta property="og:url" content="https://feily.tech">
+<meta property="og:title" content="Feily Zhang">
+<meta property="og:description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta property="og:site_name" content="Feily Zhang">
+<meta property="og:image" content="https://feily.tech/images/mylogo.png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="Feily Zhang">
+<meta itemprop="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
+<meta itemprop="image" content="https://feily.tech/images/mylogo.png">
+
+<link rel="canonical" href="https://feily.tech">
+
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="apple-itouch-icon" href="/favicon.png">
+<link rel="stylesheet" href="/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '';
+</script>
+
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
+
+        <meta name="keywords" content="Computer Network,">
+        <meta name="description" content="计算机网络应用层">
+        <meta name="author" content="奕清">
+        <title>计算机网络应用层</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap" style="font-family:Simsun">
+  <a class="index" href="/">
+    <img class="logo" src="/images/mylogo.png" />
+    Feily Zhang
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/about.me.html">关于</a></li>
+      <li class="menu-item"><a href="/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title" style="font-family:Simsun">计算机网络应用层</h1>
+                <section class="info" style="font-family:KaiTi">
+                    <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                    <a class="name" href="/about.me.html">奕清</a>
+                    
+                    <span class="date" data-time="1579614554"><span class="from"></span></span>
+                    
+                    <span class="tags">Computer Network</span>
+                </section>
+                <article class="content" style="font-family:Kaiti"><h1>一、HTTP协议</h1>
+
+<p>HTTP协议，即超文本传输协议(HyperText Transfer Protocol, HTTP)，是Web的核心，可以理解为是客户端与服务器在应用层数据传输上达成的共识，其规定了HTTP请求报文与响应报文的格式，从而服务器能够正确解析HTTP请求，客户端也可以正确解析HTTP响应。</p>
+
+<p><strong>HTTP协议是可靠的、无状态协议。</strong>具体解释如下</p>
+
+<ul>
+<li>HTTP协议使用TCP协议作为传输层协议，由于TCP协议提供可靠的数据传输服务，因此，HTTP协议是可靠的协议；</li>
+<li>HTTP服务器不存储任何有关客户状态的信息，这意味着客户端在短时间内的重复请求依然会得到服务器的完全响应，因此是无状态的。</li>
+</ul>
+
+<h2>1.1 非持续连接和持续连接</h2>
+
+<p>对于每一个请求/响应对，如果经单独的TCP连接发送，那么就属于非持续连接，若是经相同的TCP连接发送，则属于持续连接。HTTP在默认方式下使用持续连接，但也可以配置为非持续连接。</p>
+
+<p>简单来说，非持续连接中，一个TCP连接在服务器发送完对象之后就立即关闭，也就是说对于客户端的每次请求，服务器都需要建立单独的TCP连接进行处理，更进一步而言，客户端与服务器建立的TCP连接，只分别传输了一个请求报文和一个响应报文。在此基础之上，我们更关注的是非持续连接中一个TCP连接自始(connect)至终(close)所花费的时间，这个时间几乎是客户端一次请求动作的作出到接收到整个文件的全部时间，应该如何定义呢？</p>
+
+<p>在给出定义之前，我们先引入往返时间(Round-Trip Time, RTT)的概念：</p>
+
+<blockquote>
+<p>往返时间(RTT)，是指一个短分组从客户到服务器然后再返回客户所花费的时间。</p>
+</blockquote>
+
+<p>众所周知，一个TCP连接的建立，需要经过“三次握手”，即客户端先向服务器发送一个小的TCP报文段，然后服务器用一个小的TCP报文段作出响应，最后客户端向服务器返回确认。可见，前两次握手对应一次往返时间(RTT)，即先是客户端到服务器的端到端传输，再是服务器到客户端的端到端传输。第三次握手时，客户端一并向服务器发送请求报文，服务器随后在正式的TCP会话中响应，这就构成了另一个完整的RTT。此外，服务器对用户的响应，还包括服务器本地检索并传输(在本地传输，即HTML文档被推向往客户端的链路之前的数据传输)的时间。也就是说，<strong>一个TCP连接或者客户端一次请求动作的作出到接收到整个文件的总的响应时间就是两个RTT加上服务器传输HTML文件的时间。</strong></p>
+
+<p>之前定义过端到端时延，事实上，一个RTT就是两次端到端时延，那么总的响应时间其实就是四次端到端时延再加上服务器传输HTML文件的时间。</p>
+
+<p>至此，非持续连接的缺陷显而易见，即</p>
+
+<ul>
+<li><strong>资源浪费</strong>。对于客户端的每次对象请求，服务器都要建立和维护一个全新的TCP连接，而每次TCP连接的建立，在客户端和服务器中都要分配TCP缓冲区和保持TCP变量，造成不必要的资源浪费。</li>
+<li><strong>时延较高</strong>。对于客户端的每次对象请求，客户端都要经受两倍的RTT交付时延，一个RTT时延用于创建TCP连接，另一个RTT时延用于请求和接收对象。</li>
+</ul>
+
+<p>在采用HTTP/1.1持续连接的情况下，服务器在发送响应之后不关闭TCP连接而是保持该TCP连接的打开，以便后续的其余对象请求可以重复利用该TCP连接，这就意味着后续的对象请求减少了一半的时延，即减少到了一个RTT时延。那么该TCP连接会一直保持打开状态吗？并不会，如果一个TCP连接在一个可配置的时间间隔内未被利用，那么该连接就会被HTTP服务器关闭，从而资源得以释放。</p>
+
+<p>HTTP的默认模式是使用带流水线的持续连接，而在HTTP 1.1基础上构建的HTTP/2允许在相同连接中进行多个请求和回答交错，并增加了在该连接中优化HTTP报文请求和回答的机制。</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>定义</th>
+<th>TCP连接</th>
+<th>时延</th>
+<th>评价</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>非持续连接</td>
+<td>每个请求/响应对，经单独TCP连接发送</td>
+<td>用完即关</td>
+<td>至少两倍RTT</td>
+<td>资源浪费、时延较高</td>
+</tr>
+
+<tr>
+<td>持续连接</td>
+<td>每个请求/响应对，经相同TCP连接发送</td>
+<td>重复利用</td>
+<td>一个RTT</td>
+<td>资源利用率高、时延较低</td>
+</tr>
+</tbody>
+</table>
+</article>
+                <section class="author" style="font-family:NSimSun">
+                    <div class="avatar" style="background-image: url(/images/mylogo.png);"></div>
+                    <a class="name" href="/about.me.html">奕清</a>
+                    <div class="intro" style="font-family:KaiTi">听书，茶楼，下个巷口</div>
+                </section>
+                <section class="recommend" style="font-family:KaiTi">
+                    
+                    
+                    <section class="nav next">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/computer-network-and-internet.html">计算机网络和因特网</a>
+                    </section>
+                    
+                </section>
+                
+            </article>
+        </article>
+        <footer class="footer" style="font-family:Consolas">
+    <span class="copyright">
+        Feily Zhang ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/bundle/index.js"></script>
+    </body>
+</html>

@@ -16,6 +16,6 @@ author: me
 <li>Github: <a href="https://github.com/FeilyZhang" target="_blank">@FeilyZhang</a></li>
 <li>Dcoder: <a href="https://code.dcoder.tech/profile/feily.tech" target="_blank">@feily.tech</a></li>
 <li>Twitter: <a href="https://twitter.com/FeilyZhang" target="_blank">@FeilyZhang</a></li>
-<li>NetEaseMusic: <a href="https://music.163.com/#/user/home?id=424858919" target="_blank">@<span style="font-family:kaiti">取一个名字只能说好难</span></a></li>
+<li>NetEase Music: <a href="https://music.163.com/#/user/home?id=424858919" target="_blank">@<span style="font-family:kaiti">取一个名字只能说好难</span></a></li>
 <li>Wechat Official Account: <a href="https://feily.tech/images/wechat-official-account.png" target="_blank"><span style="font-family:kaiti">机器学习泥瓦张</span>(ID: FeilyZhang)</a></li>
 </ul>

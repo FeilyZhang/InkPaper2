@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2020-01-27T13:46:17+08:00</updated>
+  <updated>2020-02-04T22:29:24+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>The essence, structure and application of recursive algorithm</title>
+    <updated>2020-02-04T10:28:14+08:00</updated>
+    <id>tag:feily.tech,2020-02-04:/the-essence-structure-and-application-of-recursive-algorithm.html</id>
+    <content type="html">&lt;p&gt;In common algorithm strategies, I always think recursion is full of aesthetic feeling. But if you don’t have a deep understanding to it, aesthetic feeling will becomes a headache. So this article will thoroughly introduce recursive algorithm, let’s enjoy the beauty of recursive algorithm.&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/the-essence-structure-and-application-of-recursive-algorithm.html"></link>
+    <author>
+      <name>奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>计算机网络应用层</title>
     <updated>2020-01-21T21:49:14+08:00</updated>
@@ -93,16 +103,6 @@
     <id>tag:feily.tech,2019-10-26:/mundell-fleming-model-in-open-economy.html</id>
     <content type="html">&lt;p&gt;汇率的标价与汇率制度、名义汇率与实际汇率、净出口与资本净流出、开放经济的蒙代尔-弗莱明模型的两个假设、开放经济的蒙代尔-弗莱明模型的IS*曲线及移动、开放经济的蒙代尔-弗莱明模型的LM*曲线及移动、蒙代尔-弗莱明模型、浮动汇率制下蒙代尔-弗莱明模型的财政政策和货币政策效果、固定汇率制下蒙代尔-弗莱明模型的财政政策和货币政策效果、对开放经济下蒙代尔-弗莱明模型的政策效应的总结。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/mundell-fleming-model-in-open-economy.html"></link>
-    <author>
-      <name>奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>IS－LM模型：凯恩斯理论的循环推论与解决方案</title>
-    <updated>2019-10-20T21:08:05+08:00</updated>
-    <id>tag:feily.tech,2019-10-20:/is-lm-model-circula-inference-and-solution-of-keynesian-theory.html</id>
-    <content type="html">&lt;p&gt;凯恩斯理论的循环推论与解决方案IS－LM模型，IS－LM模型非均衡的四个区域的含义及实现均衡的过程。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/is-lm-model-circula-inference-and-solution-of-keynesian-theory.html"></link>
     <author>
       <name>奕清</name>
     </author>

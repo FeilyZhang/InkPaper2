@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -100,6 +78,23 @@
                 </header>
                 <ul class="article-list">
                     
+                    
+                    <li class="article">
+                        <a class="title" href="/the-essence-structure-and-application-of-recursive-algorithm.html">The essence, structure and application of recursive algorithm</a>
+                        <div class="cover" style="background-image:url(/images/nopic.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>In common algorithm strategies, I always think recursion is full of aesthetic feeling. But if you don’t have a deep understanding to it, aesthetic feeling will becomes a headache. So this article will thoroughly introduce recursive algorithm, let’s enjoy the beauty of recursive algorithm.</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">奕清</a>
+                            
+                            <span class="date" data-time="1580783294"><span class="from"></span></span>
+                            
+                            <span class="tags" style="font-family:Consolas">
+                            Algorithm
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/computer-network-application-layer.html">计算机网络应用层</a>
@@ -246,23 +241,6 @@
                             <a class="name" href="/about.me.html">奕清</a>
                             
                             <span class="date" data-time="1572056765"><span class="from"></span></span>
-                            
-                            <span class="tags" style="font-family:Consolas">
-                            Macroeconomics
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/is-lm-model-circula-inference-and-solution-of-keynesian-theory.html">IS－LM模型：凯恩斯理论的循环推论与解决方案</a>
-                        <div class="cover" style="background-image:url(/images/nopic.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>凯恩斯理论的循环推论与解决方案IS－LM模型，IS－LM模型非均衡的四个区域的含义及实现均衡的过程。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
-                            <a class="name" href="/about.me.html">奕清</a>
-                            
-                            <span class="date" data-time="1571576885"><span class="from"></span></span>
                             
                             <span class="tags" style="font-family:Consolas">
                             Macroeconomics

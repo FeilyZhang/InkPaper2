@@ -9,4 +9,4 @@ preview: In common algorithm strategies, I always think recursion is full of aes
 
 ---
 
-[The essence, structure and application of recursive algorithm](https://feily.tech/ano/2020/02/04/1580825823.html)
+<p style="font-family:Consolas">[The essence, structure and application of recursive algorithm](https://feily.tech/ano/2020/02/04/1580825823.html)</p>

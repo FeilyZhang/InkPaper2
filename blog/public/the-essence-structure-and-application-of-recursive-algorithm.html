@@ -44,6 +44,28 @@
     var root = '';
 </script>
 
+<script type="text/javascript">
+    var conn, reloadTimer, connectTimer;
+    var connect = function() {
+        conn = new WebSocket('ws://' + location.host + '/live');
+        conn.onmessage = function(event) {
+            if (event.data === 'change') {
+                if (reloadTimer) clearTimeout(reloadTimer);
+                reloadTimer = setTimeout(function() {
+                    window.location.reload();
+                }, 200);
+            }
+        };
+        conn.onclose = function() {
+            if (connectTimer) clearTimeout(connectTimer);
+            connectTimer = setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+    };
+    connect();
+</script>
+
 
         <meta name="keywords" content="Algorithm,">
         <meta name="description" content="The essence, structure and application of recursive algorithm">
@@ -74,7 +96,266 @@
                     
                     <span class="tags">Algorithm</span>
                 </section>
-                <article class="content" style="font-family:Kaiti"><p style="font-family:Consolas">[The essence, structure and application of recursive algorithm](https://feily.tech/ano/2020/02/04/1580825823.html)</p>
+                <article class="content" style="font-family:Kaiti"><p><article style="font-family:Consolas"></p>
+
+<blockquote>
+<p>This article was first published in feily.tech/ano. The original link is <a href="https://feily.tech/ano/2020/02/04/1580825823.html">https://feily.tech/ano/2020/02/04/1580825823.html</a></p>
+</blockquote>
+
+<h1 style="font-family:Bodoni">Introduction</h1>
+
+<p>In common algorithm strategies, I always think recursion is full of aesthetic feeling. But if you don&rsquo;t have a deep understanding to it, aesthetic feeling will becomes a headache. So this article will thoroughly introduce recursive algorithm, let&rsquo;s enjoy the beauty of recursive algorithm.</p>
+
+<h1 style="font-family:Bodoni">What's the essence of recursion?</h1>
+
+<p>Most articles say that recursion is you call yourself in a function or method. Yes, it&rsquo;s true in form, but what is the purpose of recursion and when should we apply recursion algorithm? That&rsquo;s a good question.</p>
+
+<p>The essence of recursion is loop, and its purpose is to solve the problem of structure self-similarity. But what&rsquo;s the problem of structure self-similarity?</p>
+
+<p>The problem of structure self-similarity refers to the substructure of the structure still keeps the nature of the structure itself, but the scale is different. For example, the following data structures belong to structural self similarity:</p>
+
+<blockquote>
+<p>Array, linked list, binary tree, sequence and so on.</p>
+</blockquote>
+
+<p>Strictly speaking, there is no difference between an array and a sequence, but they are distinguished here for the sake of below smooth writing.</p>
+
+<p>Maybe you have some questions about description above. Don&rsquo;t worry, keep looking down.</p>
+
+<h1 style="font-family:Bodoni">What's the structure of recursion?</h1>
+
+<p>After careful analysis, it is found that there are two types of recursive algorithm, each of which has a different structure.</p>
+
+<ul>
+<li>Recursion for a certain value(RfV): In general, there is a return value, such as finding the maximum value of an array or the sum of array elements.</li>
+<li>Recursion to entire structure(RtS): Generally, there is no return value, which is directly operated on the object, such as array inversion, clearing binary tree, etc.</li>
+</ul>
+
+<p>For RfV, the common program structure is as follows.</p>
+
+<pre><code>/*
+ * @param obj A data structure or data which contains data.
+ * @param idx Index of element, which can be used to extract element and recursive boundary. It's an optional parameter.
+ * @return The final result, such as the maximum.
+ */
+def RfV(obj, opt(idx))
+    if isBoundary
+        return current value
+    pre = RfV(obj, opt(idx + step size))
+    some necessary operations related to &quot;pre&quot; 
+    return current value
+</code></pre>
+
+<p>Now, let&rsquo;s solve an algorithm problem.</p>
+
+<blockquote>
+<p>Given an array, the maximun and sum are calculated by recursion algorithm.</p>
+</blockquote>
+
+<pre><code>package tech.feily.acm_icpc.recur;
+
+/*
+ * @author Feily Zhang
+ */
+public class ArrMax {
+    
+    public static int max(int[] arr, int i) {
+        if (i == 0) return arr[0];
+        int pre = max(arr, i - 1);
+        return pre &gt; arr[i] ? pre : arr[i];
+    }
+    
+    public static int sum(int[] arr, int i) {
+        if (i == 0) return arr[0];
+        return sum(arr, i - 1) + arr[i];
+    }
+    
+    public static void main(String[] args) {
+        int[] arr = {8, 3, 2, 9, 7, 1, 5, 4};
+        System.out.println(max(arr, arr.length - 1));
+        System.out.println(sum(arr, arr.length - 1));
+    }
+
+}
+</code></pre>
+
+<p>Can we solve above RfV problem without return statement? Of course, but we can only solve it through object reference. As shown below.</p>
+
+<pre><code>package tech.feily.acm_icpc.recur;
+
+/*
+ * @author Feily Zhang
+ */
+public class ArrMax1 {
+
+
+    class Int {
+        private int val;
+        public void setVal(int val) {
+            this.val = val;
+        }
+        public int getVal() {
+            return val;
+        }
+    }
+    
+    public static void max(int[] arr, int i, Int j) {
+        if (i != arr.length) {
+            if (i == 0) {
+                j.setVal(arr[0]);
+                max(arr, i + 1, j);
+            }
+            if (arr[i] &gt; j.getVal()) {
+                j.setVal(arr[i]);
+                max(arr, i + 1, j);
+            } else max(arr, i + 1, j);
+        }
+    }
+    
+    public static void sum(int[] arr, int i, Int j) {
+        if (i != arr.length) {
+            if (i == 0) {
+                j.setVal(arr[0]);
+                sum(arr, i + 1, j);
+            } else {
+                j.setVal(arr[i] + j.getVal());
+                sum(arr, i + 1, j);
+            }
+        }
+    }
+    
+    public static void main(String[] args) {
+        int[] arr = {8, 3, 2, 9, 7, 1, 5, 4};
+        Int j = new ArrMax1().new Int();
+        max(arr, 0, j);
+        System.out.println(j.getVal());
+        j.setVal(0);    // clear object j
+        sum(arr, 0, j);
+        System.out.println(j.getVal());
+    }
+
+}
+</code></pre>
+
+<p>Through above statements, we can easily find that RfV problem have two types program structure. One is realized by return value, the other by object reference. The main step of the former is to advance recursively first, return recursively and deal with it after touching the recursion boundary, and the latter is to move forward recursively while processing, until it touches the recursion boundary.</p>
+
+<p>Because I said that the essence of recursion is loop, so recursive algorithm can be realized by &ldquo;for&rdquo; loop equivalently. The initial value, cycle condition and step size of cycle variable of the &ldquo;for&rdquo; loop can easily get by analyzing recursion algorithm.</p>
+
+<p>For RtS, the common program structure is as follows.</p>
+
+<pre><code>def RtS(obj, opt(idx))
+    if !isBoundary
+        do something
+        RtS(obj, opt(idx + step size))
+</code></pre>
+
+<p>Now, let&rsquo;s solve an algorithm problem.</p>
+
+<blockquote>
+<p>Invert the elements of a given array.</p>
+</blockquote>
+
+<pre><code>package tech.feily.acm_icpc.recur;
+
+import java.util.Arrays;
+
+/*
+ * @author Feily Zhang
+ */
+public class Invert {
+
+    public static void invert(int[] arr, int l, int r) {
+        if (l &lt; r) {
+            arr[l] = arr[l] + arr[r];
+            arr[r] = arr[l] - arr[r];
+            arr[l] = arr[l] - arr[r];
+            invert(arr, l + 1, r - 1);
+        }
+    }
+    
+    public static void main(String[] args) {
+        int[] arr = {8, 3, 2, 9, 7, 1, 5, 4};
+        System.out.println(Arrays.toString(arr));
+        invert(arr, 0, arr.length - 1);
+        System.out.println(Arrays.toString(arr));
+    }
+
+}
+</code></pre>
+
+<p>The above method solve the RtS problem by processing before recursion. Can we solve it by processing after recursion? Of course.</p>
+
+<pre><code>package tech.feily.acm_icpc.recur;
+
+import java.util.Arrays;
+
+/*
+ * @author Feily Zhang
+ */
+public class Invert1 {
+
+    public static void invert(int[] arr, int l, int r) {
+        if (l &lt; r) {
+            invert(arr, l + 1, r - 1);
+            arr[l] = arr[l] + arr[r];
+            arr[r] = arr[l] - arr[r];
+            arr[l] = arr[l] - arr[r];
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {8, 3, 2, 9, 7, 1, 5, 4};
+        System.out.println(Arrays.toString(arr));
+        invert(arr, 0, arr.length - 1);
+        System.out.println(Arrays.toString(arr));
+    }
+    
+}
+</code></pre>
+
+<h1 style="font-family:Bodoni">Sequence, a special structure self-similarity</h1>
+
+<p>The reason why sequence is a special issue of structure self-similarity is its elements are calculated by formula, so its structure self-similarity is not as obvious as array and linked list. Let&rsquo;s feel it through a question.</p>
+
+<blockquote>
+<p>Output digit by digit from high to low, and there is a space after each number.</p>
+</blockquote>
+
+<pre><code>package tech.feily.acm_icpc.recur;
+
+/*
+ * @author Feily zhang
+ */
+public class Output {
+
+    public static void output(int num) {
+        if (num &lt; 10) System.out.print(num + &quot; &quot;);
+        else {
+            output(num / 10);
+            System.out.print(num % 10 + &quot; &quot;);
+        }
+    }
+
+    public static String output1(int num) {
+        if (num &lt; 10) return num + &quot; &quot;;
+        String s = output1(num / 10);
+        return s + num % 10 + &quot; &quot;;
+    }
+    
+    public static void main(String[] args) {
+        output(13579);
+        System.out.println(&quot;\n&quot; + output1(13579));
+    }
+
+}
+</code></pre>
+
+<p>In fact, the sequence given by <code>13579 / 10</code> constitutes an array of elements <code>[13579, 1357, 135, 13, 1]</code>. Because the elements are computed in real time, the index can be omitted.</p>
+
+<p>If you have any questions, you can click <a href="https://github.com/FeilyZhang/ano/issues">here</a> to create an issue , thanks.</p>
+
+<p></article>
+<p style="font-family:Consolas;text-align:right">Last updated at 22:12, February 04, 2020</p></p>
 </article>
                 <section class="author" style="font-family:NSimSun">
                     <div class="avatar" style="background-image: url(/images/mylogo.png);"></div>

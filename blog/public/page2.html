@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -100,6 +78,40 @@
                 </header>
                 <ul class="article-list">
                     
+                    
+                    <li class="article">
+                        <a class="title" href="/analysis-of-total-supply-and-total-demand.html">宏观经济总供求分析</a>
+                        <div class="cover" style="background-image:url(/images/nopic.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>AD曲线的推导与移动、AS曲线的推导与移动、古典总供给曲线与凯恩斯总供给曲线、AD-AS模型：总供给曲线的不同特征的经济含义、AD-AS模型对经济波动的解释。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">奕清</a>
+                            
+                            <span class="date" data-time="1572078665"><span class="from"></span></span>
+                            
+                            <span class="tags" style="font-family:Consolas">
+                            Macroeconomics
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/mundell-fleming-model-in-open-economy.html">开放经济下蒙代尔-弗莱明模型</a>
+                        <div class="cover" style="background-image:url(/images/nopic.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>汇率的标价与汇率制度、名义汇率与实际汇率、净出口与资本净流出、开放经济的蒙代尔-弗莱明模型的两个假设、开放经济的蒙代尔-弗莱明模型的IS*曲线及移动、开放经济的蒙代尔-弗莱明模型的LM*曲线及移动、蒙代尔-弗莱明模型、浮动汇率制下蒙代尔-弗莱明模型的财政政策和货币政策效果、固定汇率制下蒙代尔-弗莱明模型的财政政策和货币政策效果、对开放经济下蒙代尔-弗莱明模型的政策效应的总结。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">奕清</a>
+                            
+                            <span class="date" data-time="1572056765"><span class="from"></span></span>
+                            
+                            <span class="tags" style="font-family:Consolas">
+                            Macroeconomics
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/is-lm-model-circula-inference-and-solution-of-keynesian-theory.html">IS－LM模型：凯恩斯理论的循环推论与解决方案</a>
@@ -237,45 +249,11 @@
                         </section>
                     </li>
                     
-                    <li class="article">
-                        <a class="title" href="/cpp-custom-data-type.html">C&#43;&#43;自定义数据类型</a>
-                        <div class="cover" style="background-image:url(/images/c&#43;&#43;.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>C++自定义数据类型包括数组、结构体、共用体、枚举。写C/C++不用指针是没有灵魂的！</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
-                            <a class="name" href="/about.me.html">奕清</a>
-                            
-                            <span class="date" data-time="1565353782"><span class="from"></span></span>
-                            
-                            <span class="tags" style="font-family:Consolas">
-                            C&#43;&#43;
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/predefined-data-types-in-cpp.html">C&#43;&#43;中的预定义数据类型</a>
-                        <div class="cover" style="background-image:url(/images/c&#43;&#43;.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>C++中的预定义数据类型包括整型、浮点型、字符型、布尔型、空类型、指针类型, 自动存储、静态存储和动态存储。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
-                            <a class="name" href="/about.me.html">奕清</a>
-                            
-                            <span class="date" data-time="1565190822"><span class="from"></span></span>
-                            
-                            <span class="tags" style="font-family:Consolas">
-                            C&#43;&#43;
-                            </span>
-                        </section>
-                    </li>
-                    
                     
                 </ul>
                 <section class="page-nav">
                     <a class="prev" href="/index.html">上一页</a>
-                    <span class="nav">2 / 10</span>
+                    <span class="nav">2 / 11</span>
                     <a class="next" href="/page3.html">下一页</a>
                 </section>
             </article>

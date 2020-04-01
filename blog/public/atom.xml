@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>Feily Zhang</title>
   <id>https://feily.tech</id>
-  <updated>2020-02-05T22:20:45+08:00</updated>
+  <updated>2020-04-01T20:34:38+08:00</updated>
   <subtitle>昨夜星辰昨夜风，画楼西畔桂堂东</subtitle>
   <link href="https://feily.tech"></link>
   <author>
     <name>Feily Zhang</name>
   </author>
+  <entry>
+    <title>Lists, Iteration, and Recursion</title>
+    <updated>2020-04-01T20:23:14+08:00</updated>
+    <id>tag:feily.tech,2020-04-01:/lists-iteration-and-recursion.html</id>
+    <content type="html">&lt;p&gt;The Racket Guide, reference from &lt;a href=&#34;https://docs.racket-lang.org/guide/index.html&#34;&gt;https://docs.racket-lang.org/guide/index.html&lt;/a&gt;&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/lists-iteration-and-recursion.html"></link>
+    <author>
+      <name>奕清</name>
+    </author>
+  </entry>
+  <entry>
+    <title>Simple Definitions and Expressions</title>
+    <updated>2020-03-29T18:10:14+08:00</updated>
+    <id>tag:feily.tech,2020-03-29:/simple-definitions-and-expressions.html</id>
+    <content type="html">&lt;p&gt;The Racket Guide, reference from &lt;a href=&#34;https://docs.racket-lang.org/guide/index.html&#34;&gt;https://docs.racket-lang.org/guide/index.html&lt;/a&gt;&lt;/p&gt;&#xA;</content>
+    <link href="https://feily.tech/simple-definitions-and-expressions.html"></link>
+    <author>
+      <name>奕清</name>
+    </author>
+  </entry>
   <entry>
     <title>The essence, structure and application of recursive algorithm</title>
     <updated>2020-02-04T10:28:14+08:00</updated>
@@ -83,26 +103,6 @@
     <id>tag:feily.tech,2019-10-27:/multiplier-accelerator-model.html</id>
     <content type="html">&lt;p&gt;乘数原理与加速数原理、乘数-加速数下经济周期的描述方程、乘数-加速数对经济周期的解释。&lt;/p&gt;&#xA;</content>
     <link href="https://feily.tech/multiplier-accelerator-model.html"></link>
-    <author>
-      <name>奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>宏观经济总供求分析</title>
-    <updated>2019-10-26T16:31:05+08:00</updated>
-    <id>tag:feily.tech,2019-10-26:/analysis-of-total-supply-and-total-demand.html</id>
-    <content type="html">&lt;p&gt;AD曲线的推导与移动、AS曲线的推导与移动、古典总供给曲线与凯恩斯总供给曲线、AD-AS模型：总供给曲线的不同特征的经济含义、AD-AS模型对经济波动的解释。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/analysis-of-total-supply-and-total-demand.html"></link>
-    <author>
-      <name>奕清</name>
-    </author>
-  </entry>
-  <entry>
-    <title>开放经济下蒙代尔-弗莱明模型</title>
-    <updated>2019-10-26T10:26:05+08:00</updated>
-    <id>tag:feily.tech,2019-10-26:/mundell-fleming-model-in-open-economy.html</id>
-    <content type="html">&lt;p&gt;汇率的标价与汇率制度、名义汇率与实际汇率、净出口与资本净流出、开放经济的蒙代尔-弗莱明模型的两个假设、开放经济的蒙代尔-弗莱明模型的IS*曲线及移动、开放经济的蒙代尔-弗莱明模型的LM*曲线及移动、蒙代尔-弗莱明模型、浮动汇率制下蒙代尔-弗莱明模型的财政政策和货币政策效果、固定汇率制下蒙代尔-弗莱明模型的财政政策和货币政策效果、对开放经济下蒙代尔-弗莱明模型的政策效应的总结。&lt;/p&gt;&#xA;</content>
-    <link href="https://feily.tech/mundell-fleming-model-in-open-economy.html"></link>
     <author>
       <name>奕清</name>
     </author>

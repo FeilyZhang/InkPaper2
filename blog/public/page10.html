@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -100,6 +78,40 @@
                 </header>
                 <ul class="article-list">
                     
+                    
+                    <li class="article">
+                        <a class="title" href="/java-exception-and-exception-handling-mechanism.html">Java异常及异常处理机制</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>受检异常和未受检异常的区别在于Java对这两种异常的态度，对于受检异常Java要求程序员处理，否则会有编译错误。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">奕清</a>
+                            
+                            <span class="date" data-time="1543581117"><span class="from"></span></span>
+                            
+                            <span class="tags" style="font-family:Consolas">
+                            Java Core
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/data-type-conversion-in-java.html">Java中的数据类型转换</a>
+                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>Java中的数据类型分为三大类，分别是数值型、布尔型、字符型，其中数值型分为整型和浮点型。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">奕清</a>
+                            
+                            <span class="date" data-time="1542212583"><span class="from"></span></span>
+                            
+                            <span class="tags" style="font-family:Consolas">
+                            Java Core
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/born-in-1984-reading-notes.html">《生于一九八四》·阅读小记</a>
@@ -237,29 +249,12 @@
                         </section>
                     </li>
                     
-                    <li class="article">
-                        <a class="title" href="/rain-sprinkled-the-courtyard-las-night.html">浣溪沙 · 昨夜风雨洒庭轩</a>
-                        <div class="cover" style="background-image:url(/images/huanxisha.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>一生难再此佳年,莫惧,蓑雨任平生。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
-                            <a class="name" href="/about.me.html">奕清</a>
-                            
-                            <span class="date" data-time="1468852501"><span class="from"></span></span>
-                            
-                            <span class="tags" style="font-family:Consolas">
-                            一晌贪欢
-                            </span>
-                        </section>
-                    </li>
-                    
                     
                 </ul>
                 <section class="page-nav">
                     <a class="prev" href="/page9.html">上一页</a>
-                    <span class="nav">10 / 10</span>
-                    
+                    <span class="nav">10 / 11</span>
+                    <a class="next" href="/page11.html">下一页</a>
                 </section>
             </article>
         </article>

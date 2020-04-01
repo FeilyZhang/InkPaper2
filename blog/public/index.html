@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -100,6 +78,40 @@
                 </header>
                 <ul class="article-list">
                     
+                    
+                    <li class="article">
+                        <a class="title" href="/lists-iteration-and-recursion.html">Lists, Iteration, and Recursion</a>
+                        <div class="cover" style="background-image:url(/images/racket.png);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>The Racket Guide, reference from <a href="https://docs.racket-lang.org/guide/index.html">https://docs.racket-lang.org/guide/index.html</a></p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">奕清</a>
+                            
+                            <span class="date" data-time="1585743794"><span class="from"></span></span>
+                            
+                            <span class="tags" style="font-family:Consolas">
+                            Racket
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/simple-definitions-and-expressions.html">Simple Definitions and Expressions</a>
+                        <div class="cover" style="background-image:url(/images/racket.png);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>The Racket Guide, reference from <a href="https://docs.racket-lang.org/guide/index.html">https://docs.racket-lang.org/guide/index.html</a></p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">奕清</a>
+                            
+                            <span class="date" data-time="1585476614"><span class="from"></span></span>
+                            
+                            <span class="tags" style="font-family:Consolas">
+                            Racket
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/the-essence-structure-and-application-of-recursive-algorithm.html">The essence, structure and application of recursive algorithm</a>
@@ -236,45 +248,11 @@
                         </section>
                     </li>
                     
-                    <li class="article">
-                        <a class="title" href="/analysis-of-total-supply-and-total-demand.html">宏观经济总供求分析</a>
-                        <div class="cover" style="background-image:url(/images/nopic.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>AD曲线的推导与移动、AS曲线的推导与移动、古典总供给曲线与凯恩斯总供给曲线、AD-AS模型：总供给曲线的不同特征的经济含义、AD-AS模型对经济波动的解释。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
-                            <a class="name" href="/about.me.html">奕清</a>
-                            
-                            <span class="date" data-time="1572078665"><span class="from"></span></span>
-                            
-                            <span class="tags" style="font-family:Consolas">
-                            Macroeconomics
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/mundell-fleming-model-in-open-economy.html">开放经济下蒙代尔-弗莱明模型</a>
-                        <div class="cover" style="background-image:url(/images/nopic.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>汇率的标价与汇率制度、名义汇率与实际汇率、净出口与资本净流出、开放经济的蒙代尔-弗莱明模型的两个假设、开放经济的蒙代尔-弗莱明模型的IS*曲线及移动、开放经济的蒙代尔-弗莱明模型的LM*曲线及移动、蒙代尔-弗莱明模型、浮动汇率制下蒙代尔-弗莱明模型的财政政策和货币政策效果、固定汇率制下蒙代尔-弗莱明模型的财政政策和货币政策效果、对开放经济下蒙代尔-弗莱明模型的政策效应的总结。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
-                            <a class="name" href="/about.me.html">奕清</a>
-                            
-                            <span class="date" data-time="1572056765"><span class="from"></span></span>
-                            
-                            <span class="tags" style="font-family:Consolas">
-                            Macroeconomics
-                            </span>
-                        </section>
-                    </li>
-                    
                     
                 </ul>
                 <section class="page-nav">
                     
-                    <span class="nav">1 / 10</span>
+                    <span class="nav">1 / 11</span>
                     <a class="next" href="/page2.html">下一页</a>
                 </section>
             </article>

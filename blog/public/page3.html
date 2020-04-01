@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -100,6 +78,40 @@
                 </header>
                 <ul class="article-list">
                     
+                    
+                    <li class="article">
+                        <a class="title" href="/cpp-custom-data-type.html">C&#43;&#43;自定义数据类型</a>
+                        <div class="cover" style="background-image:url(/images/c&#43;&#43;.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>C++自定义数据类型包括数组、结构体、共用体、枚举。写C/C++不用指针是没有灵魂的！</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">奕清</a>
+                            
+                            <span class="date" data-time="1565353782"><span class="from"></span></span>
+                            
+                            <span class="tags" style="font-family:Consolas">
+                            C&#43;&#43;
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/predefined-data-types-in-cpp.html">C&#43;&#43;中的预定义数据类型</a>
+                        <div class="cover" style="background-image:url(/images/c&#43;&#43;.jpg);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>C++中的预定义数据类型包括整型、浮点型、字符型、布尔型、空类型、指针类型, 自动存储、静态存储和动态存储。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">奕清</a>
+                            
+                            <span class="date" data-time="1565190822"><span class="from"></span></span>
+                            
+                            <span class="tags" style="font-family:Consolas">
+                            C&#43;&#43;
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/art-of-java-concurrent-programming.html">《Java并发编程的艺术》笔记(手写扫描版)</a>
@@ -237,45 +249,11 @@
                         </section>
                     </li>
                     
-                    <li class="article">
-                        <a class="title" href="/design-of-relational-database.html">数据库范式与关系数据库设计以及简单查询和复杂查询</a>
-                        <div class="cover" style="background-image:url(/images/mysql-logo.png);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>函数依赖与数据库三大范式、关系数据库的设计、简单查询、复杂查询。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
-                            <a class="name" href="/about.me.html">奕清</a>
-                            
-                            <span class="date" data-time="1562399414"><span class="from"></span></span>
-                            
-                            <span class="tags" style="font-family:Consolas">
-                            MySQL
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/mysql-locking-mechanism.html">MySQL锁定机制</a>
-                        <div class="cover" style="background-image:url(/images/mysql-logo.png);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>乐观锁与悲观锁、MyISAM的表级锁、InnoDB行级锁。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
-                            <a class="name" href="/about.me.html">奕清</a>
-                            
-                            <span class="date" data-time="1562382014"><span class="from"></span></span>
-                            
-                            <span class="tags" style="font-family:Consolas">
-                            MySQL
-                            </span>
-                        </section>
-                    </li>
-                    
                     
                 </ul>
                 <section class="page-nav">
                     <a class="prev" href="/page2.html">上一页</a>
-                    <span class="nav">3 / 10</span>
+                    <span class="nav">3 / 11</span>
                     <a class="next" href="/page4.html">下一页</a>
                 </section>
             </article>

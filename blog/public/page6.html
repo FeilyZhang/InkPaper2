@@ -44,28 +44,6 @@
     var root = '';
 </script>
 
-<script type="text/javascript">
-    var conn, reloadTimer, connectTimer;
-    var connect = function() {
-        conn = new WebSocket('ws://' + location.host + '/live');
-        conn.onmessage = function(event) {
-            if (event.data === 'change') {
-                if (reloadTimer) clearTimeout(reloadTimer);
-                reloadTimer = setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            }
-        };
-        conn.onclose = function() {
-            if (connectTimer) clearTimeout(connectTimer);
-            connectTimer = setTimeout(function() {
-                connect();
-            }, 1000);
-        };
-    };
-    connect();
-</script>
-
 
         <meta name="keywords" content="昨夜星辰昨夜风，画楼西畔桂堂东">
         <meta name="description" content="昨夜星辰昨夜风，画楼西畔桂堂东">
@@ -100,6 +78,40 @@
                 </header>
                 <ul class="article-list">
                     
+                    
+                    <li class="article">
+                        <a class="title" href="/naive-bayes.html">概率学习——朴素贝叶斯算法</a>
+                        <div class="cover" style="background-image:url(/images/naive-bayes.png);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>朴素贝叶斯算法是一种依据贝叶斯定理的分类技术，利用概率原则进行分类，该算法易于构建模型，适用于大规模数据集的分类任务。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">奕清</a>
+                            
+                            <span class="date" data-time="1554635450"><span class="from"></span></span>
+                            
+                            <span class="tags" style="font-family:Consolas">
+                            Machine Learning
+                            </span>
+                        </section>
+                    </li>
+                    
+                    <li class="article">
+                        <a class="title" href="/intro-erlang-1.html">Erlang程序设计(一)</a>
+                        <div class="cover" style="background-image:url(/images/E-LearningLogo.png);"></div>
+                        <section class="preview content" style="font-family:KaiTi"><p>常量与变量、常用数据类型。</p>
+</section>
+                        <section class="info" style="font-family:KaiTi">
+                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
+                            <a class="name" href="/about.me.html">奕清</a>
+                            
+                            <span class="date" data-time="1554292325"><span class="from"></span></span>
+                            
+                            <span class="tags" style="font-family:Consolas">
+                            Erlang
+                            </span>
+                        </section>
+                    </li>
                     
                     <li class="article">
                         <a class="title" href="/k-nearest-neighbor-algorithm.html">懒惰学习——K最近邻学习算法</a>
@@ -237,45 +249,11 @@
                         </section>
                     </li>
                     
-                    <li class="article">
-                        <a class="title" href="/introduction-to-prolog-language.html">Prolog 语言入门</a>
-                        <div class="cover" style="background-image:url(/images/swipl.png);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>今天闲来无事，就上网搜了搜有哪些小众冷门但却实用的编程语言，毫无疑问，Prolog脱颖而出。平时总是在写结构化的逻辑代码，似乎只要知道顺序、选择、循环三种结构，再加上常用的算法和数据结构就能解决绝大多数问题，不免觉得无趣。所以对这门以逻辑标榜的编程语言甚是钟情。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
-                            <a class="name" href="/about.me.html">奕清</a>
-                            
-                            <span class="date" data-time="1549098545"><span class="from"></span></span>
-                            
-                            <span class="tags" style="font-family:Consolas">
-                            Prolog
-                            </span>
-                        </section>
-                    </li>
-                    
-                    <li class="article">
-                        <a class="title" href="/cache-model-and-java-memory-model-and-volatile-keyword.html">Cache模型与Java内存模型及volatile关键字</a>
-                        <div class="cover" style="background-image:url(/images/java.jpg);"></div>
-                        <section class="preview content" style="font-family:KaiTi"><p>CPU比RAM的速度快得多，通常差距达上千倍，在极端情况下有上万倍的差距，那么为了协调RAM与CPU之间的速度矛盾提高CPU资源利用率，一般在CPU与RAM之间增设Cache，CPU访Cache的速度远高于访RAM的速度。</p>
-</section>
-                        <section class="info" style="font-family:KaiTi">
-                            <span class="avatar" style="background-image: url(/images/mylogo.png);"></span>
-                            <a class="name" href="/about.me.html">奕清</a>
-                            
-                            <span class="date" data-time="1545479646"><span class="from"></span></span>
-                            
-                            <span class="tags" style="font-family:Consolas">
-                            Java Core
-                            </span>
-                        </section>
-                    </li>
-                    
                     
                 </ul>
                 <section class="page-nav">
                     <a class="prev" href="/page5.html">上一页</a>
-                    <span class="nav">6 / 10</span>
+                    <span class="nav">6 / 11</span>
                     <a class="next" href="/page7.html">下一页</a>
                 </section>
             </article>
